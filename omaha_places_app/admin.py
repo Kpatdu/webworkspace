@@ -13,5 +13,3 @@ class PlaceAdmin(admin.ModelAdmin):
     list_display = ('name', 'address', 'phone', 'website', 'category', 'price_level', 'rating')
     list_filter = ('category', 'price_level', 'rating')
     search_fields = ('name', 'address', 'phone',)
-
-

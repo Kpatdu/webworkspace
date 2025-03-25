@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
+from .models import *
 
 
 class HomeView(TemplateView):
@@ -11,12 +12,14 @@ class HomeView(TemplateView):
     template_name = 'omaha_places_app/home.html'
 
 
-class RestaurantsView(TemplateView):
+class RestaurantsView(ListView):
     '''
-    Class-based view to render the restaurants page.
+    Class-based view to display all restaurants (both manually added and CSV-imported).
     '''
-    
-    template_name = 'omaha_places_app/restaurants.html'
+
+    model = Restaurant
+    template_name = 'omaha_places_app/all-restaurants.html'
+    context_object_name = 'all_restaurants'
 
 
 class PlacesView(TemplateView):
@@ -24,7 +27,7 @@ class PlacesView(TemplateView):
     Class-based view to render the places page.
     '''
     
-    template_name = 'omaha_places_app/places.html'
+    template_name = 'omaha_places_app/all-places.html'
 
 
 class AboutUsView(TemplateView):

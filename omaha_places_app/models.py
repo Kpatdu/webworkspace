@@ -14,8 +14,8 @@ class Restaurant(models.Model):
     phone = models.CharField('Phone', help_text = 'Phone number', max_length = 20)
     website = models.URLField('Website', help_text = 'Website URL')
     category = models.CharField('Category', help_text = 'Category of the restaurant', max_length = 50)
-    price_level = models.CharField('Price Level', help_text = 'Price level of the restaurant', max_length = 50)
-    rating = models.DecimalField('Rating', help_text = 'Rating of the restaurant', max_digits = 2, decimal_places = 1)
+    price_level = models.CharField('Price Level', help_text = 'Price level of the restaurant', max_length = 50, blank = True, null =  True)
+    rating = models.DecimalField('Rating', help_text = 'Rating of the restaurant', max_digits = 2, decimal_places = 1, blank = True, null = True)
     description = models.TextField('Description', help_text = 'Restaurant description')
     image = models.ImageField('Image', help_text = 'Image of the restaurant', upload_to = 'images/')
 
