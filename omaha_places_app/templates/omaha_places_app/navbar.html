@@ -1,18 +1,18 @@
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
     
         <!-- Event Logo: When clicked, go to home page. -->
-        <a class="navbar-brand" href="{% url 'home' %}" style="padding-top: 5px; padding-bottom: 5px;"><i class="fa fa-calendar" style="font-size:24px; color:red"></i></a>
+        <a class="navbar-brand" href="{% url 'home' %}" style="padding-top: 5px; padding-bottom: 5px;">
+            <i class="fa fa-calendar" style="font-size:24px; color:red"></i>
+        </a>
   
-        <!-- Navbar Toggler for Mobile View -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- Navbar Toggle for Mobile View -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-  
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          
-            <!-- Left-aligned navigation links -->
+
+        <!-- Left-aligned navigation links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-0">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'home' %}" style="padding-top: 5px; padding-bottom: 5px;">Home</a>
@@ -30,14 +30,14 @@
                     <a class="nav-link" href="{% url 'contact' %}" style="padding-top: 5px; padding-bottom: 5px;">Contact Us</a>
                 </li>
             </ul>
-  
+
             <!-- Right-aligned: Search -->
             <ul class="navbar-nav ms-auto mb-0">
                 <li class="nav-item">
-                      <form class="d-flex" method="GET" action="">
-                          <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="Search events..." aria-label="Search">
-                          <button class="btn btn-outline-info btn-sm" type="submit" style="border-color: #17a2b8; color: #17a2b8;">Search</button>
-                      </form>
+                    <form class="d-flex" method="GET" action="">
+                        <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="Search events..." aria-label="Search">
+                        <button class="btn btn-outline-info btn-sm" type="submit" style="border-color: #17a2b8; color: #17a2b8;">Search</button>
+                    </form>
                 </li>
             </ul>
         </div>
