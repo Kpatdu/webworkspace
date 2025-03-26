@@ -3,6 +3,31 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 
+'''
+To delete items from the database
+in the terminal: 
+python manage.py shell
+and paste one of the following:
+
+### Option 1 ###
+
+from omaha_places_app.models import Restaurant, Places
+
+# Delete all restaurants (be careful with this!)
+Restaurant.objects.all().delete()
+Places.objects.all().delete()
+
+
+### Alternatively: ###
+
+from omaha_places_app.models import Restaurant, Places
+
+# Delete a specific restaurant by primary key (ID)
+restaurant = Restaurant.objects.get(id=ID)
+restaurant.delete()
+'''
+
+
 
 class Restaurant(models.Model):
     '''

@@ -1,0 +1,60 @@
+{% extends 'omaha_places_app/base.html' %}
+<!DOCTYPE html>
+
+<!-- Template to display a selected restaurant -->
+{% block content %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ restaurant.name }}</title>
+</head>
+
+<body>
+
+    <img src="{{ restaurant.image }}" alt="{{ restaurant.name }} image" class="full-width-image" />
+    <hr class="divider">
+
+    <center>
+    <br/>
+    <h1>{{ restaurant.name }}</h1>
+
+    <p><strong>Address:</strong> {{ restaurant.address }}</p>
+    <p><strong>Category:</strong> {{ restaurant.category }}</p>
+    <p><strong>Price Level:</strong> {{ restaurant.price_level }}</p>
+    <p><strong>Rating:</strong> {{ restaurant.rating }}</p>
+    <p><strong>Description:</strong> {{ restaurant.description }}</p>
+    <p><strong>Website:</strong>{% if restaurant.website != 'N/A' %} <a href="{{ restaurant.website }}" target="_blank">{{ restaurant.website }}</a>{% else %}No website available.{% endif %}</p>
+    <p><strong>Phone:</strong> {{ restaurant.phone }}</p>
+    
+    </center>
+    <br/>
+    <hr class="divider">
+
+    <br>
+    <a href="{% url 'all_restaurants' %}">Back to Restaurant List</a>
+
+</body>
+</html>
+{% endblock %}
+
+<!-- CSS -->
+{% block script %}
+<style>
+    /* Full-width image */
+    .full-width-image {
+        width: 100%;
+        height: 500px;
+        margin-bottom: 0;  /* Remove margin from the image */
+    }
+    
+    /* Divider style */
+    hr.divider {
+        border: 0;
+        border-top: 3px solid black !important;
+        opacity: 1;
+        margin: 0;
+    }
+</style>
+
+{% endblock %}
