@@ -17,7 +17,8 @@
 
     <center>
     <br/>
-    <h1>{{ restaurant.name }}</h1>
+    <div class="restaurant-card">
+    <center><h1>{{ restaurant.name }}</h1></center>
 
     <p><strong>Address:</strong> {{ restaurant.address }}</p>
     <p><strong>Category:</strong> {{ restaurant.category }}</p>
@@ -27,6 +28,7 @@
     <p><strong>Website:</strong>{% if restaurant.website != 'N/A' %} <a href="{{ restaurant.website }}" target="_blank">{{ restaurant.website }}</a>{% else %}No website available.{% endif %}</p>
     <p><strong>Phone:</strong> {{ restaurant.phone }}</p>
     
+    </div>
     </center>
     <br/>
     <hr class="divider">
@@ -54,6 +56,16 @@
         border-top: 3px solid black !important;
         opacity: 1;
         margin: 0;
+    }
+
+    /* Style for individual restaurant card */
+    .restaurant-card { 
+        border: 1px solid #ccc; 
+        padding: 10px; 
+        border-radius: 8px; 
+        width: 750px; 
+        text-align: left;
+        box-sizing: border-box;
     }
 </style>
 

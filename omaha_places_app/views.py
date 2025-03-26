@@ -3,13 +3,25 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView
 from .models import *
 
+import random
+
 
 class HomeView(TemplateView):
-    '''
-    Class-based view to render the home page.
-    '''
-
     template_name = 'omaha_places_app/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Get all restaurant and place images
+        restaurant_images = list(Restaurant.objects.exclude(image__isnull = True).exclude(image = '').values_list('image', flat = True))
+        place_images = list(Place.objects.exclude(image__isnull = True).exclude(image = '').values_list('image', flat = True))
+
+        all_images = restaurant_images + place_images
+
+        # Select a random image if available
+        context['random_image'] = random.choice(all_images) if all_images else None
+
+        return context
 
 
 class RestaurantsView(ListView):

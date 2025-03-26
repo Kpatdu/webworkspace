@@ -1,8 +1,66 @@
 {% extends 'omaha_places_app/base.html' %}
-{% block content %}
-<title>Omaha Locations</title>
+<!DOCTYPE html>
 
-<!--Home-->
-<h1>Home</h1>
+<!-- Display Home -->
+{% block content %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Omaha Locations</title>
+</head>
+
+<body>
+
+    <img src="{{ random_image }}" alt="Random Place or Restaurant" class="random-image">
+    <hr class="divider">
+
+    <center>
+    <br/>
+    <div class="restaurant-card">
+    <center><h1>Welcome to Omaha Locations</h1></center>
+
+    [Brief about us/why you should check out our site.]
+    
+    </div>
+    </center>
+    <br/>
+    <hr class="divider">
+
+    <br>
+    Footer?
+
+</body>
+</html>
+{% endblock %}
+
+<!-- CSS -->
+{% block script %}
+<style>
+    /* Full-width image */
+    .random-image {
+        width: 100%;
+        height: 500px;
+        margin-bottom: 0;  /* Remove margin from the image */
+    }
+    
+    /* Divider style */
+    hr.divider {
+        border: 0;
+        border-top: 3px solid black !important;
+        opacity: 1;
+        margin: 0;
+    }
+
+    /* Style for individual restaurant card */
+    .restaurant-card { 
+        border: 1px solid #ccc; 
+        padding: 10px; 
+        border-radius: 8px; 
+        width: 750px; 
+        text-align: left;
+        box-sizing: border-box;
+    }
+</style>
 
 {% endblock %}
