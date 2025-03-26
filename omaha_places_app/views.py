@@ -65,10 +65,3 @@ class AboutUsView(TemplateView):
     
     template_name = 'omaha_places_app/about.html'
 
-
-class ContactUsView(TemplateView):
-    '''
-    Class-based view to render the contact us page.
-    '''
-    
-    template_name = 'omaha_places_app/contact.html'
