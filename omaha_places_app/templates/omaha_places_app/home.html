@@ -1,8 +1,152 @@
 {% extends 'omaha_places_app/base.html' %}
-{% block content %}
-<title>Omaha Locations</title>
+<!DOCTYPE html>
 
-<!--Home-->
-<h1>Home</h1>
+<!-- Display Home -->
+{% block content %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Omaha Locations</title>
+</head>
+
+<body>
+
+    <!--Random Images for Header-->
+    <!--TO DO(?): Instead of displaying images that change on refresh, display a non-random set of images 
+    that change every few seconds-->
+    <div class="random-image-header-container">
+        <img src="{{ random_image_1 }}" alt="Random Place or Restaurant" class="random-image-header">
+        <img src="{{ random_image_2 }}" alt="Random Place or Restaurant" class="random-image-header">
+        <img src="{{ random_image_3 }}" alt="Random Place or Restaurant" class="random-image-header">
+    </div>
+
+    <!--Divider-->
+    <hr class="divider">
+
+    <!--Welcome message and brief about us-->
+    <center>
+    <br/>
+    <div class="restaurant-card">
+        <center><h1>Welcome to Omaha Locations!</h1></center>
+
+        Our purpose is to created an online resource system that combines both the features of an online database and a travel guide. 
+        This web-based application will provide you with information about various locations you can visit in Omaha, Nebraska. 
+        <br/><br/>
+        Compared to already existing online travel guides for Nebraska or resources such as Google, 
+        this application is intended to highlight hidden spots in Omaha as well as help local businesses 
+        instead of recommending already popular locations.
+    </div>
+    </center>
+    <br/>
+
+    <!--Divider-->
+    <hr class="divider">
+
+    <!--Random Images for Locations-->
+    </br>
+    <center><div class="random-image-locations-container">
+        <img src="{{ random_image_4 }}" alt="Random Place or Restaurant" class="random-image-location1">
+        <img src="{{ random_image_5 }}" alt="Random Place or Restaurant" class="random-image-location2">
+        <img src="{{ random_image_6 }}" alt="Random Place or Restaurant" class="random-image-location3">
+        <img src="{{ random_image_7 }}" alt="Random Place or Restaurant" class="random-image-location4">
+    </div></center>
+
+
+
+</body>
+</html>
+{% endblock %}
+
+
+<!-- CSS -->
+{% block script %}
+<style>
+/* Full-width image */
+    .random-image-header {
+        width: 33%;
+        height: 400px;
+        margin-bottom: 0;
+        clip-path: polygon(
+            0% 0%,
+            100% 0%,
+            100 100%,
+            0% 100%); /* TO DO: Need to create a diagonal shape */
+    }
+
+
+    .random-image-location1 {
+        width: 45%;
+        height: 400px;
+        margin-right: 5px;
+        margin-left: 5px;
+        margin-bottom: 5px;
+    }
+
+    .random-image-location2 {
+        width: 45%;
+        height: 200px;
+        margin-right: 5px;
+        margin-left: 5px;
+        margin-bottom: 5px;
+    }
+
+    .random-image-location3 {
+        width: 45%;
+        height: 200px;
+        margin-right: 5px;
+        margin-left: 5px;
+        margin-bottom: 5px;
+    }
+
+    .random-image-location4 {
+        width: 45%;
+        height: 400px;
+        margin-right: 5px;
+        margin-left: 5px;
+        margin-bottom: 5px;
+        margin-top: -200px;
+    }
+
+
+
+/* Container for random images; Header */
+    .random-image-header-container {
+        width: 100%;
+        height: 400px;
+        display: flex;
+        flex-wrap: wrap;
+        background-color: black;
+        justify-content: center;
+    }
+
+
+/* Container for random images; Locations */
+    .random-image-locations-container {
+        width: 75%;
+        height: 250px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    /* Divider style */
+    hr.divider {
+        border: 0;
+        border-top: 3px solid black !important;
+        opacity: 1;
+        margin: 0;
+    }
+
+/* Style for individual description card */
+    .restaurant-card { 
+        border: 1px solid #ccc; 
+        padding: 10px; 
+        border-radius: 8px; 
+        width: 750px; 
+        text-align: left;
+        box-sizing: border-box;
+    }
+</style>
 
 {% endblock %}
