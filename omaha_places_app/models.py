@@ -11,16 +11,16 @@ and paste one of the following:
 
 ### Option 1 ###
 
-from omaha_places_app.models import Restaurant, Places
+from omaha_places_app.models import Restaurant, Place
 
 # Delete all restaurants (be careful with this!)
 Restaurant.objects.all().delete()
-Places.objects.all().delete()
+Place.objects.all().delete()
 
 
 ### Alternatively: ###
 
-from omaha_places_app.models import Restaurant, Places
+from omaha_places_app.models import Restaurant, Place
 
 # Delete a specific restaurant by primary key (ID)
 restaurant = Restaurant.objects.get(id=ID)
