@@ -15,10 +15,19 @@
 
 
 <body>
-
+  <!--Navbar-->
   {% include 'omaha_places_app/navbar.html' %}
+
+  <!--Content-->
   {% block content %}
   {% endblock %}
+
+  <!--Footer-->
+  <br/>
+  <hr class="divider">
+  <center><footer>
+    <p>© 2025 Omaha Locations. All rights reserved.</p>
+  </footer></center>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -26,7 +35,20 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
 
+
+<!--CSS-->
   {% block script %}
+
+  <style>
+    /* Divider style */
+    hr.divider {
+        border: 0;
+        border-top: 3px solid black !important;
+        opacity: 1;
+        margin: 0;
+    }
+  </style>
+  
   {% endblock %}
 
 </body>
