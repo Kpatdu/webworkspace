@@ -12,25 +12,31 @@
 
 <body>
 
-    <!--Random Images for Header-->
-    <!--TO DO(?): Instead of displaying images that change on refresh, display a non-random set of images 
-    that change every few seconds-->
+    <!-- Random Images for Header -->
     <div class="random-image-header-container">
+        {% with all_images|random as random_image_1 %}
         <img src="{{ random_image_1 }}" alt="Random Place or Restaurant" class="random-image-header">
+        {% endwith %}
+
+        {% with all_images|random as random_image_2 %}
         <img src="{{ random_image_2 }}" alt="Random Place or Restaurant" class="random-image-header">
+        {% endwith %}
+
+        {% with all_images|random as random_image_3 %}
         <img src="{{ random_image_3 }}" alt="Random Place or Restaurant" class="random-image-header">
+        {% endwith %}
     </div>
 
-    <!--Divider-->
+    <!-- Divider -->
     <hr class="divider">
 
-    <!--Welcome message and brief about us-->
+    <!-- Welcome message and brief about us -->
     <center>
     <br/>
     <div class="restaurant-card">
         <center><h1>Welcome to Omaha Locations!</h1></center>
         <br/>
-        Our purpose is to created an online resource system that combines both the features of an online database and a travel guide. 
+        Our purpose is to create an online resource system that combines both the features of an online database and a travel guide. 
         This web-based application will provide you with information about various locations you can visit in Omaha, Nebraska. 
         <br/><br/>
         Compared to already existing online travel guides for Nebraska or resources such as Google, 
@@ -40,27 +46,35 @@
     </center>
     <br/>
 
-    <!--Divider-->
+    <!-- Divider -->
     <hr class="divider">
 
-    <!--Random Images for Locations-->
+    <!-- Random Images for Locations -->
     </br>
     <center><div class="random-image-locations-container">
         <div style="clear: both;"></div>
         <hr class="divider">
+        {% with all_images|random as random_image_4 %}
         <img src="{{ random_image_4 }}" alt="Random Place or Restaurant" class="random-image-location1">
+        {% endwith %}
+
+        {% with all_images|random as random_image_5 %}
         <img src="{{ random_image_5 }}" alt="Random Place or Restaurant" class="random-image-location2">
+        {% endwith %}
+
+        {% with all_images|random as random_image_6 %}
         <img src="{{ random_image_6 }}" alt="Random Place or Restaurant" class="random-image-location3">
+        {% endwith %}
+
+        {% with all_images|random as random_image_7 %}
         <img src="{{ random_image_7 }}" alt="Random Place or Restaurant" class="random-image-location4">
+        {% endwith %}
     </div></div></center>
-
-    
-
 
 </body>
 </html>
-{% endblock %}
 
+{% endblock %}
 
 <!-- CSS -->
 {% block script %}
@@ -76,7 +90,6 @@
             100 100%,
             0% 100%); /* TO DO: Need to create a diagonal shape */
     }
-
 
     .random-image-location1 {
         width: 45%;
@@ -111,9 +124,39 @@
         margin-top: -200px;
     }
 
-
-
 /* Container for random images; Header */
+    .random-image-header-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: black; /* Black background */
+        overflow: hidden;
+        width: 100%;
+        height: 400px;
+        position: relative;
+    }
+
+    /* Diagonal cut images */
+    .random-image-header {
+        width: 34%;
+        height: 400px;
+        object-fit: cover;
+    }
+
+    /* Apply diagonal cut */
+    .random-image-header:nth-child(1) {
+        clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%);
+    }
+
+    .random-image-header:nth-child(2) {
+        clip-path: polygon(20% 0, 100% 0, 80% 100%, 0 100%);
+    }
+
+    .random-image-header:nth-child(3) {
+        clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    /* Container for random images; Locations */
     .random-image-locations-container {
         width: 75%;
         min-height: 600px; /* Adjust based on image height */
@@ -121,17 +164,6 @@
         flex-wrap: wrap;
         justify-content: center;
         position: relative; /* Ensures elements respect stacking */
-    }
-
-
-
-/* Container for random images; Locations */
-    .random-image-locations-container {
-        width: 75%;
-        height: 250px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
     }
     
     /* Divider style */
@@ -142,7 +174,7 @@
         margin: 0;
     }
 
-/* Style for individual description card */
+    /* Style for individual description card */
     .restaurant-card { 
         border: 1px solid #ccc; 
         padding: 10px; 

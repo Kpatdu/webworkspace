@@ -17,18 +17,7 @@ class HomeView(TemplateView):
         place_images = list(Place.objects.exclude(image__isnull = True).exclude(image = 'N/A').values_list('image', flat = True))
 
         all_images = restaurant_images + place_images
-        
-
-        # Select a random image; Header
-        context['random_image_1'] = random.choice(all_images) if all_images else None
-        context['random_image_2'] = random.choice(all_images) if all_images else None
-        context['random_image_3'] = random.choice(all_images) if all_images else None
-
-        # Select a random image
-        context['random_image_4'] = random.choice(all_images) if all_images else None
-        context['random_image_5'] = random.choice(all_images) if all_images else None
-        context['random_image_6'] = random.choice(all_images) if all_images else None
-        context['random_image_7'] = random.choice(all_images) if all_images else None
+        context['all_images'] = all_images
 
         return context
 

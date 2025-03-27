@@ -1,2 +1,5 @@
 /omaha_places_app/scripts
 /omaha_places_app/cache
+omaha_places_app/cache/restaurants.csv
+omaha_places_app/cache/places.csv
+/omaha_places_app/cache
