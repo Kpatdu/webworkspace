@@ -33,14 +33,31 @@ class HomeView(TemplateView):
         return context
 
 
+class AboutUsView(TemplateView):
+    '''
+    Class-based view to render the about us page.
+    '''
+    
+    template_name = 'omaha_places_app/about.html'
+
+
+
+
+
+#########################################################################################
+
+
+
+
+
 class RestaurantsView(ListView):
     '''
-    Class-based view to display all restaurants (both manually added and CSV-imported).
+    Class-based view to display restaurants.
     '''
 
     model = Restaurant
-    template_name = 'omaha_places_app/all-restaurants.html'
-    context_object_name = 'all_restaurants'
+    template_name = 'omaha_places_app/home-restaurants.html'
+    context_object_name = 'home_restaurants'
 
 
 class RestaurantDetailView(TemplateView):
@@ -58,12 +75,12 @@ class RestaurantDetailView(TemplateView):
 
 class PlacesView(ListView):
     '''
-    Class-based view to render the places page.
+    Class-based view to display places.
     '''
     
     model = Place
-    template_name = 'omaha_places_app/all-places.html'
-    context_object_name = 'all_places'
+    template_name = 'omaha_places_app/home-places.html'
+    context_object_name = 'home_places'
 
 
 class PlaceDetailView(TemplateView):
@@ -79,10 +96,24 @@ class PlaceDetailView(TemplateView):
         return context
 
 
-class AboutUsView(TemplateView):
+
+
+
+#########################################################################################
+
+
+
+
+
+class LocationsView(TemplateView):
     '''
-    Class-based view to render the about us page.
+    Class-based view to display all restaurants and places together.
     '''
     
-    template_name = 'omaha_places_app/about.html'
+    template_name = 'omaha_places_app/all-locations.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_restaurants'] = Restaurant.objects.all()
+        context['all_places'] = Place.objects.all()
+        return context

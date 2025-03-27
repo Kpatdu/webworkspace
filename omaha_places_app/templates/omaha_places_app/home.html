@@ -29,7 +29,7 @@
     <br/>
     <div class="restaurant-card">
         <center><h1>Welcome to Omaha Locations!</h1></center>
-
+        <br/>
         Our purpose is to created an online resource system that combines both the features of an online database and a travel guide. 
         This web-based application will provide you with information about various locations you can visit in Omaha, Nebraska. 
         <br/><br/>
@@ -46,12 +46,15 @@
     <!--Random Images for Locations-->
     </br>
     <center><div class="random-image-locations-container">
+        <div style="clear: both;"></div>
+        <hr class="divider">
         <img src="{{ random_image_4 }}" alt="Random Place or Restaurant" class="random-image-location1">
         <img src="{{ random_image_5 }}" alt="Random Place or Restaurant" class="random-image-location2">
         <img src="{{ random_image_6 }}" alt="Random Place or Restaurant" class="random-image-location3">
         <img src="{{ random_image_7 }}" alt="Random Place or Restaurant" class="random-image-location4">
-    </div></center>
+    </div></div></center>
 
+    
 
 
 </body>
@@ -111,14 +114,15 @@
 
 
 /* Container for random images; Header */
-    .random-image-header-container {
-        width: 100%;
-        height: 400px;
+    .random-image-locations-container {
+        width: 75%;
+        min-height: 600px; /* Adjust based on image height */
         display: flex;
         flex-wrap: wrap;
-        background-color: black;
         justify-content: center;
+        position: relative; /* Ensures elements respect stacking */
     }
+
 
 
 /* Container for random images; Locations */
