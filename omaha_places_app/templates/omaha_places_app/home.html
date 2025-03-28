@@ -10,14 +10,25 @@
     <title>Omaha Locations</title>
 </head>
 
+<!-- Header Text -->
+<div class="header-text1">
+    WELCOME TO
+</div>
+<div class="header-text2">
+    OMAHA <span class="large-L">L</span>OCATIONS
+</div>
+
 <body>
 
-    <!-- Random Images for Header -->
-    <div class="random-image-header-container">
-        <div id="random-image-container">
-            <img src="{{ all_images|random }}" alt="Random Place or Restaurant" class="random-image-header fade" id="random-image-1">
-            <img src="{{ all_images|random }}" alt="Random Place or Restaurant" class="random-image-header fade" id="random-image-2">
-            <img src="{{ all_images|random }}" alt="Random Place or Restaurant" class="random-image-header fade" id="random-image-3">
+    <!-- Static Images for Header (First 6 images from all_images) -->
+    <div class="image-header-container">
+        <div id="image-container">
+            <img src="{{ all_images.0 }}" alt="Place or Restaurant" class="image-header">
+            <img src="{{ all_images.1 }}" alt="Place or Restaurant" class="image-header">
+            <img src="{{ all_images.2 }}" alt="Place or Restaurant" class="image-header">
+            <img src="{{ all_images.3 }}" alt="Place or Restaurant" class="image-header">
+            <img src="{{ all_images.4 }}" alt="Place or Restaurant" class="image-header">
+            <img src="{{ all_images.5 }}" alt="Place or Restaurant" class="image-header">
         </div>
     </div>
 
@@ -27,15 +38,13 @@
     <!-- Welcome message and brief about us -->
     <center>
     <br/>
-    <div class="restaurant-card">
-        <center><h1>Welcome to Omaha Locations!</h1></center>
-        <br/>
-        Our purpose is to create an online resource system that combines both the features of an online database and a travel guide. 
-        This web-based application will provide you with information about various locations you can visit in Omaha, Nebraska. 
-        <br/><br/>
-        Compared to already existing online travel guides for Nebraska or resources such as Google, 
-        this application is intended to highlight hidden spots in Omaha as well as help local businesses 
-        instead of recommending already popular locations.
+    <div class="thing2do-card">
+        <br/><br/><br/><br/><br/><br/><br/><br/>
+        <div id="thing2do-image-container">
+            <img src="{{ all_images.25 }}" alt="" class="things2do-image-header">
+            <img src="{{ all_images.300 }}" alt="" class="things2do-image-header">
+            <img src="{{ all_images.100 }}" alt="" class="things2do-image-header">
+        </div>
     </div>
     </center>
     <br/>
@@ -48,20 +57,20 @@
     <center><div class="random-image-locations-container">
         <div style="clear: both;"></div>
         <hr class="divider">
+        {% with all_images|random as random_image_1 %}
+        <img src="{{ random_image_1 }}" alt="Random Place or Restaurant" class="random-image-location1">
+        {% endwith %}
+
+        {% with all_images|random as random_image_2 %}
+        <img src="{{ random_image_2 }}" alt="Random Place or Restaurant" class="random-image-location2">
+        {% endwith %}
+
+        {% with all_images|random as random_image_3 %}
+        <img src="{{ random_image_3 }}" alt="Random Place or Restaurant" class="random-image-location3">
+        {% endwith %}
+
         {% with all_images|random as random_image_4 %}
-        <img src="{{ random_image_4 }}" alt="Random Place or Restaurant" class="random-image-location1">
-        {% endwith %}
-
-        {% with all_images|random as random_image_5 %}
-        <img src="{{ random_image_5 }}" alt="Random Place or Restaurant" class="random-image-location2">
-        {% endwith %}
-
-        {% with all_images|random as random_image_6 %}
-        <img src="{{ random_image_6 }}" alt="Random Place or Restaurant" class="random-image-location3">
-        {% endwith %}
-
-        {% with all_images|random as random_image_7 %}
-        <img src="{{ random_image_7 }}" alt="Random Place or Restaurant" class="random-image-location4">
+        <img src="{{ random_image_4 }}" alt="Random Place or Restaurant" class="random-image-location4">
         {% endwith %}
     </div></div></center>
 
@@ -70,49 +79,95 @@
 
 {% endblock %}
 
+
 <!-- CSS -->
 {% block script %}
 <style>
-/* Full-width image */
-    .random-image-header {
-        width: 500px;
-        height: 400px;
-        margin-bottom: 0;
+/* Header Image Styles */
+    /* Full-width image */
+    .image-header {
+        width: 16.4%;
+        height: 600px;
         object-fit: cover;
-        transition: opacity 1s ease-in-out;
         margin: 0;
+        box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.8);
     }
 
-/* Add fading effect */
-    .fade {
-        opacity: 1;
-    }
-
-/* Header container */
-    .random-image-header-container {
+    /* Header container */
+    .image-header-container {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
-        background-color: black; /* Black background */
+        background-color: rgb(0, 0, 0);
         overflow: hidden;
         width: 100%;
-        height: 400px;
+        height: 600px;
         position: relative;
         margin: 0; /* Ensure no margin around the container */
     }
 
-/* Diagonal Cut Images */
-    .random-image-header:nth-child(1) {
-        clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%);
+    /* Header text */
+    .header-text1 { /* First line of header */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-64%, -105%); /* text position */
+        color: white;
+        font-size: 50px;
+        font-weight: bold;
+        font-family: 'Arial Narrow', sans-serif;
+        text-shadow: 4px 4px 5px black; /* Strong black shadow */
+        z-index: 2; /* Ensure it appears above images */
+        text-align: center;
+        width: 100%;
+        height: auto;
     }
 
-    .random-image-header:nth-child(2) {
-        clip-path: polygon(20% 0, 100% 0, 80% 100%, 0 100%);
+    .header-text2 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -63%);
+        color: white;
+        font-size: 72px !important;
+        font-weight: bold;
+        text-shadow: 4px 4px 10px black; 
+        z-index: 2; 
+        text-align: center;
+        width: 100%;
+        height: auto;
     }
 
-    .random-image-header:nth-child(3) {
-        clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+    .large-L {
+        font-size: 125px; /* Increase the size of the "L" */
+        display: inline-block;
     }
+
+
+/* Body Image Styles */
+    /* Full-width image */
+    .things2do-image-header {
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+        margin: 30px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Header container */
+    .things2do-image-header-container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: rgb(0, 0, 0);
+        overflow: hidden;
+        width: 100%;
+        height: 100%%;
+        position: relative;
+        margin: 0;
+    }
+
+
 
 /* Container for random images; Locations */
     .random-image-locations-container {
@@ -182,43 +237,4 @@
         box-sizing: border-box;
     }
 </style>
-
-<!-- JavaScript -->
-<script>
-    const allImages = {{ all_images|safe }};
-    
-    // Function to fade out the images
-    function fadeOutImages() {
-        let images = document.querySelectorAll('.random-image-header');
-        images.forEach((image) => {
-            image.classList.remove('fade');
-        });
-    }
-
-    // Function to change images and fade them in
-    function changeImages() {
-        let images = document.querySelectorAll('.random-image-header');
-        images.forEach((image) => {
-            // Choose a random image from the list
-            const randomImage = allImages[Math.floor(Math.random() * allImages.length)];
-            
-            // Change the source of the image
-            image.src = randomImage;
-            
-            // Fade in the image
-            setTimeout(() => {
-                image.classList.add('fade');
-            }, 1000); // Wait 1 second for the fade-in effect
-        });
-    }
-
-    // Set the interval to change images every 5 seconds
-    setInterval(() => {
-        fadeOutImages(); // Fade out the images
-        setTimeout(() => {
-            changeImages(); // Change to new random images after 1 second
-        }, 2000); // Wait for 2 seconds (time for fade-out)
-    }, 5000); // Change images every 5 seconds
-</script>
-
 {% endblock %}
