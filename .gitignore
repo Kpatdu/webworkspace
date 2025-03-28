@@ -3,3 +3,7 @@ omaha_places_app/cache/googleapi.env
 omaha_places_app/__pycache__
 omaha_places_app/migrations/__pycache__
 djangoproject/__pycache__
+/omaha_places_app/__pycache__
+/omaha_places_app/migrations/__pycache__
+/omaha_places_app/migrations/__pycache__
+/djangoproject/__pycache__
