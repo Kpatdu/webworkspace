@@ -1,0 +1,66 @@
+{% extends 'omaha_places_app/base.html' %}
+
+<!--Template to display all restaurants-->
+{% block content %}
+
+<!--Tab title-->
+<title>Restaurants</title> 
+
+<!--Page Header-->
+<center><h1>Restaurants in Omaha</h1></center>
+</br>
+
+<!--List All Restaurants-->
+<div class="restaurant-list">
+    {% for restaurant in all_restaurants %}
+
+        <div class="restaurant-card">
+            <h2>{{ restaurant.name }}</h2>
+            <p><strong>Address:</strong> {{ restaurant.address }}</p>
+            <p><strong>Category:</strong> {{ restaurant.category }}</p>
+            <p><strong>Rating:</strong> ⭐ {{ restaurant.rating }}</p>
+            
+            {% if restaurant.image %}
+                <img src="{{ restaurant.image }}" alt="{{ restaurant.name }}" class="restaurant-image">
+            {% endif %}
+
+            <!-- Add a link to each restaurant's detail page -->
+            <p><a href="{% url 'restaurant_detail' restaurant.id %}">View Details</a></p>
+        </div>
+        
+    {% empty %}
+        <p>No restaurants available.</p>
+    {% endfor %}
+</div>
+
+<!--CSS-->
+<style>
+    /* Center the restaurant list and ensure cards are arranged properly */
+    .restaurant-list { 
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 20px; 
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    /* Style for individual restaurant card */
+    .restaurant-card { 
+        border: 1px solid #ccc; 
+        padding: 10px; 
+        border-radius: 8px; 
+        width: 300px; 
+        text-align: left;
+        box-sizing: border-box;
+    }
+
+    /* Style for images to fit within the card */
+    .restaurant-image {
+        width: 100%; 
+        height: 200px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+</style>
+
+{% endblock %}

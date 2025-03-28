@@ -1,0 +1,67 @@
+{% extends 'omaha_places_app/base.html' %}
+
+<!--Template to display all places-->
+{% block content %}
+
+<!--Tab title-->
+<title>Places</title> 
+
+<!--Page Header-->
+<center><h1>Omaha Attractions</h1></center>
+</br>
+
+<!--List All Places-->
+<div class="place-list">
+    {% for place in all_places %}
+
+        <div class="place-card">
+            <h2>{{ place.name }}</h2>
+            <p><strong>Address:</strong> {{ place.address }}</p>        
+            <p><strong>Category:</strong> {{ place.category }}</p>
+            <p><strong>Rating:</strong> ⭐ {{ place.rating }}</p>
+            
+            {% if place.image %}
+                <img src="{{ place.image }}" alt="{{ place.name }}" class="place-image">
+            {% endif %}
+
+            <!-- Add a link to each place's detail page -->
+            <p><a href="{% url 'place_detail' place.id %}">View Details</a></p>
+        </div>
+        
+    {% empty %}
+        <p>No places available.</p>
+    {% endfor %}
+</div>
+
+
+<!--CSS-->
+<style>
+    /* Center the place list and ensure cards are arranged properly */
+    .place-list { 
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 20px; 
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    /* Style for individual place card */
+    .place-card { 
+        border: 1px solid #ccc; 
+        padding: 10px; 
+        border-radius: 8px; 
+        width: 300px; 
+        text-align: left;
+        box-sizing: border-box;
+    }
+
+    /* Style for images to fit within the card */
+    .place-image {
+        width: 100%;  /* Make image fill the card width */
+        height: 200px;  /* Set a fixed height for the image */
+        object-fit: cover;
+        border-radius: 4px;
+    }
+</style>
+
+{% endblock %}

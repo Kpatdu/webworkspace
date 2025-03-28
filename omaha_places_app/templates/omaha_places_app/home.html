@@ -10,117 +10,161 @@
     <title>Omaha Locations</title>
 </head>
 
+<!-- Header Text -->
+<div class="header-text1">
+    WELCOME TO
+</div>
+<div class="header-text2">
+    OMAHA <span class="large-L">L</span>OCATIONS
+</div>
+
 <body>
 
-    <!--Random Images for Header-->
-    <!--TO DO(?): Instead of displaying images that change on refresh, display a non-random set of images 
-    that change every few seconds-->
-    <div class="random-image-header-container">
-        <img src="{{ random_image_1 }}" alt="Random Place or Restaurant" class="random-image-header">
-        <img src="{{ random_image_2 }}" alt="Random Place or Restaurant" class="random-image-header">
-        <img src="{{ random_image_3 }}" alt="Random Place or Restaurant" class="random-image-header">
+    <!-- Static Images for Header (First 6 images from all_images) -->
+    <div class="image-header-container">
+        <div id="image-container">
+            <img src="{{ all_images.0 }}" alt="Place or Restaurant" class="image-header">
+            <img src="{{ all_images.1 }}" alt="Place or Restaurant" class="image-header">
+            <img src="{{ all_images.2 }}" alt="Place or Restaurant" class="image-header">
+            <img src="{{ all_images.3 }}" alt="Place or Restaurant" class="image-header">
+            <img src="{{ all_images.4 }}" alt="Place or Restaurant" class="image-header">
+            <img src="{{ all_images.5 }}" alt="Place or Restaurant" class="image-header">
+        </div>
     </div>
 
-    <!--Divider-->
+    <!-- Divider -->
     <hr class="divider">
 
-    <!--Welcome message and brief about us-->
+    <!-- Welcome message and brief about us -->
     <center>
     <br/>
-    <div class="restaurant-card">
-        <center><h1>Welcome to Omaha Locations!</h1></center>
-        <br/>
-        Our purpose is to created an online resource system that combines both the features of an online database and a travel guide. 
-        This web-based application will provide you with information about various locations you can visit in Omaha, Nebraska. 
-        <br/><br/>
-        Compared to already existing online travel guides for Nebraska or resources such as Google, 
-        this application is intended to highlight hidden spots in Omaha as well as help local businesses 
-        instead of recommending already popular locations.
+    <div class="thing2do-card">
+        <br/><br/><br/><br/><br/><br/><br/><br/>
+        <div id="thing2do-image-container">
+            <img src="{{ all_images.25 }}" alt="" class="things2do-image-header">
+            <img src="{{ all_images.300 }}" alt="" class="things2do-image-header">
+            <img src="{{ all_images.100 }}" alt="" class="things2do-image-header">
+        </div>
     </div>
     </center>
     <br/>
 
-    <!--Divider-->
+    <!-- Divider -->
     <hr class="divider">
 
-    <!--Random Images for Locations-->
+    <!-- Random Images for Locations -->
     </br>
     <center><div class="random-image-locations-container">
         <div style="clear: both;"></div>
         <hr class="divider">
-        <img src="{{ random_image_4 }}" alt="Random Place or Restaurant" class="random-image-location1">
-        <img src="{{ random_image_5 }}" alt="Random Place or Restaurant" class="random-image-location2">
-        <img src="{{ random_image_6 }}" alt="Random Place or Restaurant" class="random-image-location3">
-        <img src="{{ random_image_7 }}" alt="Random Place or Restaurant" class="random-image-location4">
+        {% with all_images|random as random_image_1 %}
+        <img src="{{ random_image_1 }}" alt="Random Place or Restaurant" class="random-image-location1">
+        {% endwith %}
+
+        {% with all_images|random as random_image_2 %}
+        <img src="{{ random_image_2 }}" alt="Random Place or Restaurant" class="random-image-location2">
+        {% endwith %}
+
+        {% with all_images|random as random_image_3 %}
+        <img src="{{ random_image_3 }}" alt="Random Place or Restaurant" class="random-image-location3">
+        {% endwith %}
+
+        {% with all_images|random as random_image_4 %}
+        <img src="{{ random_image_4 }}" alt="Random Place or Restaurant" class="random-image-location4">
+        {% endwith %}
     </div></div></center>
-
-    
-
 
 </body>
 </html>
+
 {% endblock %}
 
 
 <!-- CSS -->
 {% block script %}
 <style>
-/* Full-width image */
-    .random-image-header {
-        width: 33%;
-        height: 400px;
-        margin-bottom: 0;
-        clip-path: polygon(
-            0% 0%,
-            100% 0%,
-            100 100%,
-            0% 100%); /* TO DO: Need to create a diagonal shape */
+/* Header Image Styles */
+    /* Full-width image */
+    .image-header {
+        width: 16.4%;
+        height: 600px;
+        object-fit: cover;
+        margin: 0;
+        box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.8);
     }
 
-
-    .random-image-location1 {
-        width: 45%;
-        height: 400px;
-        margin-right: 5px;
-        margin-left: 5px;
-        margin-bottom: 5px;
-    }
-
-    .random-image-location2 {
-        width: 45%;
-        height: 200px;
-        margin-right: 5px;
-        margin-left: 5px;
-        margin-bottom: 5px;
-    }
-
-    .random-image-location3 {
-        width: 45%;
-        height: 200px;
-        margin-right: 5px;
-        margin-left: 5px;
-        margin-bottom: 5px;
-    }
-
-    .random-image-location4 {
-        width: 45%;
-        height: 400px;
-        margin-right: 5px;
-        margin-left: 5px;
-        margin-bottom: 5px;
-        margin-top: -200px;
-    }
-
-
-
-/* Container for random images; Header */
-    .random-image-locations-container {
-        width: 75%;
-        min-height: 600px; /* Adjust based on image height */
+    /* Header container */
+    .image-header-container {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        position: relative; /* Ensures elements respect stacking */
+        justify-content: flex-start;
+        align-items: center;
+        background-color: rgb(0, 0, 0);
+        overflow: hidden;
+        width: 100%;
+        height: 600px;
+        position: relative;
+        margin: 0; /* Ensure no margin around the container */
+    }
+
+    /* Header text */
+    .header-text1 { /* First line of header */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-64%, -105%); /* text position */
+        color: white;
+        font-size: 50px;
+        font-weight: bold;
+        font-family: 'Arial Narrow', sans-serif;
+        text-shadow: 4px 4px 5px black; /* Strong black shadow */
+        z-index: 2; /* Ensure it appears above images */
+        text-align: center;
+        width: 100%;
+        height: auto;
+    }
+
+    .header-text2 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -63%);
+        color: white;
+        font-size: 72px !important;
+        font-weight: bold;
+        text-shadow: 4px 4px 10px black; 
+        z-index: 2; 
+        text-align: center;
+        width: 100%;
+        height: auto;
+    }
+
+    .large-L {
+        font-size: 125px; /* Increase the size of the "L" */
+        display: inline-block;
+    }
+
+
+/* Body Image Styles */
+    /* Full-width image */
+    .things2do-image-header {
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+        margin: 30px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Header container */
+    .things2do-image-header-container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: rgb(0, 0, 0);
+        overflow: hidden;
+        width: 100%;
+        height: 100%%;
+        position: relative;
+        margin: 0;
     }
 
 
@@ -128,13 +172,54 @@
 /* Container for random images; Locations */
     .random-image-locations-container {
         width: 75%;
-        height: 250px;
+        min-height: 600px;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        position: relative;
+        margin: 0; /* Ensure no margin around the container */
     }
-    
-    /* Divider style */
+
+/* Location image styles */
+    .random-image-location1 {
+        width: 500px;
+        height: 400px;
+        margin-right: 5px;
+        margin-left: 5px;
+        margin-bottom: 5px;
+    }
+
+    .random-image-location2 {
+        width: 500px;
+        height: 200px;
+        margin-right: 5px;
+        margin-left: 0px;
+        margin-bottom: 5px;
+    }
+
+    .random-image-location3 {
+        width: 500px;
+        height: 200px;
+        margin-right: 5px;
+        margin-left: 5px;
+        margin-bottom: 5px;
+            (100% 100%,
+            0% 100%);
+        object-fit: cover;
+        transition: opacity 1s ease-in-out;
+        margin: 0;
+    }
+
+    .random-image-location4 {
+        width: 500px;
+        height: 400px;
+        margin-right: 5px;
+        margin-left: 5px;
+        margin-bottom: 5px;
+        margin-top: -200px;
+    }
+
+/* Divider style */
     hr.divider {
         border: 0;
         border-top: 3px solid black !important;
@@ -152,5 +237,4 @@
         box-sizing: border-box;
     }
 </style>
-
 {% endblock %}

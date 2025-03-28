@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-black">
     <div class="container-fluid">
     
         <!-- Event Logo: When clicked, go to home page. -->
@@ -15,21 +15,28 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}" style="padding-top: 5px; padding-bottom: 5px;">Home</a>
+                    <a class="nav-link" href="{% url 'home' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home_restaurants' %}" style="padding-top: 5px; padding-bottom: 5px;">Restaurants</a>
+                    <a class="nav-link" href="{% url 'home_restaurants' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">Restaurants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home_places' %}" style="padding-top: 5px; padding-bottom: 5px;">Places</a>
+                    <a class="nav-link" href="{% url 'home_places' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">Places</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}" style="padding-top: 5px; padding-bottom: 5px;">About Us</a>
+                    <a class="nav-link" href="{% url 'about' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">About Us</a>
                 </li>
             </ul>
 
             <!-- Right-aligned: Search -->
             <ul class="navbar-nav ms-auto mb-0">
+                <li class="nav-item">
+                    {% if request.user.is_authenticated %}
+                        <a class="nav-link" href="" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">Logout&nbsp;</a>
+                    {% else %}
+                        <a class="nav-link text-white me-2" href="" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">Login</a>
+                    {% endif %}
+                </li>
                 <li class="nav-item">
                     <form class="d-flex" method="GET" action="">
                         <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="..." aria-label="Search">
