@@ -14,17 +14,11 @@
 
     <!-- Random Images for Header -->
     <div class="random-image-header-container">
-        {% with all_images|random as random_image_1 %}
-        <img src="{{ random_image_1 }}" alt="Random Place or Restaurant" class="random-image-header">
-        {% endwith %}
-
-        {% with all_images|random as random_image_2 %}
-        <img src="{{ random_image_2 }}" alt="Random Place or Restaurant" class="random-image-header">
-        {% endwith %}
-
-        {% with all_images|random as random_image_3 %}
-        <img src="{{ random_image_3 }}" alt="Random Place or Restaurant" class="random-image-header">
-        {% endwith %}
+        <div id="random-image-container">
+            <img src="{{ all_images|random }}" alt="Random Place or Restaurant" class="random-image-header fade" id="random-image-1">
+            <img src="{{ all_images|random }}" alt="Random Place or Restaurant" class="random-image-header fade" id="random-image-2">
+            <img src="{{ all_images|random }}" alt="Random Place or Restaurant" class="random-image-header fade" id="random-image-3">
+        </div>
     </div>
 
     <!-- Divider -->
@@ -81,50 +75,20 @@
 <style>
 /* Full-width image */
     .random-image-header {
-        width: 33%;
+        width: 500px;
         height: 400px;
         margin-bottom: 0;
-        clip-path: polygon(
-            0% 0%,
-            100% 0%,
-            100 100%,
-            0% 100%); /* TO DO: Need to create a diagonal shape */
+        object-fit: cover;
+        transition: opacity 1s ease-in-out;
+        margin: 0;
     }
 
-    .random-image-location1 {
-        width: 45%;
-        height: 400px;
-        margin-right: 5px;
-        margin-left: 5px;
-        margin-bottom: 5px;
+/* Add fading effect */
+    .fade {
+        opacity: 1;
     }
 
-    .random-image-location2 {
-        width: 45%;
-        height: 200px;
-        margin-right: 5px;
-        margin-left: 5px;
-        margin-bottom: 5px;
-    }
-
-    .random-image-location3 {
-        width: 45%;
-        height: 200px;
-        margin-right: 5px;
-        margin-left: 5px;
-        margin-bottom: 5px;
-    }
-
-    .random-image-location4 {
-        width: 45%;
-        height: 400px;
-        margin-right: 5px;
-        margin-left: 5px;
-        margin-bottom: 5px;
-        margin-top: -200px;
-    }
-
-/* Container for random images; Header */
+/* Header container */
     .random-image-header-container {
         display: flex;
         justify-content: center;
@@ -134,16 +98,10 @@
         width: 100%;
         height: 400px;
         position: relative;
+        margin: 0; /* Ensure no margin around the container */
     }
 
-    /* Diagonal cut images */
-    .random-image-header {
-        width: 34%;
-        height: 400px;
-        object-fit: cover;
-    }
-
-    /* Apply diagonal cut */
+/* Diagonal Cut Images */
     .random-image-header:nth-child(1) {
         clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%);
     }
@@ -156,17 +114,57 @@
         clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
     }
 
-    /* Container for random images; Locations */
+/* Container for random images; Locations */
     .random-image-locations-container {
         width: 75%;
-        min-height: 600px; /* Adjust based on image height */
+        min-height: 600px;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        position: relative; /* Ensures elements respect stacking */
+        position: relative;
+        margin: 0; /* Ensure no margin around the container */
     }
-    
-    /* Divider style */
+
+/* Location image styles */
+    .random-image-location1 {
+        width: 500px;
+        height: 400px;
+        margin-right: 5px;
+        margin-left: 5px;
+        margin-bottom: 5px;
+    }
+
+    .random-image-location2 {
+        width: 500px;
+        height: 200px;
+        margin-right: 5px;
+        margin-left: 0px;
+        margin-bottom: 5px;
+    }
+
+    .random-image-location3 {
+        width: 500px;
+        height: 200px;
+        margin-right: 5px;
+        margin-left: 5px;
+        margin-bottom: 5px;
+            (100% 100%,
+            0% 100%);
+        object-fit: cover;
+        transition: opacity 1s ease-in-out;
+        margin: 0;
+    }
+
+    .random-image-location4 {
+        width: 500px;
+        height: 400px;
+        margin-right: 5px;
+        margin-left: 5px;
+        margin-bottom: 5px;
+        margin-top: -200px;
+    }
+
+/* Divider style */
     hr.divider {
         border: 0;
         border-top: 3px solid black !important;
@@ -174,7 +172,7 @@
         margin: 0;
     }
 
-    /* Style for individual description card */
+/* Style for individual description card */
     .restaurant-card { 
         border: 1px solid #ccc; 
         padding: 10px; 
@@ -184,5 +182,43 @@
         box-sizing: border-box;
     }
 </style>
+
+<!-- JavaScript -->
+<script>
+    const allImages = {{ all_images|safe }};
+    
+    // Function to fade out the images
+    function fadeOutImages() {
+        let images = document.querySelectorAll('.random-image-header');
+        images.forEach((image) => {
+            image.classList.remove('fade');
+        });
+    }
+
+    // Function to change images and fade them in
+    function changeImages() {
+        let images = document.querySelectorAll('.random-image-header');
+        images.forEach((image) => {
+            // Choose a random image from the list
+            const randomImage = allImages[Math.floor(Math.random() * allImages.length)];
+            
+            // Change the source of the image
+            image.src = randomImage;
+            
+            // Fade in the image
+            setTimeout(() => {
+                image.classList.add('fade');
+            }, 1000); // Wait 1 second for the fade-in effect
+        });
+    }
+
+    // Set the interval to change images every 5 seconds
+    setInterval(() => {
+        fadeOutImages(); // Fade out the images
+        setTimeout(() => {
+            changeImages(); // Change to new random images after 1 second
+        }, 2000); // Wait for 2 seconds (time for fade-out)
+    }, 5000); // Change images every 5 seconds
+</script>
 
 {% endblock %}
