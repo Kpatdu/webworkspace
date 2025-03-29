@@ -1,55 +1,72 @@
 {% extends 'omaha_places_app/base.html' %}
+{% load static %}
 <!DOCTYPE html>
 
 <!-- Display Home -->
-{% block content %}
-<html lang="en">
+    {% block content %}
+    <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Omaha Locations</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Omaha Locations</title>
+    </head>
 
 <!-- Header Text -->
-<div class="header-text1">
-    WELCOME TO
-</div>
-<div class="header-text2">
-    OMAHA <span class="large-L">L</span>OCATIONS
-</div>
+    <div class="header-text1">
+        WELCOME TO
+    </div>
 
-<body>
+    <div class="header-text2">
+        OMAHA <span class="large-L">L</span>OCATIONS
+    </div>
 
-    <!-- Static Images for Header (First 6 images from all_images) -->
+<!-- Static Images for Header (First 6 images from all_images) -->
     <div class="image-header-container">
-        <div id="image-container">
-            <img src="{{ all_images.0 }}" alt="Place or Restaurant" class="image-header">
-            <img src="{{ all_images.1 }}" alt="Place or Restaurant" class="image-header">
-            <img src="{{ all_images.2 }}" alt="Place or Restaurant" class="image-header">
-            <img src="{{ all_images.3 }}" alt="Place or Restaurant" class="image-header">
-            <img src="{{ all_images.4 }}" alt="Place or Restaurant" class="image-header">
-            <img src="{{ all_images.5 }}" alt="Place or Restaurant" class="image-header">
+        <div class="image-scroll">
+            <img src="{% static 'omaha_places_app/home-header.png' %}" alt="" class="image-header">
+            <img src="{% static 'omaha_places_app/home-header.png' %}" alt="" class="image-header">
         </div>
     </div>
 
     <!-- Divider -->
     <hr class="divider">
 
+
+<body>
     <!-- Welcome message and brief about us -->
-    <center>
-    <br/>
-    <div class="thing2do-card">
-        <br/><br/><br/><br/><br/><br/><br/><br/>
-        <div id="thing2do-image-container">
-            <img src="{{ all_images.25 }}" alt="" class="things2do-image-header">
-            <img src="{{ all_images.300 }}" alt="" class="things2do-image-header">
-            <img src="{{ all_images.100 }}" alt="" class="things2do-image-header">
+        <br/>
+        <div class="things2do-title1">
+            WHAT IS THERE
         </div>
-    </div>
+        <div class="things2do-title2">
+            TO DO IN <span class="omaha-color">OMAHA?</span>
+        </div>
+
+    <!-- Three things to do cards -->
+    <center>
+        <a href="{% url 'home_restaurants' %}" class="thing2do-card">
+            <br/>
+            <div id="thing2do-image-container">
+                <img src="{% static 'omaha_places_app/home-restaurants.jpg' %}" alt="" class="things2do-image">
+            </div>
+        </a>
+        
+        <a href="{% url 'home_places' %}" class="thing2do-card">
+            <div id="thing2do-image-container">
+                <img src="{% static 'omaha_places_app/home-places.jpg' %}" alt="" class="things2do-image">
+            </div>
+        </a>
+        
+        <a href="{% url 'locations' %}" class="thing2do-card">
+            <div id="thing2do-image-container">
+                <img src="{% static 'omaha_places_app/home-all_locations.jpg' %}" alt="" class="things2do-image">
+            </div>
+        </a>
     </center>
-    <br/>
+
 
     <!-- Divider -->
+    <br/>
     <hr class="divider">
 
     <!-- Random Images for Locations -->
@@ -84,16 +101,6 @@
 {% block script %}
 <style>
 /* Header Image Styles */
-    /* Full-width image */
-    .image-header {
-        width: 16.4%;
-        height: 600px;
-        object-fit: cover;
-        margin: 0;
-        box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.8);
-    }
-
-    /* Header container */
     .image-header-container {
         display: flex;
         justify-content: flex-start;
@@ -101,9 +108,34 @@
         background-color: rgb(0, 0, 0);
         overflow: hidden;
         width: 100%;
-        height: 600px;
+        height: 600px; 
         position: relative;
-        margin: 0; /* Ensure no margin around the container */
+        margin: 0; 
+    }
+    
+    /* Image inside the container */
+    .image-header {
+        height: 100%; 
+        width: auto; /* Maintain aspect ratio, adjust width proportionally */
+        object-fit: cover; /* Make sure image fills container without distortion */
+        box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.8);
+    }
+    
+    /* Scroll animation */
+    .image-scroll {
+        display: flex;
+        width: 200%;
+        animation: scrollLoop 40s linear infinite; /* Adjust the speed of the animation */
+    }
+    
+    /* Keyframes to animate the image scrolling */
+    @keyframes scrollLoop {
+        from {
+            transform: translateX(0); /* Start at the beginning */
+        }
+        to {
+            transform: translateX(-100%); /* Move to the end of the first image */
+        }
     }
 
     /* Header text */
@@ -145,27 +177,68 @@
 
 
 /* Body Image Styles */
-    /* Full-width image */
-    .things2do-image-header {
-        width: 300px;
-        height: 300px;
-        object-fit: cover;
-        margin: 30px;
-        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.8);
+    /* What to do */
+    .things2do-title1 {
+        font-size: 125px;
+        font-weight: bold;
+        font-family: 'Arial Narrow', sans-serif;
+        color: rgba(0, 29, 174, 0.4);
+        transform: translate(5%, 0%);
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    
+    /* in Omaha? */
+    .things2do-title2 {
+        font-size: 125px;
+        font-weight: bold;
+        font-family: 'Arial Narrow', sans-serif;
+        color: rgba(0, 29, 174, 0.4);
+        transform: translate(20%, 0%);
+        margin-top: -115px;
+        margin-bottom: 0px;
     }
 
-    /* Header container */
-    .things2do-image-header-container {
+    /* Omaha color */
+    .omaha-color {
+        color: rgb(0, 29, 174);
+        opacity: 1;
+        font-size: 150px;
+    }
+
+    /* Image styles for the things to do cards */
+    .things2do-image {
+        width: 400px;
+        height: 400px;
+        object-fit: cover;
+        margin: 10px;
+        position: relative;
+        transition: all 0.3s ease; /* Smooth transition for hover effect */
+    }
+
+    /* Container for the images */
+    .things2do-image-container {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        background-color: rgb(0, 0, 0);
         overflow: hidden;
         width: 100%;
-        height: 100%%;
+        height: 100%;
         position: relative;
         margin: 0;
     }
+
+    /* Layout for the cards */
+        .thing2do-card {
+            display: inline-block; /* Makes sure the cards are next to each other */
+            cursor: pointer; /* Shows a pointer when hovering over the card */
+        }
+
+        /* Hover effect for individual card's image */
+        .thing2do-card:hover .things2do-image {
+            opacity: 0.7; /* Make the image slightly opaque */
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5); /* Add a medium-strength shadow */
+        }
 
 
 
@@ -187,6 +260,7 @@
         margin-right: 5px;
         margin-left: 5px;
         margin-bottom: 5px;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.8);
     }
 
     .random-image-location2 {
@@ -195,6 +269,7 @@
         margin-right: 5px;
         margin-left: 0px;
         margin-bottom: 5px;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.8);
     }
 
     .random-image-location3 {
@@ -206,8 +281,8 @@
             (100% 100%,
             0% 100%);
         object-fit: cover;
-        transition: opacity 1s ease-in-out;
         margin: 0;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.8);
     }
 
     .random-image-location4 {
@@ -217,6 +292,7 @@
         margin-left: 5px;
         margin-bottom: 5px;
         margin-top: -200px;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.8);
     }
 
 /* Divider style */

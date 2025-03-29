@@ -9,7 +9,7 @@ in the terminal:
 python manage.py shell
 and paste one of the following:
 
-### Option 1 ###
+### Option 1: Delte all objects from the database ###
 
 from omaha_places_app.models import Restaurant, Place
 
