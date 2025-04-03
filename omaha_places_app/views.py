@@ -59,3 +59,4 @@ class AboutUsView(TemplateView):
     '''
     
     template_name = 'omaha_places_app/about.html'
+

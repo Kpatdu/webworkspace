@@ -11,5 +11,55 @@
 </br>
 
 <!--List Restaurants and Categories-->
+<div class="categories-restaurants">
+    <div class="categories-slider">
+        {% for category in predefined_category %}
+        <a class="categories-card">
+            <h3>{{ category }}</h3>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
 
+
+{% block script %}
+<style>
+    .categories-restaurants {
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 20px 0;
+        background-color: #f9f9f9;
+    }
+
+    .categories-slider {
+        width: 100%;
+        height: fit-content;
+        padding: 20px;
+    }
+
+    .categories-card {
+        width: fit-content;
+        height: 300px;
+        display: inline-block;
+        background-color: #007BFF;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        min-width: 200px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+    .categories-card:hover {
+        transform: scale(1.05);
+    }
+
+    .categories-card h3 {
+        margin: 0;
+        font-size: 50px;
+    }
+</style>
 {% endblock %}
