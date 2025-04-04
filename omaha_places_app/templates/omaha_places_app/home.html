@@ -93,13 +93,29 @@
 
 </body>
 </html>
-
 {% endblock %}
+
+
+
+
 
 
 <!-- CSS -->
 {% block script %}
 <style>
+/* General reset to avoid overflow */
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
+    
 /* Header Image Styles */
     .image-header-container {
         display: flex;
