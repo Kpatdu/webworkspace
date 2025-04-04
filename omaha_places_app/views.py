@@ -102,6 +102,10 @@ class AboutUsView(TemplateView):
 
 
 def register_view(request):
+    '''
+    View to handle user registration.
+    '''
+
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -114,6 +118,13 @@ def register_view(request):
     })
 
 def login_view(request):
+    '''
+    View to handle user login.
+    '''
+
+    if request.user.is_authenticated:
+        return redirect("home")  # Redirect if already logged in
+
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -121,10 +132,16 @@ def login_view(request):
             return redirect("home")
     else:
         form = AuthenticationForm()
+    
     return render(request, "omaha_places_app/login.html", {
         "form" : form
     })
 
+
 def logout_view(request):
+    '''
+    View to handle user logout.
+    '''
+    
     logout(request)
     return redirect("login")
