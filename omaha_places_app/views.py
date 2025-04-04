@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView
 from .models import *
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import logout, login
 
 import os
 from dotenv import load_dotenv
@@ -59,3 +61,32 @@ class AboutUsView(TemplateView):
     '''
     
     template_name = 'omaha_places_app/about.html'
+
+
+def register_view(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            login(request, form.save())
+            return redirect("home")
+    else:
+        form = UserCreationForm()
+    return render(request, "omaha_places_app/register.html", {
+        "form" : form
+    })
+
+def login_view(request):
+    if request.method == "POST":
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            login(request, form.get_user())
+            return redirect("home")
+    else:
+        form = AuthenticationForm()
+    return render(request, "omaha_places_app/login.html", {
+        "form" : form
+    })
+
+def logout_view(request):
+    logout(request)
+    return redirect("login")

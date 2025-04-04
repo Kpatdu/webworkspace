@@ -27,14 +27,19 @@
                     <a class="nav-link" href="{% url 'about' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">About Us</a>
                 </li>
             </ul>
-
+        
             <!-- Right-aligned: Search -->
             <ul class="navbar-nav ms-auto mb-0">
                 <li class="nav-item">
                     {% if request.user.is_authenticated %}
-                        <a class="nav-link" href="" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">Logout&nbsp;</a>
+                    <a class="nav-link text-white me-2" style="padding-top: 5px; padding-bottom: 5px; align-self: center; color:rgb(255, 255, 255)">Logged in as: {{ user.username }}</div>
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if request.user.is_authenticated %}
+                        <a class="nav-link" href="{% url 'logout' %}" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">Logout&nbsp;</a>
                     {% else %}
-                        <a class="nav-link text-white me-2" href="" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">Login</a>
+                        <a class="nav-link text-white me-2" href="{% url 'login' %}" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">Login</a>
                     {% endif %}
                 </li>
                 <li class="nav-item">

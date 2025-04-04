@@ -1,0 +1,14 @@
+{% extends 'omaha_places_app/base.html' %}
+
+{% block title %}
+    <title>Register</title>
+{% endblock %}
+{% block content %}
+    <h1>Register</h1>
+    <form class="form-with-validation" 
+    action="/register/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button>Submit</button>
+    </form>
+{% endblock %}
