@@ -4,6 +4,8 @@ from django.views.generic import TemplateView, ListView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout, login
 from .models import *
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import logout, login
 
 import os
 from dotenv import load_dotenv
