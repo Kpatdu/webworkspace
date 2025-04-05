@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView
 from .models import *
@@ -167,12 +167,14 @@ class PlacesView(ListView):
     '''
     Class-based view to display places.
     '''
+
     model = Place
     template_name = 'omaha_places_app/home-places.html'
     context_object_name = 'home_places'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        place_images = list(Place.objects.exclude(image__isnull = True).exclude(image = 'N/A').values_list('image', flat = True))
+        place_images = list(Place.objects.exclude(image__isnull=True).exclude(image='N/A').values_list('image', flat=True))
         predefined_category = Place.objects.values_list('predefined_category', flat=True).distinct()
 
         dotenv_path = r'omaha_places_app\cache\googleapi.env'
@@ -181,16 +183,15 @@ class PlacesView(ListView):
 
         # Ensure the API key is correctly replaced
         if GOOGLE_API_KEY:
-            all_images_with_api_key = [
+            place_images_with_api_key = [
                 self.replace_api_key(image, GOOGLE_API_KEY)
                 for image in place_images
             ]
         else:
-            place_images_with_api_key = place_images  # If no API key, use the image URLs as is
+            place_images_with_api_key = place_images
 
         context['place_images'] = place_images_with_api_key
         context['predefined_category'] = predefined_category
-        # context['place_images'] = place_images
         return context
     
     def replace_api_key(self, image_url, api_key):
@@ -199,41 +200,99 @@ class PlacesView(ListView):
         '''
 
         image_url = image_url.replace('GOOGLE_API_KEY', api_key)
+        image_url = image_url.replace('maxwidth=400', 'maxwidth=900')
         image_url = unquote(image_url)
 
         return image_url
+    
+
 class PlacesViewAll(ListView):
-    """
-    class-based view to display all places in details
-    """
+    '''
+    Class-based view to display all places in details
+    '''
+
     model = Place
     template_name = 'omaha_places_app/all-places.html'
     context_object_name = 'all_places'
-    paginate_by = 20        # of places per page
+    paginate_by = 20 # Number of places per page
+
     def get_context_data(self, **kwargs):
+        dotenv_path = r'omaha_places_app\cache\googleapi.env'
+        load_dotenv(dotenv_path=dotenv_path)
+        GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+    
         context = super().get_context_data(**kwargs)
-        place_images = list(Place.objects.exclude(image__isnull = True).exclude(image = 'N/A').values_list('image', flat = True))
+        place_images = list(Place.objects.exclude(image__isnull=True).exclude(image='N/A').values_list('image', flat=True))
         predefined_category = Place.objects.values_list('predefined_category', flat=True).distinct()
         selected_category = self.request.GET.get('category', None)
+
         if selected_category:
             places = Place.objects.filter(predefined_category=selected_category)
         else:
             places = Place.objects.all()
 
         predefined_category = Place.objects.values_list('predefined_category', flat=True).distinct()
+        
+        if GOOGLE_API_KEY:
+            place_images_with_api_key = [
+                self.replace_api_key(image, GOOGLE_API_KEY)
+                for image in place_images
+            ]
+        else:
+            place_images_with_api_key = place_images
+
         context['predefined_category'] = predefined_category
         context['selected_category'] = selected_category
         context['all_places'] = places
-        context['place_images'] = place_images
-        return context
+        context['place_images'] = place_images_with_api_key
 
+        return context
+    
+    def replace_api_key(self, image_url, api_key):
+        '''
+        Replace the placeholder GOOGLE_API_KEY in the image URL with the actual API key.
+        '''
+
+        image_url = image_url.replace('GOOGLE_API_KEY', api_key)
+        image_url = image_url.replace('maxwidth=400', 'maxwidth=900')
+        image_url = unquote(image_url)
+
+        return image_url
+
+    
 class PlaceDetailView(TemplateView):
     '''
     Class-based view to display the details of a single place.
     '''
+
     template_name = 'omaha_places_app/place.html'
+
     def get_context_data(self, **kwargs):
+        dotenv_path = r'omaha_places_app\cache\googleapi.env'
+        load_dotenv(dotenv_path=dotenv_path)
+        GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+
+        place = Place.objects.get(id=self.kwargs['pk'])
+        if place.image and place.image != 'N/A':
+            place_image = place.image 
+        else:
+            place_image = None
+
+        if place_image and GOOGLE_API_KEY:
+            place_image = self.replace_api_key(str(place_image), GOOGLE_API_KEY)
+
         context = super().get_context_data(**kwargs)
-        context['place'] = Place.objects.get(id = self.kwargs['pk'])
-        
+        context['place'] = place
+        context['place_image'] = place_image
+
         return context
+
+    def replace_api_key(self, image_url, api_key):
+        '''
+        Replace the placeholder GOOGLE_API_KEY in the image URL with the actual API key.
+        '''
+        image_url = image_url.replace('GOOGLE_API_KEY', api_key)
+        image_url = image_url.replace('maxwidth=400', 'maxwidth=900')
+        image_url = unquote(image_url)
+
+        return image_url
