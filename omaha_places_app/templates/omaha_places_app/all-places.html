@@ -7,45 +7,128 @@
 <title>Places</title> 
 
 <!--Page Header-->
-<center><h1>Omaha Attractions</h1></center>
+<div class="all_places_title" style="background-image: url('{{ place_images.5 }}');">
+    <center><h1>Omaha Attractions in Details</h1></center>
+</div>
 </br>
 
-<!--List All Places-->
-<div class="place-list">
-    {% for place in all_places %}
+<!-- Main Layout -->
+<div class="all-places-container">
+    <!-- Left Sidebar: Categories -->
+    <div class="categories-sidebar">
+        <h3>Categories</h3>
+        <ul>
+            {% for category in predefined_category %}
+            <li>
+                <a href="{% url 'all_places' %}?category={{ category }}" 
+                   class="{% if category == selected_category %}active-category{% endif %}">
+                    {{ category }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 
-        <div class="place-card">
-            <h2>{{ place.name }}</h2>
-            <p><strong>Address:</strong> {{ place.address }}</p>        
-            <p><strong>Category:</strong> {{ place.category }}</p>
-            <p><strong>Rating:</strong> ⭐ {{ place.rating }}</p>
-            
-            {% if place.image %}
-                <img src="{{ place.image }}" alt="{{ place.name }}" class="place-image">
-            {% endif %}
+    <!-- Right Content: Places -->
+    <div class="places-content">
+        {% if selected_category %}
+            <h3>Places in "{{ selected_category }}"</h3>
+        {% else %}
+            <h3>All Places</h3>
+        {% endif %}
+        <div class="place-list">
+            {% for place in all_places %}
+                <div class="place-card">
+                    <h2>{{ place.name }}</h2>
+                    <p><strong>Address:</strong> {{ place.address }}</p>        
+                    <p><strong>Category:</strong> {{ place.predefined_category }}</p>
+                    <p><strong>Rating:</strong> ⭐ {{ place.rating }}</p>
+                    
+                    {% if place.image %}
+                        <img src="{{ place.image }}" alt="{{ place.name }}" class="place-image">
+                    {% endif %}
 
-            <!-- Add a link to each place's detail page -->
-            <p><a href="{% url 'place_detail' place.id %}">View Details</a></p>
+                    <!-- Add a link to each place's detail page -->
+                    <p><a href="{% url 'place_detail' place.id %}">View Details</a></p>
+                </div>
+            {% empty %}
+                <p>No places available.</p>
+            {% endfor %}
         </div>
-        
-    {% empty %}
-        <p>No places available.</p>
-    {% endfor %}
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if all_places.has_previous %}
+                    <a href="?{% if selected_category %}category={{ selected_category }}&{% endif %}page=1">First</a>
+                    <a href="?{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ all_places.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                <span>Page {{ all_places.number }} of {{ all_places.paginator.num_pages }}</span>
+
+                {% if all_places.has_next %}
+                    <a href="?{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ all_places.next_page_number }}">Next</a>
+                    <a href="?{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ all_places.paginator.num_pages }}">Last</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
 </div>
+
+
 
 
 <!--CSS-->
 <style>
-    /* Center the place list and ensure cards are arranged properly */
+    .all-places-container {
+        display: flex;
+        gap: 20px;
+    }
+
+    /* Left Sidebar: Categories */
+    .categories-sidebar {
+        width: 25%;
+        background-color: #f4f4f4;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .categories-sidebar h3 {
+        margin-bottom: 10px;
+    }
+
+    .categories-sidebar ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .categories-sidebar li {
+        margin-bottom: 10px;
+    }
+
+    .categories-sidebar a {
+        text-decoration: none;
+        color: #007BFF;
+        font-weight: bold;
+    }
+
+    .categories-sidebar a.active-category {
+        color: red;
+    }
+
+    /* Right Content: Places */
+    .places-content {
+        width: 75%;
+    }
+
     .place-list { 
         display: flex; 
         flex-wrap: wrap; 
         gap: 20px; 
-        justify-content: center;
-        margin: 0 auto;
+        justify-content: flex-start;
     }
 
-    /* Style for individual place card */
     .place-card { 
         border: 1px solid #ccc; 
         padding: 10px; 
@@ -53,15 +136,54 @@
         width: 300px; 
         text-align: left;
         box-sizing: border-box;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    /* Style for images to fit within the card */
     .place-image {
-        width: 100%;  /* Make image fill the card width */
-        height: 200px;  /* Set a fixed height for the image */
+        width: 100%;  
+        height: 200px;  
         object-fit: cover;
         border-radius: 4px;
+    }
+
+    /* Pagination */
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .pagination a {
+        margin: 0 5px;
+        text-decoration: none;
+        color: #007BFF;
+    }
+
+    .pagination span {
+        margin: 0 5px;
     }
 </style>
 
 {% endblock %}
+
+
+<!-- 
+<div class="place-list">
+    {% for place in all_places %}
+        <div class="place-card">
+            <h2>{{ place.name }}</h2>
+            <p><strong>Address:</strong> {{ place.address }}</p>        
+            <p><strong>Category:</strong> {{ place.predefined_category }}</p>
+            <p><strong>Rating:</strong> ⭐ {{ place.rating }}</p>
+            
+            {% if place.image %}
+                <img src="{{ place.image }}" alt="{{ place.name }}" class="place-image">
+            {% endif %}
+
+            Add a link to each place's detail page
+            <p><a href="{% url 'place_detail' place.id %}">View Details</a></p>
+        </div>
+        
+    {% empty %}
+        <p>No places available.</p>
+    {% endfor %}
+</div> -->

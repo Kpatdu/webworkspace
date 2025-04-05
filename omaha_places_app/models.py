@@ -28,7 +28,6 @@ restaurant.delete()
 '''
 
 
-
 class Restaurant(models.Model):
     '''
     Model for manually adding a restaurant page.
@@ -39,6 +38,9 @@ class Restaurant(models.Model):
     phone = models.CharField('Phone', help_text = 'Phone number', max_length = 20)
     website = models.URLField('Website', help_text = 'Website URL')
     category = models.CharField('Category', help_text = 'Category of the restaurant', max_length = 50)
+
+    predefined_category = models.CharField('Predefined Category',help_text='restaurant category', max_length=50, blank=True, null=True)
+
     price_level = models.CharField('Price Level', help_text = 'Price level of the restaurant', max_length = 50, blank = True, null =  True)
     rating = models.DecimalField('Rating', help_text = 'Rating of the restaurant', max_digits = 2, decimal_places = 1, blank = True, null = True)
     description = models.TextField('Description', help_text = 'Restaurant description')
@@ -62,6 +64,9 @@ class Place(models.Model):
     phone = models.CharField('Phone', help_text = 'Phone number', max_length = 20)
     website = models.URLField('Website', help_text = 'Website URL')
     category = models.CharField('Category', help_text = 'Category of the place', max_length = 50)
+
+    predefined_category = models.CharField('Predefined Category',help_text='place category', max_length = 50, blank=True, null=True)
+
     price_level = models.CharField('Price Level', help_text = 'Price level of the restaurant', max_length = 50, blank = True, null =  True)
     rating = models.DecimalField('Rating', help_text = 'Rating of the restaurant', max_digits = 2, decimal_places = 1, blank = True, null = True)
     description = models.TextField('Description', help_text = 'Place description')

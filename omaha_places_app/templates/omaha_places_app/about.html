@@ -1,8 +1,411 @@
 {% extends 'omaha_places_app/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+
 {% block content %}
-<title>About Us</title>
+<html lang="en">
 
-<!--About Us-->
-<h1>About us</h1>
+<head>
+    <meta charset="UTF-8">
+    <title>About Us</title>
+</head>
 
+<!-- Header Text -->
+<div class="header-text1">
+    ALL ABOUT
+</div>
+
+<div class="header-text2">
+    OMAHA <span class="large-L">L</span>OCATIONS
+</div>
+
+<!-- Static Image for Header -->
+<div class="image-header-container">
+    <div class="fade-slideshow">
+        <img src="{% static 'omaha_places_app/about-header-1.jpg' %}" alt="Slide 1" class="fade-image img1">
+        <img src="{% static 'omaha_places_app/about-header-2.jpg' %}" alt="Slide 2" class="fade-image img2">
+        <img src="{% static 'omaha_places_app/about-header-3.jpg' %}" alt="Slide 3" class="fade-image img3">
+    </div>
+</div>
+
+<!-- Divider -->
+<hr class="divider">
+
+<body>
+<!-- About the Website -->
+    <div class="about-container">
+        <!-- About the Website Text -->
+        <div class="about-text">
+            <div class="contact-us-title">
+                About the Website
+            </div>
+            <div class="about-website-card">
+                Existing online travel guides for Omaha are outdated, often overlooking lesser-known attractions, businesses, and activities. 
+                Users often struggle with outdated search tools that limit their ability to find unique locations or those hidden gems. 
+                Here at Omaha Locations, we provide a modern, user-friendly platform that provides up-to-date information on all of Omaha's attractions and restaurants.
+                The platform is designed to provide a comprehensive guide to Omaha's unique culture and history, 
+                while also providing a platform for local businesses to advertise their services. 
+            </div>
+        </div>
+        
+        <!-- About the Website Image -->
+        <div class="about-image">
+            <img src="{% static 'omaha_places_app/about-website.jpg' %}" alt="About Website" class="about-website-image">
+        </div>
+    </div>
+    
+
+<!-- Divider -->
+    <br/>
+    <hr class="divider">
+
+<!-- About the Developers -->
+<div class="about-container">
+    <!-- About the Devs Image -->
+    <div class="about-image">
+        <img src="{% static 'omaha_places_app/about-website.jpg' %}" alt="About Website" class="about-website-image">
+    </div>
+
+    <!-- About the Devs Text -->
+    <div class="about-text">
+        <div class="contact-us-title">
+            About the Developers
+        </div>
+        <div class="about-website-card">
+            Each developer on the team was responsible for a specific aspect of this web application. Here is a brief overview of each member’s role:
+            <li>Antonio Goings - Creation of comment system</li>
+            <li>Tammy Le - Creation of location pages and UI design</li>
+            <li>Jackson Martin - Creation of search system</li>
+            <li>Hennysa Omoregie - Creation of database and UI design</li>
+            <li>Kristian Patdu - Creation of login and registration system</li>
+        </div>
+    </div>
+</div>
+
+<!-- Divider -->
+    <br/>
+    <hr class="divider">
+
+<!-- Contact Us Information -->
+    <div class="contact-us-header1">
+        DO YOU HAVE
+    </div>
+    <div class="contact-us-header2">
+        SOMETHING TO <span class="say-color">SAY?</span>
+    </div>
+    <div class="contact-container">
+        <div class="contact-text">
+            <div class="contact-us-title">
+                Contact Us
+            </div>
+            <div class="contact-us-body">
+                If you have a question or if you'd like more information on our website, 
+                please feel free to contact us using the form here: 
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc_Mz3iUUPUSySJVDbbekokOe-cksbjBZ1a-4BJQbSw2r_KeQ/viewform?usp=sharing">[link]</a>
+                <br/><br/>
+                If you are a business owner or a local business, you can also advertise your services on our website.
+                You can use this following form if you'd like to have a venue added to our website: 
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeZy6T7DrAwmN2qfYdHOQGxbRF0oA9l3099HtgDxSPz6Hp5jw/viewform?usp=sharing">[link]</a>
+            </div>
+        </div>
+        <div class="contact-image">
+            <img src="{% static 'omaha_places_app/about-contact-us.jpg' %}" alt="Contact Us" class="contact-us-image">
+        </div>
+    </div>
+    <br/>
+
+
+</body>
+</html>
+{% endblock %}
+
+
+
+
+
+
+
+<!--CSS-->
+{% block script %}
+<style>
+/* General reset to avoid overflow */
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
+    
+/* Header Image Styles */
+    .image-header-container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: rgb(0, 0, 0);
+        overflow: hidden;
+        width: 100%;
+        height: 600px; 
+        position: relative;
+        margin: 0; 
+    }
+
+    /* Image inside the container */
+    .fade-image {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        animation-duration: 21s;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+        transition: opacity 1s ease-in-out;
+    }
+    
+    .fade-slideshow {
+        position: relative;
+        width: 100%;
+        height: 100%; /* Fills .image-header-container */
+    }    
+
+    /* Staggered start for each image */
+    .img1 {
+        animation-name: fade1;
+    }
+    .img2 {
+        animation-name: fade2;
+    }
+    .img3 {
+        animation-name: fade3;
+    }
+    
+    /* Fade in (1s), visible (5s), fade out (1s), rest (14s) */
+    @keyframes fade1 {
+        0% { opacity: 0; }
+        2% { opacity: 1; }
+        30% { opacity: 1; }
+        33.33% { opacity: 0; }
+        100% { opacity: 0; }
+    }
+    
+    @keyframes fade2 {
+        33.33% { opacity: 0; }
+        35.33% { opacity: 1; }
+        63.33% { opacity: 1; }
+        66.66% { opacity: 0; }
+        100% { opacity: 0; }
+    }
+    
+    @keyframes fade3 {
+        66.66% { opacity: 0; }
+        68.66% { opacity: 1; }
+        96.66% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    
+
+    /* Header text */
+    .header-text1 { /* First line of header */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-64%, -105%); /* text position */
+        color: white;
+        font-size: 50px;
+        font-weight: bold;
+        font-family: 'Arial Narrow', sans-serif;
+        text-shadow: 4px 4px 5px black; /* Strong black shadow */
+        z-index: 2; /* Ensure it appears above images */
+        text-align: center;
+        width: 100%;
+        height: auto;
+    }
+
+    .header-text2 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -63%);
+        color: white;
+        font-size: 72px !important;
+        font-weight: bold;
+        text-shadow: 4px 4px 10px black; 
+        z-index: 2; 
+        text-align: center;
+        width: 100%;
+        height: auto;
+    }
+
+    .large-L {
+        font-size: 125px; /* Increase the size of the "L" */
+        display: inline-block;
+    }
+
+
+/* Body Image Styles */
+    /* About container to position elements next to each other */
+    .about-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        margin: 0 auto;
+        padding: 40px 20px;
+        max-width: 1000px;
+        gap: 40px; /* Add spacing between text and image */
+    }
+
+    /* Text container for "about the website" */
+    .about-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-right: 20px;
+    }
+
+    /* About the Website Text */
+    .about-website-card { 
+        border: 1px solid #ccc; 
+        padding: 10px; 
+        border-radius: 8px; 
+        text-align: left;
+        font-size: 18px;
+        line-height: 1.5;
+        width: 750px;
+    }
+
+    /* About the Website Image Container */
+    .about-image {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Image styles for the "about the website" card */
+    .about-website-image {
+        width: 300px;
+        max-width: 300px;
+        height: auto;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+
+    
+/* Contact Us Information */body
+    /* Do you have */
+    .contact-us-header1 {
+        font-size: 125px;
+        font-weight: bold;
+        font-family: 'Arial Narrow', sans-serif;
+        color: rgba(0, 29, 174, 0.4);
+        transform: translate(5%, 0%);
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    /* something to say? */
+    .contact-us-header2 {
+        font-size: 125px;
+        font-weight: bold;
+        font-family: 'Arial Narrow', sans-serif;
+        color: rgba(0, 29, 174, 0.4);
+        transform: translate(20%, 0%);
+        margin-top: -125px;
+        margin-bottom: -50px;
+    }
+
+    /* Omaha color */
+    .say-color {
+        color: rgb(0, 29, 174);
+        opacity: 1;
+        font-size: 150px;
+    }
+
+    /* Contact container to position elements in two columns */
+    .contact-container {
+        display: flex;
+        justify-content: space-between; 
+        align-items: center;
+        gap: 0px; 
+        max-width: 1200px; 
+        margin: 0 auto; 
+        padding: 20px; 
+    }
+    
+    /* Contact text container (Title + Body) */
+    .contact-text {
+        flex: 1; 
+        max-width: 600px; 
+    }
+    
+    /* Contact us title */
+    .contact-us-title {
+        font-size: 50px;
+        font-weight: bold;
+        font-family: 'Arial Narrow', sans-serif;
+        color: black;
+        margin-bottom: 10px;
+    }
+    
+    /* Contact us body */
+    .contact-us-body {
+        color: black;
+        font-size: 18px;
+        line-height: 1.5; 
+    }
+    
+    /* Contact image container */
+    .contact-image {
+        flex: 1; 
+        display: flex;
+        justify-content: center; 
+    }
+    
+    /* Image styling */
+    .contact-us-image {
+        width: 350px;
+        max-width: 350px;
+        height: auto;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+
+
+/* Divider style */
+    hr.divider {
+        border: 0;
+        border-top: 3px solid black !important;
+        opacity: 1;
+        margin: 0;
+    }
+
+/* Prevent Overlap Completely on Small Screens */
+    @media (max-width: 900px) {
+        .about-container {
+            flex-direction: column;
+            align-items: center;
+        }
+    
+        .about-text, .about-image {
+            width: 100%;
+            max-width: 100%;
+        }
+    
+        .about-website-card {
+            width: 100%;
+        }
+    
+        .about-website-image {
+            width: 100%;
+            max-width: 350px;
+        }
+    }
+</style>
 {% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'omaha_places_app/base.html' %}
+{% block content %}
+<html lang="en">
+
+<!--Page Title-->
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+
+<!--Login Form-->
+    <h1>User Login</h1>
+    <form class="form-with-validation" 
+    action="/login/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button>Login</button>
+    </form>
+    <h2>Don't have an account?</h2>
+    <div>Register <a href="{% url 'register' %}">Here!</a></a></div>
+
+    
+{% endblock %}
