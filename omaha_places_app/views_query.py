@@ -1,11 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView
 from .models import *
-
-import os
-from dotenv import load_dotenv
-from urllib.parse import unquote
 
 
 class LocationsView(TemplateView):

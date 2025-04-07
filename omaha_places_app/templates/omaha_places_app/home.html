@@ -63,32 +63,46 @@
         </a>
     </center>
 
-
-    <!-- Divider -->
-    <br/>
-    <hr class="divider">
+    <!--Register/Welcome-->
+    {% if user.is_authenticated %}
+    <div class="text-container">
+        <h3>Welcome back,</h3>
+        <h1>{{ user.username }}</h1>
+        <p>Start looking for locations to explore and enjoy your favorite cuisine in Omaha!</p>
+    </div>
+    {% else %}
+        <div class="text-container">
+            <h3>Are you new here?</h3>
+            <h1><a href="{% url 'register' %}" style="color: PaleGoldenRod; text-decoration: none;">REGISTER TODAY</a></h1>
+            <p>...to comment and review locations.</p>
+            <p>Otherwise, <a href="{% url 'login' %}" style="color: PaleGoldenRod; text-decoration: none;">login</a>.</p>
+        </div>
+    {% endif %}
 
     <!-- Random Images for Locations -->
-    </br>
-    <center><div class="random-image-locations-container">
-        <div style="clear: both;"></div>
-        <hr class="divider">
-        {% with all_images|random as random_image_1 %}
-        <img src="{{ random_image_1 }}" alt="Random Place or Restaurant" class="random-image-location1">
-        {% endwith %}
+    <div class="image-block">
+        <center>
+            <div class="random-image-locations-container">
+                <div style="clear: both;"></div>
+                <hr class="divider">
+                {% with all_images|random as random_image_1 %}
+                <img src="{{ random_image_1 }}" alt="Random Place or Restaurant" class="random-image-location1">
+                {% endwith %}
 
-        {% with all_images|random as random_image_2 %}
-        <img src="{{ random_image_2 }}" alt="Random Place or Restaurant" class="random-image-location2">
-        {% endwith %}
+                {% with all_images|random as random_image_2 %}
+                <img src="{{ random_image_2 }}" alt="Random Place or Restaurant" class="random-image-location2">
+                {% endwith %}
 
-        {% with all_images|random as random_image_3 %}
-        <img src="{{ random_image_3 }}" alt="Random Place or Restaurant" class="random-image-location3">
-        {% endwith %}
+                {% with all_images|random as random_image_3 %}
+                <img src="{{ random_image_3 }}" alt="Random Place or Restaurant" class="random-image-location3">
+                {% endwith %}
 
-        {% with all_images|random as random_image_4 %}
-        <img src="{{ random_image_4 }}" alt="Random Place or Restaurant" class="random-image-location4">
-        {% endwith %}
-    </div></div></center>
+                {% with all_images|random as random_image_4 %}
+                <img src="{{ random_image_4 }}" alt="Random Place or Restaurant" class="random-image-location4">
+                {% endwith %}
+            </div>
+        </center>
+    </div>
 
 </body>
 </html>
@@ -198,7 +212,7 @@
         font-weight: bold;
         font-family: 'Arial Narrow', sans-serif;
         color: rgba(0, 29, 174, 0.4);
-        transform: translate(5%, 0%);
+        transform: translate(10%, 0%);
         margin-top: 0px;
         margin-bottom: 0px;
     }
@@ -211,7 +225,7 @@
         color: rgba(0, 29, 174, 0.4);
         transform: translate(20%, 0%);
         margin-top: -115px;
-        margin-bottom: 0px;
+        margin-bottom: -50px;
     }
 
     /* Omaha color */
@@ -223,7 +237,7 @@
 
     /* Image styles for the things to do cards */
     .things2do-image {
-        width: 400px;
+        width: 450px;
         height: 400px;
         object-fit: cover;
         margin: 10px;
@@ -256,8 +270,55 @@
         }
 
 
+/* Register/Welcome styles */
+        .text-container {
+            width: 100%;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #111;
+            padding: 10px;
+        }
+        .text-container h3 {
+            font-size: 50px;
+            color: white;
+        }
+        .text-container h1 {
+            font-size: 100px;
+            text-transform: uppercase;
+            font-family: 'Gambetta', serif;
+            letter-spacing: -3px;
+            transition: 700ms ease;
+            font-variation-settings: "wght" 300;
+            margin-bottom: 0.8rem;
+            color: PaleGoldenRod;
+            outline: none;
+            text-align: center;
+        }
+    
+        .text-container h1:hover {
+            font-variation-settings: "wght" 600; 
+            letter-spacing: 1px;
+        }
+    
+        .text-container p {
+            font-size: 1.2em;
+            line-height: 150%;
+            text-align: center;
+            color: MintCream;
+            letter-spacing: .5px;
+        }
 
 /* Container for random images; Locations */
+    .image-block {
+        background-color: rgb(237, 231, 231);
+        padding-top: 25px;
+        padding-bottom: 25px;
+        margin-bottom: -25px;
+    }
+
     .random-image-locations-container {
         width: 75%;
         min-height: 600px;
