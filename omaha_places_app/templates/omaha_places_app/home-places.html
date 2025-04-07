@@ -1,12 +1,15 @@
 {% extends 'omaha_places_app/base.html' %}
 {% load static %}
 <!DOCTYPE html>
+
 <!--Template to display all places-->
 {% block content %}
 <html lang="en">
+
 <!--Tab title-->
 <title>Places</title> 
 <body>
+
 <!--Page Header-->
 <center><h1 class="title">Omaha Attractions</h1></center>
 
@@ -74,12 +77,13 @@
     </li>
 </ul></div>
 
-
 <script src="{% static 'js/places-home.js' %}"></script>
 </body>
 </html>
 {% endblock %}
 
+
+<!--CSS-->
 {% block script %}
 <style>
     h1 {
