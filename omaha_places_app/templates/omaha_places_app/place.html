@@ -8,18 +8,40 @@
     <title>{{ place.name }}</title>
 </head>
 <body>
-    <h1>{{ place.name }}</h1>
-    <p><strong>Address:</strong> {{ place.address }}</p>
-    <p><strong>Category:</strong> {{ place.category }}</p>
-    <p><strong>Price Level:</strong> {{ place.price_level }}</p>
-    <p><strong>Rating:</strong> {{ place.rating }}</p>
-    <p><strong>Description:</strong> {{ place.description }}</p>
-    <p><strong>Website:</strong> {% if place.website != 'N/A' %}<a href="{{ place.website }}" target="_blank">{{ place.website }}</a>{% else %}No website available.{% endif %}</p>
-    <p><strong>Phone:</strong> {{ place.phone }}</p>
-    <img src="{{ place.image }}" alt="{{ place.name }} image" />
-    <br>
-    <a href="{% url 'locations' %}">Back to All Locations</a>
+    <div class="place">
+        <h1>{{ place.name }}</h1>
+        <p><strong>Address:</strong> {{ place.address }}</p>
+        <p><strong>Category:</strong> {{ place.category }}</p>
+        <p><strong>Price Level:</strong> {{ place.price_level }}</p>
+        <p><strong>Rating:</strong> {{ place.rating }}</p>
+        <p><strong>Description:</strong> {{ place.description }}</p>
+        <p><strong>Website:</strong> {% if place.website != 'N/A' %}<a href="{{ place.website }}" target="_blank">{{ place.website }}</a>{% else %}No website available.{% endif %}</p>
+        <p><strong>Phone:</strong> {{ place.phone }}</p>
+        <img src="{{ place.image }}" alt="{{ place.name }} image" />
+        <br>
+        <a href="{% url 'all_places' %}?category={{ category }}">Back to All Locations</a>
+    </div>
 </body>
 </html>
 
+{% endblock %}
+
+{% block script %}
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+    .place {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+    .place img {
+        width: 50%;
+        height: 40%;
+    }
+</style>
 {% endblock %}
