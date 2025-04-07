@@ -1,14 +1,17 @@
 {% extends 'omaha_places_app/base.html' %}
+{% load static %}
 <!DOCTYPE html>
+
 <!--Template to display all places-->
 {% block content %}
 <html lang="en">
+
 <!--Tab title-->
 <title>Places</title> 
 <body>
-<!--Page Header-->
-<center><h1>Omaha Attractions</h1></center>
 
+<!--Page Header-->
+<center><h1 class="title">Omaha Attractions</h1></center>
 
 <!--List Places and Categories-->
 <div class="place-image-title" style="background-image: url('{{ place_images.0 }}');">
@@ -26,15 +29,65 @@
         {% endfor %}
     </div>
 </div>
+<div class="text-container">
+    <h3>Visit</h3>
+    <h1>Omaha, Nebraska</h1>
+    <p>Omaha offers a blend of attractions, from the world-renowned Henry Doorly Zoo to the vibrant Old Market and the College World Series, making it a great destination for families, sports fans, and those seeking cultural experiences, especially known for its steaks and family-friendly activities.</p>
+</div>
+<div class="image-wrapper"><ul class="images">
+    <li class="image">
+        <a href="#">
+            <img src="{{ place_images.1 }}" width="500" height="500" alt="">
+        </a>
+    </li>
+    <li class="image">
+        <a href="#">
+            <img src="{{ place_images.2 }}" width="500" height="500" alt="">
+        </a>
+    </li>
+    <li class="image">
+        <a href="#">
+            <img src="{{ place_images.3 }}" width="500" height="500" alt="">
+        </a>
+    </li>
+    <li class="image">
+        <a href="#">
+            <img src="{{ place_images.4 }}" width="500" height="500" alt="">
+        </a>
+    </li>
+    <li class="image">
+        <a href="#">
+            <img src="{{ place_images.5 }}" width="500" height="500" alt="">
+        </a>
+    </li>
+    <li class="image">
+        <a href="#">
+            <img src="{{ place_images.6 }}" width="500" height="500" alt="">
+        </a>
+    </li>
+    <li class="image">
+        <a href="#">
+            <img src="{{ place_images.7 }}" width="500" height="500" alt="">
+        </a>
+    </li>
+    <li class="image">
+        <a href="#">
+            <img src="{{ place_images.8 }}" width="500" height="500" alt="">
+        </a>
+    </li>
+</ul></div>
 
+<script src="{% static 'js/places-home.js' %}"></script>
 </body>
 </html>
 {% endblock %}
 
+
+<!--CSS-->
 {% block script %}
 <style>
     h1 {
-        padding: 20px
+        padding: 20px;
     }
     .place-image-title {
         width: 100%;
@@ -47,58 +100,43 @@
         position: relative;
     }
     .search-container {
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
-    padding: 15px 30px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-    }
-    .search-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
-    padding: 20px 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background-color: rgba(255, 255, 255, 0.9); 
+        padding: 20px 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
     }
     .search-input {
-        width: 400px; /* Larger width for the input */
-        padding: 15px; /* Larger padding for a bigger input */
-        border: 1px solid #ccc;
+        width: 400px; 
+        padding: 15px; 
+        border: 3px solid #ccc;
         border-radius: 4px;
-        font-size: 18px; /* Bigger font size */
+        font-size: 18px; 
         outline: none;
         transition: border-color 0.3s ease;
     }
-
     .search-input:focus {
-        border-color: #007BFF; /* Highlight border on focus */
+        border-color: #007BFF; 
     }
-
     .search-button {
-        padding: 15px 30px; /* Larger padding for a bigger button */
-        background-color: #007BFF; /* Blue background */
+        padding: 15px 30px; 
+        background-color: #007BFF; 
         color: white;
         border: none;
         border-radius: 4px;
         cursor: pointer;
-        font-size: 18px; /* Bigger font size */
+        font-size: 18px; 
         transition: background-color 0.3s ease, transform 0.2s ease;
     }
-
     .search-button:hover {
-        background-color: #0056b3; /* Darker blue on hover */
-        transform: scale(1.05); /* Slight zoom effect */
+        background-color: #0056b3; 
+        transform: scale(1.05); 
     }
-
     .search-button:active {
-        transform: scale(0.95); /* Pressed button effect */
+        transform: scale(0.95); 
     }
-
-
     .categories-places {
         width: 100%;
         overflow-x: auto;
@@ -112,7 +150,6 @@
         height: fit-content;
         padding: 20px;
     }
-
     .categories-card {
         width: fit-content;
         height: 300px;
@@ -122,6 +159,7 @@
         padding: 20px;
         border-radius: 10px;
         text-align: center;
+        text-decoration: none;
         min-width: 200px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         cursor: pointer;
@@ -130,12 +168,130 @@
     .categories-card:hover {
         transform: scale(1.05);
     }
-
     .categories-card h3 {
         margin: 0;
         font-size: 50px;
+
     }
-    
+    /* Text Omaha, NE*/
+    .text-container {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #111;
+        padding: 10px;
+    }
+    .text-container h3 {
+        font-size: 50px;
+        color: white;
+    }
+    .text-container h1 {
+        font-size: 100px;
+        text-transform: uppercase;
+        font-family: 'Gambetta', serif;
+        letter-spacing: -3px;
+        transition: 700ms ease;
+        font-variation-settings: "wght" 300;
+        margin-bottom: 0.8rem;
+        color: PaleGoldenRod;
+        outline: none;
+        text-align: center;
+    }
+
+    .text-container h1:hover {
+        font-variation-settings: "wght" 600; 
+        letter-spacing: 1px;
+    }
+
+    .text-container p {
+        font-size: 1.2em;
+        line-height: 150%;
+        text-align: center;
+        color: MintCream;
+        letter-spacing: .5px;
+    }
+    /* image gallery */
+    .image-wrapper {
+        display: grid;
+        place-items: center;
+        min-height: 50vh;
+        padding: 20px;
+    }
+    .images {
+        display: flex;
+        justify-content: center;
+        width: calc(80% - 2rem);
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+    .image {
+        padding: 0;
+    }
+    .image img {
+        max-width: 100%;
+        width: 100%;
+        object-fit: cover;
+        transition: all 0.2s ease;
+    }
+    .images:is(:hover, :focus-within) img {
+        opacity: calc(0.1 + (var(--active-lerp, 0) * 0.9));
+        filter: grayscale(calc(1 - var(--active-lerp, 0)));
+    }
+    :root {
+        --lerp-0: 1;
+        --lerp-1: 0.5787037;
+        --lerp-2: 0.2962963;
+        --lerp-3: 0.125;
+        --lerp-4: 0.037037;
+        --lerp-5: 0.0046296;
+        --lerp-6: 0;
+    }
+    .image a {
+        outline-offset: 4px;
+    }
+    .image {
+        flex: calc(0.1 + (var(--active-lerp, 0) * 1));
+        transition: flex 0.2s ease;
+    }
+    .image:is(:hover, :focus-within) {
+        --active-lerp: var(--lerp-0);
+        z-index: 7;
+    }
+    .image:has( + li:is(:hover, :focus-within)),
+    .image:is(:hover, :focus-within) + li {
+        --active-lerp: var(--lerp-1);
+        z-index: 6;
+    }
+    .image:has( + li + li:is(:hover, :focus-within)),
+    .image:is(:hover, :focus-within) + li + li {
+        --active-lerp: var(--lerp-2);
+        z-index: 5;
+    }
+    .image:has( + li + li + li:is(:hover, :focus-within)),
+    .image:is(:hover, :focus-within) + li + li + li {
+        --active-lerp: var(--lerp-3);
+        z-index: 4;
+    }
+    .image:has( + li + li + li + li:is(:hover, :focus-within)),
+    .image:is(:hover, :focus-within) + li + li + li + li {
+        --active-lerp: var(--lerp-4);
+        z-index: 3;
+    }
+    .image:has( + li + li + li + li + li:is(:hover, :focus-within)),
+    .image:is(:hover, :focus-within) + li + li + li + li + li {
+        --active-lerp: var(--lerp-5);
+        z-index: 2;
+    }
+    .image:has( + li + li + li + li + li + li:is(:hover, :focus-within)),
+    .image:is(:hover, :focus-within) + li + li + li + li + li + li {
+        --active-lerp: var(--lerp-6);
+        z-index: 1;
+    }
+
     
 </style>
 

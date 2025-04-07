@@ -1,16 +1,15 @@
 {% extends 'omaha_places_app/base.html' %}
-{% block content %}
 <!DOCTYPE html>
+
+<!--Template to display a selected place's information-->
+{% block content %}
 <html lang="en">
-
-<!-- Template to display a selected place's information -->
-    <!--Name of Location as Page Title-->  
-    <head>
-        <meta charset="UTF-8">
-        <title>{{ place.name }}</title>
-    </head>
-
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ place.name }}</title>
+</head>
+<body>
+    <div class="place">
         <h1>{{ place.name }}</h1>
         <p><strong>Address:</strong> {{ place.address }}</p>
         <p><strong>Category:</strong> {{ place.category }}</p>
@@ -19,15 +18,31 @@
         <p><strong>Description:</strong> {{ place.description }}</p>
         <p><strong>Website:</strong> {% if place.website != 'N/A' %}<a href="{{ place.website }}" target="_blank">{{ place.website }}</a>{% else %}No website available.{% endif %}</p>
         <p><strong>Phone:</strong> {{ place.phone }}</p>
-
-        <!-- Show the place image (with the API key replaced) -->
-        {% if place_image %}
-            <img src="{{ place_image }}" alt="{{ place.name }} image" />
-        {% endif %}
-        
+        <img src="{{ place.image }}" alt="{{ place.name }} image" />
         <br>
-        <a href="{% url 'locations' %}">Back to All Locations</a>
-    </body>
-
+        <a href="{% url 'all_places' %}?category={{ category }}">Back to All Locations</a>
+    </div>
+</body>
 </html>
+{% endblock %}
+
+<!--CSS-->
+{% block script %}
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+    .place {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+    .place img {
+        width: 50%;
+        height: 40%;
+    }
+</style>
 {% endblock %}

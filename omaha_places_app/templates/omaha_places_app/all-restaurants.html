@@ -7,57 +7,124 @@
 <title>Restaurants</title> 
 
 <!--Page Header-->
-<center><h1>Restaurants in Omaha</h1></center>
+<div class="all_restaurants_title" style="background-image: url('{{ restaurant_images.10 }}');">
+    <center><h1>Omaha Attractions in Details</h1></center>
+</div>
 </br>
 
-<!--List All Restaurants-->
-<div class="restaurant-list">
-    {% for restaurant in all_restaurants %}
+<!-- Main Layout -->
+<div class="all-restaurants-container">
+    <!-- Left Sidebar: Categories -->
+    <div class="categories-sidebar">
+        <h3>Categories</h3>
+        <ul>
+            {% for category in predefined_category %}
+            <li>
+                <a href="{% url 'all_restaurants' %}?category={{ category }}" 
+                   class="{% if category == selected_category %}active-category{% endif %}">
+                    {{ category }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 
-        <div class="restaurant-card">
-            <h2>{{ restaurant.name }}</h2>
-            <p><strong>Address:</strong> {{ restaurant.address }}</p>
-            <p><strong>Category:</strong> {{ restaurant.category }}</p>
-            <p><strong>Rating:</strong> ⭐ {{ restaurant.rating }}</p>
-            
-            {% if restaurant.image %}
-                <img src="{{ restaurant.image }}" alt="{{ restaurant.name }}" class="restaurant-image">
-            {% endif %}
-
-            <!-- Add a link to each restaurant's detail page -->
-            <p><a href="{% url 'restaurant_detail' restaurant.id %}">View Details</a></p>
+    <!--Right Content: restaurants-->
+    <div class="restaurants-content">
+        {% if selected_category %}
+            <h3>Restaurants in "{{ selected_category }}"</h3>
+        {% else %}
+            <h3>All Restaurants</h3>
+        {% endif %}
+        <div class="restaurant-list">
+            {% for restaurant in all_restaurants %}
+                <div class="restaurant-card">
+                    <h2>{{ restaurant.name }}</h2>
+                    <p><strong>Address:</strong> {{ restaurant.address }}</p>
+                    <p><strong>Category:</strong> {{ restaurant.category }}</p>
+                    <p><strong>Rating:</strong> ⭐ {{ restaurant.rating }}</p>
+                    
+                    {% if restaurant.image %}
+                        <img src="{{ restaurant.image }}" alt="{{ restaurant.name }}" class="restaurant-image">
+                    {% endif %}
+                    <!-- Add a link to each restaurant's detail page -->
+                    <p><a href="{% url 'restaurant_detail' restaurant.id %}">View Details</a></p>
+                </div>
+            {% empty %}
+                <p>No restaurants available.</p>
+            {% endfor %}
         </div>
-        
-    {% empty %}
-        <p>No restaurants available.</p>
-    {% endfor %}
+    </div>
 </div>
 
 <!--CSS-->
 <style>
-    /* Center the restaurant list and ensure cards are arranged properly */
-    .restaurant-list { 
-        display: flex; 
-        flex-wrap: wrap; 
-        gap: 20px; 
+    .all_restaurants_title {
+        width: 100%;
+        height: 300px;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
         justify-content: center;
-        margin: 0 auto;
+    }
+    .all-restaurants-container {
+        display: flex;
+        gap: 20px;
+    }
+    /* left sidebar */
+    .categories-sidebar {
+        width: 25%;
+        background-color: #f4f4f4;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    /* Style for individual restaurant card */
-    .restaurant-card { 
+    .categories-sidebar h3 {
+        margin-bottom: 10px;
+    }
+
+    .categories-sidebar ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .categories-sidebar li {
+        margin-bottom: 10px;
+    }
+
+    .categories-sidebar a {
+        text-decoration: none;
+        color: #007BFF;
+        font-weight: bold;
+    }
+
+    .categories-sidebar a.active-category {
+        color: red;
+    }
+    /* right content */
+    .restaurants-content {
+        width: 75%;
+    }
+    .restaurant-list {
+        display: flex;
+        flex-wrap: wrap; 
+        gap: 20px; 
+        justify-content: flex-start;
+    }
+    .restaurant-card {
         border: 1px solid #ccc; 
         padding: 10px; 
         border-radius: 8px; 
         width: 300px; 
         text-align: left;
         box-sizing: border-box;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-
-    /* Style for images to fit within the card */
     .restaurant-image {
-        width: 100%; 
-        height: 200px;
+        width: 100%;  
+        height: 200px;  
         object-fit: cover;
         border-radius: 4px;
     }
