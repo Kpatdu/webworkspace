@@ -7,18 +7,25 @@
     
 <!--Tab title-->
 <title>Restaurants</title> 
+
 <body>
     <!--Page Header-->
-    <center><h1 class="title">Food in Omaha</h1></center>
-    </br>
-    <!-- search bar  -->
-    <div class="restaurant-image-title" style="background-image: url('{{ restaurant_images.0 }}');">
-        <div class="search-bar">
-            <input type="text" class="search-input" placeholder="search restaurant" name="restaurant_search_bar">
-            <button class="search-button" type="submit">Submit</button>
-        </div>
+    <div class="header-text">
+        FOOD IN <span class="big-letter">O</span>MAHA
     </div>
+    <div class="restaurant-image-title" style="background-image: url('{{ restaurant_images.10 }}');"></div>
+
+    <!-- Divider -->
+    <hr class="divider">
+
     <!--List Restaurants and Categories-->
+    <div class="things2do-title1">
+        QUICKLY FIND A 
+    </div>
+    <div class="things2do-title2">
+        PLACE TO <span class="omaha-color">EAT</span>
+    </div>
+
     <div class="categories-restaurants">
         <div class="categories-slider">
             {% for category in predefined_category %}
@@ -28,11 +35,15 @@
             {% endfor %}
         </div>
     </div>
+
+    <!--About Restaurants-->
     <div class="text-container">
         <h3>Visit</h3>
         <h1>Omaha, Nebraska</h1>
         <p>Omaha is a burgeoning foodie destination, offering a diverse culinary scene from world-class steaks and the iconic Reuben sandwich to innovative chef-driven dishes and global cuisines, making it a must-visit for any food lover. </p>
     </div>
+
+    <!--Restaurant Image Gallery-->
     <div class="image-wrapper">
         <ul class="images">
             <li class="image">
@@ -86,13 +97,25 @@
 <!--CSS-->
 {% block script %}
 <style>
+/* General reset to avoid overflow */
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
     h1 {
         padding: 20px;
 
     }
     .restaurant-image-title {
         width: 100%;
-        height: 500px;
+        height: 600px;
         background-size: cover;
         display: flex;
         align-items: center;
@@ -100,51 +123,13 @@
         position: relative;
         
     }
-    /* search bar */
-    .search-container {
-        background-color: rgba(255, 255, 255, alpha);
-        padding: 30px 30px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    } 
-    .search-input {
-        width: 400px;
-        padding: 15px;
-        border: 3px solid #ccc;
-        border-radius: 4px;
-        font-size: 20px;
-        outline: none;
-        transition: border-color 0.3s ease;
-    }
-    .search-input:focus {
-        border-color: #007BFF;
-    }
-    .search-button {
-        padding: 15px 30px; 
-        background-color: #007BFF; 
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 18px; 
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-    .search-button:hover {
-        background-color: #0056b3; 
-        transform: scale(1.05); 
-    }
-    .search-button:active {
-        transform: scale(0.95); 
-    }
+
     .categories-restaurants {
         width: 100%;
         overflow-x: auto;
         white-space: nowrap;
         padding: 20px 0;
-        background-color: #f9f9f9;
+        background-color:rgb(255, 255, 255); /* background-color: #f9f9f9; */
     }
 
     .categories-slider {
@@ -157,7 +142,7 @@
         width: fit-content;
         height: 300px;
         display: inline-block;
-        background-color: #007BFF;
+        background-color: #2317AE;
         color: white;
         padding: 30px;
         border-radius: 20px;
@@ -214,12 +199,15 @@
         color: MintCream;
         letter-spacing: .5px;
     }
+    
     /* image gallery */
     .image-wrapper {
         display: grid;
         place-items: center;
         min-height: 50vh;
         padding: 20px;
+        margin-bottom: -25px;
+        background-color:rgb(237, 231, 231);
     }
     .images {
         display: flex;
@@ -293,6 +281,64 @@
         z-index: 1;
     }
 
+/* Divider style */
+    hr.divider {
+        border: 0;
+        border-top: 3px solid black !important;
+        opacity: 1;
+        margin: 0;
+    }
+
+/* Header text */
+    .header-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -75%);
+        color: white;
+        font-size: 72px !important;
+        font-weight: bold;
+        text-shadow: 4px 4px 5px black; 
+        z-index: 2; 
+        text-align: center;
+        width: 100%;
+        height: auto;
+    }
+
+    .big-letter {
+        font-size: 125px;
+        display: inline-block;
+    }
+
+/* Body Image Styles */
+    /* Quickly find a */
+    .things2do-title1 {
+        font-size: 125px;
+        font-weight: bold;
+        font-family: 'Arial Narrow', sans-serif;
+        color: rgba(0, 29, 174, 0.4);
+        transform: translate(15%, 0%);
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    
+    /* place to eat */
+    .things2do-title2 {
+        font-size: 125px;
+        font-weight: bold;
+        font-family: 'Arial Narrow', sans-serif;
+        color: rgba(0, 29, 174, 0.4);
+        transform: translate(30%, 0%);
+        margin-top: -115px;
+        margin-bottom: -50px;
+    }
+
+    /* Omaha color */
+    .omaha-color {
+        color: rgb(0, 29, 174);
+        opacity: 1;
+        font-size: 150px;
+    }
 
 </style>
 {% endblock %}
