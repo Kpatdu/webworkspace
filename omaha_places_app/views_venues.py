@@ -143,13 +143,30 @@ class RestaurantsView(ListView):
         context = super().get_context_data(**kwargs)
         restaurant_images = list(Restaurant.objects.exclude(image__isnull = True).exclude(image = 'N/A').values_list('image', flat = True))
         predefined_category = Restaurant.objects.values_list('predefined_category', flat=True).distinct()
-        # unique_categories = list(set(categories))
-        # unique_categories.sort()
 
         context['predefined_category'] = predefined_category
+        context['restaurant_images'] = restaurant_images
         return context
 
+class RestaurantsViewAll(TemplateView):
+    model = Restaurant
+    template_name = 'omaha_places_app/all-restaurants.html'
+    context_object_name = 'all_restaurants'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        restaurant_images = list(Restaurant.objects.exclude(image__isnull = True).exclude(image = 'N/A').values_list('image', flat = True))
+        predefined_category = Restaurant.objects.values_list('predefined_category', flat=True).distinct()
+        selected_category = self.request.GET.get('category', None)
+        if selected_category:
+            restaurants = Restaurant.objects.filter(predefined_category=selected_category)
+        else:
+            restaurants = Restaurant.objects.all()
 
+        context['restaurant_images'] = restaurant_images
+        context['selected_category'] = selected_category
+        context['predefined_category'] = predefined_category
+        context['all_restaurants'] = restaurants
+        return context
 class RestaurantDetailView(TemplateView):
     '''
     Class-based view to display the details of a single restaurant.
@@ -175,33 +192,11 @@ class PlacesView(ListView):
         place_images = list(Place.objects.exclude(image__isnull = True).exclude(image = 'N/A').values_list('image', flat = True))
         predefined_category = Place.objects.values_list('predefined_category', flat=True).distinct()
 
-        dotenv_path = r'omaha_places_app\cache\googleapi.env'
-        load_dotenv(dotenv_path=dotenv_path)
-        GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
-        # Ensure the API key is correctly replaced
-        if GOOGLE_API_KEY:
-            all_images_with_api_key = [
-                self.replace_api_key(image, GOOGLE_API_KEY)
-                for image in place_images
-            ]
-        else:
-            place_images_with_api_key = place_images  # If no API key, use the image URLs as is
-
-        context['place_images'] = place_images_with_api_key
+        context['place_images'] = place_images
         context['predefined_category'] = predefined_category
-        # context['place_images'] = place_images
         return context
     
-    def replace_api_key(self, image_url, api_key):
-        '''
-        Replace the placeholder GOOGLE_API_KEY in the image URL with the actual API key.
-        '''
-
-        image_url = image_url.replace('GOOGLE_API_KEY', api_key)
-        image_url = unquote(image_url)
-
-        return image_url
 class PlacesViewAll(ListView):
     """
     class-based view to display all places in details
@@ -209,7 +204,6 @@ class PlacesViewAll(ListView):
     model = Place
     template_name = 'omaha_places_app/all-places.html'
     context_object_name = 'all_places'
-    paginate_by = 20        # of places per page
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         place_images = list(Place.objects.exclude(image__isnull = True).exclude(image = 'N/A').values_list('image', flat = True))
@@ -220,7 +214,6 @@ class PlacesViewAll(ListView):
         else:
             places = Place.objects.all()
 
-        predefined_category = Place.objects.values_list('predefined_category', flat=True).distinct()
         context['predefined_category'] = predefined_category
         context['selected_category'] = selected_category
         context['all_places'] = places
