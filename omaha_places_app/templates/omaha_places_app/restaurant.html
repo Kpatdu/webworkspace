@@ -23,7 +23,7 @@
     <p><strong>Address:</strong> {{ restaurant.address }}</p>
     <p><strong>Category:</strong> {{ restaurant.category }}</p>
     <p><strong>Price Level:</strong> {{ restaurant.price_level }}</p>
-    <p><strong>Rating:</strong> {{ restaurant.rating }}</p>
+    <p><strong>Rating:</strong> ⭐{{ restaurant.rating }}</p>
     <p><strong>Description:</strong> {{ restaurant.description }}</p>
     <p><strong>Website:</strong>{% if restaurant.website != 'N/A' %} <a href="{{ restaurant.website }}" target="_blank">{{ restaurant.website }}</a>{% else %}No website available.{% endif %}</p>
     <p><strong>Phone:</strong> {{ restaurant.phone }}</p>
@@ -34,7 +34,7 @@
     <hr class="divider">
 
     <br>
-    <a href="{% url 'all_restaurants' %}?category={{ category }}">Back to All Locations</a>
+    <a href="{% url 'all_restaurants' %}?category={{ category }}">Back to All Restaurants</a>
 
 </body>
 </html>

@@ -11,40 +11,33 @@
         <title>Omaha Locations</title>
     </head>
 
-<!-- Header Text -->
-    <div class="header-text1">
-        WELCOME TO
+<!-- Header Text Image inside the image-header-container -->
+<div class="image-header-container">
+    <div class="image-scroll">
+        <img src="{% static 'omaha_places_app/home-header.png' %}" alt="" class="image-header">
+        <img src="{% static 'omaha_places_app/home-header.png' %}" alt="" class="image-header">
     </div>
 
-    <div class="header-text2">
-        OMAHA <span class="large-L">L</span>OCATIONS
+    <!-- Text Image -->
+    <div class="header-image-wrapper">
+        <img src="{% static 'omaha_places_app/home_header_text.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
     </div>
-
-<!-- Static Images for Header (First 6 images from all_images) -->
-    <div class="image-header-container">
-        <div class="image-scroll">
-            <img src="{% static 'omaha_places_app/home-header.png' %}" alt="" class="image-header">
-            <img src="{% static 'omaha_places_app/home-header.png' %}" alt="" class="image-header">
-        </div>
-    </div>
+</div>
 
     <!-- Divider -->
     <hr class="divider">
 
 
 <body>
-    <!-- Welcome message and brief about us -->
-        <div class="things2do-title1">
-            WHAT IS THERE
-        </div>
-        <div class="things2do-title2">
-            TO DO IN <span class="omaha-color">OMAHA?</span>
-        </div>
+    <!-- Welcome message with "What to do in Omaha?" -->
+    <br/>
+    <div class="things2-do-image-wrapper"><center>
+        <img src="{% static 'omaha_places_app/home-what_do_in_omaha.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
+    </center></div>
 
     <!-- Three things to do cards -->
-    <center>
+    <div class="center-cards">
         <a href="{% url 'home_restaurants' %}" class="thing2do-card">
-            <br/>
             <div id="thing2do-image-container">
                 <img src="{% static 'omaha_places_app/home-restaurants.jpg' %}" alt="" class="things2do-image">
             </div>
@@ -61,7 +54,8 @@
                 <img src="{% static 'omaha_places_app/home-all_locations.jpg' %}" alt="" class="things2do-image">
             </div>
         </a>
-    </center>
+    </div>
+
 
     <!--Register/Welcome-->
     {% if user.is_authenticated %}
@@ -115,21 +109,9 @@
 
 <!-- CSS -->
 {% block script %}
-<style>
-/* General reset to avoid overflow */
-    * {
-        box-sizing: border-box;
-    }
-
-    html, body {
-        max-width: 100%;
-        overflow-x: hidden;
-        margin: 0;
-        padding: 0;
-    }
-
-    
+<style> 
 /* Header Image Styles */
+    /* Ensure the header image container is set to relative */
     .image-header-container {
         display: flex;
         justify-content: flex-start;
@@ -139,24 +121,16 @@
         width: 100%;
         height: 600px; 
         position: relative;
-        margin: 0; 
+        margin: 0;
     }
-    
-    /* Image inside the container */
-    .image-header {
-        height: 100%; 
-        width: auto; /* Maintain aspect ratio, adjust width proportionally */
-        object-fit: cover; /* Make sure image fills container without distortion */
-        box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.8);
-    }
-    
-    /* Scroll animation */
+
+    /* Scroll animation for the header images */
     .image-scroll {
         display: flex;
         width: 200%;
         animation: scrollLoop 40s linear infinite; /* Adjust the speed of the animation */
     }
-    
+
     /* Keyframes to animate the image scrolling */
     @keyframes scrollLoop {
         from {
@@ -167,72 +141,51 @@
         }
     }
 
-    /* Header text */
-    .header-text1 { /* First line of header */
+    
+    /* Wrapper for header text image */
+    .header-image-wrapper {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-64%, -105%); /* text position */
-        color: white;
-        font-size: 50px;
-        font-weight: bold;
-        font-family: 'Arial Narrow', sans-serif;
-        text-shadow: 4px 4px 5px black; /* Strong black shadow */
-        z-index: 2; /* Ensure it appears above images */
-        text-align: center;
+        transform: translate(-50%, -50%); 
+        z-index: 1; 
         width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Text image styles */
+    .header-text-image {
+        width: 60%; 
+        max-width: 1000px;
         height: auto;
+        filter: drop-shadow(2px 2px 5px black);
+        object-fit: contain; 
     }
 
-    .header-text2 {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -63%);
-        color: white;
-        font-size: 72px !important;
-        font-weight: bold;
-        text-shadow: 4px 4px 10px black; 
-        z-index: 2; 
-        text-align: center;
-        width: 100%;
-        height: auto;
-    }
-
-    .large-L {
-        font-size: 125px; /* Increase the size of the "L" */
-        display: inline-block;
-    }
-
+    @media (max-width: 768px) {
+        .header-text-image {
+            width: 80vw;
+        }
+    } 
 
 /* Body Image Styles */
-    /* What to do */
-    .things2do-title1 {
-        font-size: 125px;
-        font-weight: bold;
-        font-family: 'Arial Narrow', sans-serif;
-        color: rgba(0, 29, 174, 0.4);
-        transform: translate(10%, 0%);
-        margin-top: 0px;
-        margin-bottom: 0px;
-    }
-    
-    /* in Omaha? */
-    .things2do-title2 {
-        font-size: 125px;
-        font-weight: bold;
-        font-family: 'Arial Narrow', sans-serif;
-        color: rgba(0, 29, 174, 0.4);
-        transform: translate(20%, 0%);
-        margin-top: -115px;
-        margin-bottom: -50px;
+    .things2-do-image-wrapper img {
+        filter: none;
     }
 
-    /* Omaha color */
-    .omaha-color {
-        color: rgb(0, 29, 174);
-        opacity: 1;
-        font-size: 150px;
+    /* Adjust "Things to do" cards layout with Flexbox */
+    .center-cards {
+        display: flex;
+        justify-content: center; 
+        flex-wrap: wrap;
+    }
+
+    .thing2do-card {
+        margin: 10px;
+        display: inline-block;
+        cursor: pointer;
     }
 
     /* Image styles for the things to do cards */
@@ -241,11 +194,9 @@
         height: 400px;
         object-fit: cover;
         margin: 10px;
-        position: relative;
-        transition: all 0.3s ease; /* Smooth transition for hover effect */
+        transition: all 0.3s ease;
     }
 
-    /* Container for the images */
     .things2do-image-container {
         display: flex;
         justify-content: flex-start;
@@ -254,20 +205,14 @@
         width: 100%;
         height: 100%;
         position: relative;
-        margin: 0;
     }
 
-    /* Layout for the cards */
-        .thing2do-card {
-            display: inline-block; /* Makes sure the cards are next to each other */
-            cursor: pointer; /* Shows a pointer when hovering over the card */
-        }
+    /* Hover effect for individual card's image */
+    .thing2do-card:hover .things2do-image {
+        opacity: 0.7;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+    }
 
-        /* Hover effect for individual card's image */
-        .thing2do-card:hover .things2do-image {
-            opacity: 0.7; /* Make the image slightly opaque */
-            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5); /* Add a medium-strength shadow */
-        }
 
 
 /* Register/Welcome styles */

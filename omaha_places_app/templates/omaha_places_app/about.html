@@ -10,21 +10,17 @@
     <title>About Us</title>
 </head>
 
-<!-- Header Text -->
-<div class="header-text1">
-    ALL ABOUT
-</div>
-
-<div class="header-text2">
-    OMAHA <span class="large-L">L</span>OCATIONS
-</div>
-
 <!-- Static Image for Header -->
 <div class="image-header-container">
     <div class="fade-slideshow">
         <img src="{% static 'omaha_places_app/about-header-1.jpg' %}" alt="Slide 1" class="fade-image img1">
         <img src="{% static 'omaha_places_app/about-header-2.jpg' %}" alt="Slide 2" class="fade-image img2">
         <img src="{% static 'omaha_places_app/about-header-3.jpg' %}" alt="Slide 3" class="fade-image img3">
+    </div>
+
+     <!-- Text Image -->
+    <div class="header-image-wrapper">
+        <img src="{% static 'omaha_places_app/about_header_text.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
     </div>
 </div>
 
@@ -54,39 +50,20 @@
         </div>
     </div>
     
-
-<!-- Divider -->
-    <br/>
-    <hr class="divider">
-
-<!-- About the Developers -->
-<div class="about-container">
-    <!-- About the Devs Image -->
-    <div class="about-image">
-        <img src="{% static 'omaha_places_app/about-website.jpg' %}" alt="About Website" class="about-website-image">
-    </div>
-
-    <!-- About the Devs Text -->
-    <div class="about-text">
-        <div class="contact-us-title">
-            About the Developers
-        </div>
-        <div class="about-website-card">
-            Each developer on the team was responsible for a specific aspect of this web application. Here is a brief overview of each member’s role:
-            <ul class="developer-list">
-                <li>Antonio Goings - Creation of comment system</li>
-                <li>Tammy Le - Creation of location pages and UI design</li>
-                <li>Jackson Martin - Creation of search system</li>
-                <li>Hennysa Omoregie - Creation of database and UI design</li>
-                <li>Kristian Patdu - Creation of login and registration system</li>
-            </ul>
-        </div>        
-    </div>
+<!-- About the Devs Text -->
+<div class="text-container">
+    <h3>About the</h3>
+    <h1>Developers</h1>
+    <p>
+        <ul class="developer-list">
+            <li>Antonio Goings - Creation of comment system</li>
+            <li>Tammy Le - Creation of location pages and UI design</li>
+            <li>Jackson Martin - Creation of search system</li>
+            <li>Hennysa Omoregie - Creation of database and UI design</li>
+            <li>Kristian Patdu - Creation of login and registration system</li>
+        </ul>
+    </p>
 </div>
-
-<!-- Divider -->
-    <br/>
-    <hr class="divider">
 
 <!-- Contact Us Information -->
     <div class="contact-us-header1">
@@ -211,42 +188,33 @@
     }
     
 
-    /* Header text */
-    .header-text1 { /* First line of header */
+    /* Wrapper for header text image */
+    .header-image-wrapper {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-64%, -105%); /* text position */
-        color: white;
-        font-size: 50px;
-        font-weight: bold;
-        font-family: 'Arial Narrow', sans-serif;
-        text-shadow: 4px 4px 5px black; /* Strong black shadow */
-        z-index: 2; /* Ensure it appears above images */
-        text-align: center;
+        transform: translate(-50%, -50%); 
+        z-index: 1; 
         width: 100%;
-        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .header-text2 {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -63%);
-        color: white;
-        font-size: 72px !important;
-        font-weight: bold;
-        text-shadow: 4px 4px 10px black; 
-        z-index: 2; 
-        text-align: center;
-        width: 100%;
+    /* Text image styles */
+    .header-text-image {
+        width: 60%; 
+        max-width: 1000px;
         height: auto;
+        filter: drop-shadow(2px 2px 5px black);
+        object-fit: contain; 
     }
 
-    .large-L {
-        font-size: 125px; /* Increase the size of the "L" */
-        display: inline-block;
-    }
+    @media (max-width: 768px) {
+        .header-text-image {
+            width: 80vw;
+        }
+    } 
 
 
 /* Body Image Styles */
@@ -297,10 +265,50 @@
         border-radius: 10px;
     }
 
+    /* About the Developers Text*/
+    .text-container {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #111;
+        padding: 10px;
+    }
+    .text-container h3 {
+        font-size: 50px;
+        color: white;
+    }
+    .text-container h1 {
+        font-size: 100px;
+        text-transform: uppercase;
+        font-family: 'Times New Roman', Times, serif;
+        letter-spacing: -2px;
+        transition: 700ms ease;
+        font-variation-settings: "wght" 300;
+        margin-bottom: 0.8rem;
+        color: palegoldenrod;
+        outline: none;
+        text-align: center;
+    }
+    .text-container h1:hover {
+        font-variation-settings: "wght" 600; 
+        letter-spacing: 1px;
+    }
+    .text-container p {
+        font-size: 1.2em;
+        line-height: 150%;
+        text-align: center;
+        color: MintCream;
+        letter-spacing: .5px;
+    }  
+    
     .developer-list {
         padding-left: 25px;
         margin-top: 10px;
-    }    
+        color: white;
+    } 
 
 
     
