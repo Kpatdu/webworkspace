@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.views.generic import TemplateView, ListView
 from .models import *
 
@@ -8,7 +8,6 @@ from omaha_places_app.api_key import replace_api_key
 
 #comment imports
 from .forms import CommentForm
-from django.contrib.auth.decorators import login_required
 
 RESTAURANT_CATEGORY_MAPPING = {
     "restaurant, bar, food, point_of_interest, establishment": "Bar",
@@ -168,6 +167,7 @@ class RestaurantsView(ListView):
 
         return context
 
+
 class RestaurantsViewAll(TemplateView):
     '''
     Class-based view to display all restaurants.
@@ -255,8 +255,6 @@ class RestaurantDetailView(TemplateView):
             comment.save()
 
         return redirect(request.path)
-
-
 
 
 class PlacesView(ListView):
