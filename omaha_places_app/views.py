@@ -80,6 +80,9 @@ def register_view(request):
     View to handle user registration.
     '''
 
+    if request.user.is_authenticated:
+        return redirect("home")  # Redirect if already logged in
+    
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -97,7 +100,7 @@ def login_view(request):
     '''
 
     if request.user.is_authenticated:
-        return redirect("home")  # Redirect if already logged in
+        return redirect("home")
 
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)

@@ -1,10 +1,11 @@
+{% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-black">
     <div class="container-fluid">
     
         <!-- Event Logo: When clicked, go to home page. -->
-        <a class="navbar-brand" href="{% url 'home' %}" style="padding-top: 5px; padding-bottom: 5px;">
-            <i class="fa fa-calendar" style="font-size:24px; color:red"></i>
-        </a>
+        <a class="navbar-brand logo-float" href="{% url 'home' %}" style="padding-top: 5px; padding-bottom: 5px;">
+            <img src="{% static 'omaha_places_app/logo.png' %}" alt="Logo" style="height: 60px; margin-top: -15px; margin-bottom: -15px; object-fit: contain;">
+        </a>        
   
         <!-- Navbar Toggle for Mobile View -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,3 +56,18 @@
         </ul>
     </div>
 </nav>
+
+
+{% block script%}
+<style>
+/* Navbar logo */
+    .navbar-brand img {
+        height: 60px;
+        margin-top: -15px;
+        z-index: 10; /* optional, for safety */
+        position: relative;
+        filter: drop-shadow(0 0 0 black) drop-shadow(2px 2px 0 black) drop-shadow(-1px -1px 0 black);
+    }
+
+</style>
+{% endblock %}
