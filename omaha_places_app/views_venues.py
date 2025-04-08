@@ -1,5 +1,4 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, ListView
 from .models import *
 
@@ -223,34 +222,40 @@ class RestaurantDetailView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        restaurant = Restaurant.objects.get(id=self.kwargs['pk'])
+
         dotenv_path = r'omaha_places_app\cache\googleapi.env'
         load_dotenv(dotenv_path=dotenv_path)
         GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
-
-        restaurant = Restaurant.objects.get(id=self.kwargs['pk'])
 
         if GOOGLE_API_KEY and restaurant.image and str(restaurant.image) != 'N/A':
             restaurant.image = replace_api_key(str(restaurant.image), GOOGLE_API_KEY)
 
         context['restaurant'] = restaurant
+        context['comments'] = restaurant.comments.all().order_by('-created_at')
+        
+        if self.request.user.is_authenticated:
+            context['comment_form'] = CommentForm()
+        else:
+            context['comment_form'] = None
+
         return context
 
-    def restaurant_detail(request, pk):
-        restaurant = get_object_or_404(Restaurant, pk=pk)
-        comments = restaurant.comments.all()  # Fetch all comments related to the restaurant
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
 
-        if request.method == "POST":
-            # Handle the comment form submission
-            form = CommentForm(request.POST)
-            if form.is_valid():
-                comment = form.save(commit=False)
-                comment.restaurant = restaurant  # Set the restaurant for this comment
-                comment.user = request.user  # Set the user for this comment
-                comment.save()  # Save the comment
-                
-                return redirect('restaurant_detail', pk=restaurant.pk)  # Redirect after POST
-        else:
-            form = CommentForm()
+        restaurant = Restaurant.objects.get(id=self.kwargs['pk'])
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.restaurant = restaurant
+            comment.save()
+
+        return redirect(request.path)
+
 
 
 

@@ -10,9 +10,11 @@
     <title>{{ restaurant.name }}</title>
 </head>
 
+<!--Restaurant Information-->
 <body>
-
     <img src="{{ restaurant.image }}" alt="{{ restaurant.name }} image" class="full-width-image" />
+
+    <!-- Divider -->
     <hr class="divider">
 
     <center>
@@ -25,33 +27,45 @@
     <p><strong>Price Level:</strong> {{ restaurant.price_level }}</p>
     <p><strong>Rating:</strong> {{ restaurant.rating }}</p>
     <p><strong>Description:</strong> {{ restaurant.description }}</p>
-    <p><strong>Website:</strong>{% if restaurant.website != 'N/A' %} <a href="{{ restaurant.website }}" target="_blank">{{ restaurant.website }}</a>{% else %}No website available.{% endif %}</p>
+    <p><strong>Website:</strong>{% if restaurant.website != 'N/A' %} <a href="{{ restaurant.website }}" target="_blank" style="color: #2317AE;">{{ restaurant.website }}</a>{% else %}No website available.{% endif %}</p>
     <p><strong>Phone:</strong> {{ restaurant.phone }}</p>
     
     </div>
     </center>
     <br/>
-  <h2>{{ restaurant.name }}</h2>
-<p>{{ restaurant.description }}</p>
 
 <!-- Display all comments related to the restaurant -->
-<h3>Comments:</h3>
-{% for comment in comments %}
-    <p><strong>{{ comment.user.username }}</strong>: {{ comment.text }}</p>
-{% empty %}
-    <p>No comments yet.</p>
-{% endfor %}
+<h2>Comments</h2>
+<div class="comments-container">
+  <ul>
+    {% for comment in comments %}
+      <li><strong>{{ comment.user.username }}:</strong> {{ comment.text }} ({{ comment.created_at|date:"M d, Y H:i" }})</li>
+    {% empty %}
+      <li>No comments yet.</li>
+    {% endfor %}
+  </ul>
+</div>
 
-<!-- Form to post a new comment -->
-<h3>Post a Comment:</h3>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Post Comment</button>
-</form>
+<!-- Comment Form -->
+{% if comment_form %}
+  <div class="comment-form-container">
+    <form method="post">
+      {% csrf_token %}
+      <div class="comment-form">
+        {{ comment_form.as_p }}
+      </div>
+      <div class="button-container">
+        <button type="submit">Post Comment</button>
+      </div>
+    </form>
+  </div>
+{% else %}
+  <p><a href="{% url 'login' %}?next={{ request.path }}" style="color: #2317AE;">Log in</a> to comment.</p>
+{% endif %}
 
-    <br>
-    <a href="{% url 'all_restaurants' %}?category={{ category }}">Back to All Locations</a>
+
+<!-- Back to all restaurants link -->
+<a href="{% url 'all_restaurants' %}?category={{ category }}" style="color: #2317AE;">Back to All Locations</a>
 
 </body>
 </html>
@@ -60,11 +74,12 @@
 <!-- CSS -->
 {% block script %}
 <style>
+/* Restaurant Styles */
     /* Full-width image */
     .full-width-image {
         width: 100%;
         height: 600px;
-        margin-bottom: 0;  /* Remove margin from the image */
+        margin-bottom: 0; 
     }
     
     /* Divider style */
@@ -89,6 +104,82 @@
         align-items: center;
         justify-content: center;
     }
+
+/* Comments container */
+    .comments-container {
+        max-height: 300px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 15px;
+        background-color: #f9f9f9;
+        border-radius: 6px;
+    }
+
+    /* Style individual comment list items */
+    .comments-container ul {
+        padding-left: 20px;
+    }
+
+    .comments-container li {
+        margin-bottom: 10px;
+        line-height: 1.4em;
+    }
+
+    .comment-form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%; 
+        margin-bottom: 20px;
+    }
+
+    .comment-form textarea {
+        width: 100%;  
+        max-width: 800px; 
+        height: 100px; 
+        padding: 10px;  
+        border: 1px solid #ccc;  
+        border-radius: 4px;  
+        font-size: 16px;  
+    }
+    
+    .comment-form {
+        margin-bottom: 10px;
+        width: 100%;
+        max-width: 800px; 
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center; 
+        width: 100%; 
+    }
+
+    button {
+        display: inline-block;
+        width: 150px; 
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #2317AE; 
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color:rgb(0, 0, 0); 
+    }
+
+    p a, p span {
+        display: inline;
+        margin: 0;
+        margin-left: 25px;
+        padding: 0;
+    }
+    
 </style>
 
 {% endblock %}
