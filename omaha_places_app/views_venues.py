@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView
 from .models import *
@@ -6,6 +6,10 @@ from .models import *
 import os
 from dotenv import load_dotenv
 from omaha_places_app.api_key import replace_api_key
+
+#comment imports
+from .forms import CommentForm
+from django.contrib.auth.decorators import login_required
 
 RESTAURANT_CATEGORY_MAPPING = {
     "restaurant, bar, food, point_of_interest, establishment": "Bar",
@@ -230,6 +234,24 @@ class RestaurantDetailView(TemplateView):
 
         context['restaurant'] = restaurant
         return context
+
+    def restaurant_detail(request, pk):
+        restaurant = get_object_or_404(Restaurant, pk=pk)
+        comments = restaurant.comments.all()  # Fetch all comments related to the restaurant
+
+        if request.method == "POST":
+            # Handle the comment form submission
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.restaurant = restaurant  # Set the restaurant for this comment
+                comment.user = request.user  # Set the user for this comment
+                comment.save()  # Save the comment
+                
+                return redirect('restaurant_detail', pk=restaurant.pk)  # Redirect after POST
+        else:
+            form = CommentForm()
+
 
 
 class PlacesView(ListView):

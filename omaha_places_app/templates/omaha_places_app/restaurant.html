@@ -31,7 +31,24 @@
     </div>
     </center>
     <br/>
-    <hr class="divider">
+  <h2>{{ restaurant.name }}</h2>
+<p>{{ restaurant.description }}</p>
+
+<!-- Display all comments related to the restaurant -->
+<h3>Comments:</h3>
+{% for comment in comments %}
+    <p><strong>{{ comment.user.username }}</strong>: {{ comment.text }}</p>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
+
+<!-- Form to post a new comment -->
+<h3>Post a Comment:</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Post Comment</button>
+</form>
 
     <br>
     <a href="{% url 'all_restaurants' %}?category={{ category }}">Back to All Locations</a>

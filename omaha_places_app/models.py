@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.urls import reverse
+#comment imports
+
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 '''
 To delete items from the database
@@ -78,3 +82,14 @@ class Place(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+#adding comments model
+class Comment(models.Model):
+    restaurant = models.ForeignKey(Restaurant, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment by {self.user.username}"

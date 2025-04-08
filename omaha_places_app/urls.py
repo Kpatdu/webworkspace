@@ -21,4 +21,7 @@ urlpatterns = [
     path('register/', views.register_view, name= "register"), # Register
     path('login/', views.login_view, name="login"), # Login
     path('logout/', views.logout_view, name="logout"), #Logout
+    
+    #path('restaurant/<int:pk>/', views.restaurant_detail, name='restaurant_detail'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
