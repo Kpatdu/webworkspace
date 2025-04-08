@@ -1,4 +1,5 @@
 {% extends 'omaha_places_app/base.html' %}
+{% load static %}
 <!DOCTYPE html>
 
 <!--Template to display all restaurants-->
@@ -9,22 +10,24 @@
 <title>Restaurants</title> 
 
 <body>
-    <!--Page Header-->
-    <div class="header-text">
-        FOOD IN <span class="big-letter">O</span>MAHA
+    <!-- Header Text Image inside the image-header-container -->
+    <div class="image-header-container">
+        <div class="restaurant-image-title" style="background-image: url('{{ restaurant_images.10 }}');"></div>
+
+        <!-- Text Image -->
+        <div class="header-image-wrapper">
+            <img src="{% static 'omaha_places_app/restaurant-home_header_text.png' %}" alt="Omaha Attractions" class="header-text-image">
+        </div>
     </div>
-    <div class="restaurant-image-title" style="background-image: url('{{ restaurant_images.10 }}');"></div>
 
     <!-- Divider -->
     <hr class="divider">
 
     <!--List Restaurants and Categories-->
-    <div class="things2do-title1">
-        QUICKLY FIND A 
-    </div>
-    <div class="things2do-title2">
-        PLACE TO <span class="omaha-color">EAT</span>
-    </div>
+    <br/>
+    <div class="things2-do-image-wrapper"><center>
+        <img src="{% static 'omaha_places_app/restaurant-where_eat.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
+    </center></div>
 
     <div class="categories-restaurants">
         <div class="categories-slider">
@@ -142,19 +145,21 @@
         width: fit-content;
         height: 300px;
         display: inline-block;
-        background-color: #2317AE;
+        background: linear-gradient(to bottom, #2317AE, PaleGoldenRod); /* blue to black gradient */
         color: white;
-        padding: 30px;
-        border-radius: 20px;
+        padding: 20px;
+        border-radius: 10px;
         text-align: center;
         text-decoration: none;
         min-width: 200px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6); /* black shadow */
         cursor: pointer;
-        transition: transform 0.3s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+    
     .categories-card:hover {
         transform: scale(1.05);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.8); 
     }
 
     .categories-card h3 {
@@ -179,7 +184,7 @@
     .text-container h1 {
         font-size: 100px;
         text-transform: uppercase;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-family: 'Times New Roman', Times, serif;
         letter-spacing: -2px;
         transition: 700ms ease;
         font-variation-settings: "wght" 300;
@@ -338,6 +343,52 @@
         color: rgb(0, 29, 174);
         opacity: 1;
         font-size: 150px;
+    }
+
+/* Header Image Styles */
+    .image-header-container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: rgb(0, 0, 0);
+        overflow: hidden;
+        width: 100%;
+        height: 600px; 
+        position: relative;
+        margin: 0;
+    }
+
+    /* Wrapper for header text image */
+    .header-image-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); 
+        z-index: 1; 
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Text image styles */
+    .header-text-image {
+        width: 60%; 
+        max-width: 1000px;
+        height: auto;
+        filter: drop-shadow(2px 2px 5px black);
+        object-fit: contain; 
+    }
+
+    @media (max-width: 768px) {
+        .header-text-image {
+            width: 80vw;
+        }
+    } 
+
+/* quickly find a place to go */
+    .things2-do-image-wrapper img {
+        filter: none;
     }
 
 </style>

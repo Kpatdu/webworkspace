@@ -10,21 +10,17 @@
     <title>About Us</title>
 </head>
 
-<!-- Header Text -->
-<div class="header-text1">
-    ALL ABOUT
-</div>
-
-<div class="header-text2">
-    OMAHA <span class="large-L">L</span>OCATIONS
-</div>
-
 <!-- Static Image for Header -->
 <div class="image-header-container">
     <div class="fade-slideshow">
         <img src="{% static 'omaha_places_app/about-header-1.jpg' %}" alt="Slide 1" class="fade-image img1">
         <img src="{% static 'omaha_places_app/about-header-2.jpg' %}" alt="Slide 2" class="fade-image img2">
         <img src="{% static 'omaha_places_app/about-header-3.jpg' %}" alt="Slide 3" class="fade-image img3">
+    </div>
+
+     <!-- Text Image -->
+    <div class="header-image-wrapper">
+        <img src="{% static 'omaha_places_app/about_header_text.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
     </div>
 </div>
 
@@ -211,42 +207,33 @@
     }
     
 
-    /* Header text */
-    .header-text1 { /* First line of header */
+    /* Wrapper for header text image */
+    .header-image-wrapper {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-64%, -105%); /* text position */
-        color: white;
-        font-size: 50px;
-        font-weight: bold;
-        font-family: 'Arial Narrow', sans-serif;
-        text-shadow: 4px 4px 5px black; /* Strong black shadow */
-        z-index: 2; /* Ensure it appears above images */
-        text-align: center;
+        transform: translate(-50%, -50%); 
+        z-index: 1; 
         width: 100%;
-        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .header-text2 {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -63%);
-        color: white;
-        font-size: 72px !important;
-        font-weight: bold;
-        text-shadow: 4px 4px 10px black; 
-        z-index: 2; 
-        text-align: center;
-        width: 100%;
+    /* Text image styles */
+    .header-text-image {
+        width: 60%; 
+        max-width: 1000px;
         height: auto;
+        filter: drop-shadow(2px 2px 5px black);
+        object-fit: contain; 
     }
 
-    .large-L {
-        font-size: 125px; /* Increase the size of the "L" */
-        display: inline-block;
-    }
+    @media (max-width: 768px) {
+        .header-text-image {
+            width: 80vw;
+        }
+    } 
 
 
 /* Body Image Styles */

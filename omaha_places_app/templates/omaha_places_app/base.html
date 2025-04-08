@@ -40,7 +40,29 @@
   {% block script %}
 
   <style>
-    /* Divider style */
+  /* General reset to avoid overflow */
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
+  /* Navbar style */
+    .logo-float {
+      display: flex;
+      align-items: center;
+  }
+  
+  .logo-float img {
+      height: 60px; /* make it larger */
+  }
+
+  /* Divider style */
     hr.divider {
         border: 0;
         border-top: 3px solid black !important;

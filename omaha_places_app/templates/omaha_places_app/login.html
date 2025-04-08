@@ -1,5 +1,6 @@
 {% extends 'omaha_places_app/base.html' %}
 {% block content %}
+{% load static %}
 <html lang="en">
 
 <!--Page Title-->
@@ -8,16 +9,94 @@
     <title>Login</title>
 </head>
 
-<!--Login Form-->
-    <h1>User Login</h1>
-    <form class="form-with-validation" 
-    action="/login/" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <button>Login</button>
-    </form>
-    <h2>Don't have an account?</h2>
-    <div>Register <a href="{% url 'register' %}">Here!</a></a></div>
+<!--Page Content-->
+<body>
+<br/>
+    <!-- Login Card -->
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+          <div class="card mb-4 shadow-lg rounded">
+            
+            <!-- Login Header -->
+            <div class="text-white text-center rounded-top"
+                style="background: url('{% static 'omaha_places_app/home-header.png' %}') center center / cover no-repeat; height: 150px; display: flex; align-items: center; justify-content: center; position: relative;">
+              <h1>Login</h1>
+            </div>
 
-    
+        <!-- Display error message in red if present -->
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ form.non_field_errors }}</strong>
+            </div>
+        {% endif %}
+
+        <!-- Login Form -->
+        <form method="POST" action="/login/" class="p-3 border rounded">
+            {% csrf_token %}
+
+            <!-- Username Input -->
+            <div class="mb-3">
+                <strong><label for="id_username" class="form-label">Username</label></strong>
+                <input type="text" class="form-control" id="id_username" name="username" required>
+            </div>
+
+            <!-- Password Input -->
+            <div class="mb-3">
+                <strong><label for="id_password" class="form-label">Password</label></strong>
+                <input type="password" class="form-control" id="id_password" name="password" required>
+            </div>
+
+            <!-- Remember Me Checkbox -->
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="id_remember" name="remember">
+                <label class="form-check-label" for="id_remember">Remember me</label>
+            </div>
+
+            <!-- Buttons container (Login and Register) -->
+            <div class="d-flex justify-content-center mt-3">
+                <input type="submit" value="Login" class="btn text-white me-3"
+                    style="background-color:rgb(0, 0, 0); border-color:rgb(0, 0, 0);">
+                <a href="{% url 'register' %}" class="btn btn-link" style="color:rgb(255, 0, 0)";>Register</a>
+            </div>
+        </form>
+    </div></div></div>
+  </body>
+</html>
+{% endblock%}
+
+
+<!-- CSS -->
+{% block script %}
+<style>
+/* General reset to avoid overflow */
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
+/* Login Header */
+    .text-white.text-center.rounded-top h1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 48px !important;
+        font-weight: bold;
+        font-family: 'Arial', sans-serif;
+        text-shadow: 4px 4px 10px black; 
+        z-index: 2; 
+        text-align: center;
+        width: 100%;
+        height: auto;
+    }
+
+
+</style>
 {% endblock %}
