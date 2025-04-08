@@ -50,39 +50,20 @@
         </div>
     </div>
     
-
-<!-- Divider -->
-    <br/>
-    <hr class="divider">
-
-<!-- About the Developers -->
-<div class="about-container">
-    <!-- About the Devs Image -->
-    <div class="about-image">
-        <img src="{% static 'omaha_places_app/about-website.jpg' %}" alt="About Website" class="about-website-image">
-    </div>
-
-    <!-- About the Devs Text -->
-    <div class="about-text">
-        <div class="contact-us-title">
-            About the Developers
-        </div>
-        <div class="about-website-card">
-            Each developer on the team was responsible for a specific aspect of this web application. Here is a brief overview of each member’s role:
-            <ul class="developer-list">
-                <li>Antonio Goings - Creation of comment system</li>
-                <li>Tammy Le - Creation of location pages and UI design</li>
-                <li>Jackson Martin - Creation of search system</li>
-                <li>Hennysa Omoregie - Creation of database and UI design</li>
-                <li>Kristian Patdu - Creation of login and registration system</li>
-            </ul>
-        </div>        
-    </div>
+<!-- About the Devs Text -->
+<div class="text-container">
+    <h3>About the</h3>
+    <h1>Developers</h1>
+    <p>
+        <ul class="developer-list">
+            <li>Antonio Goings - Creation of comment system</li>
+            <li>Tammy Le - Creation of location pages and UI design</li>
+            <li>Jackson Martin - Creation of search system</li>
+            <li>Hennysa Omoregie - Creation of database and UI design</li>
+            <li>Kristian Patdu - Creation of login and registration system</li>
+        </ul>
+    </p>
 </div>
-
-<!-- Divider -->
-    <br/>
-    <hr class="divider">
 
 <!-- Contact Us Information -->
     <div class="contact-us-header1">
@@ -284,10 +265,50 @@
         border-radius: 10px;
     }
 
+    /* About the Developers Text*/
+    .text-container {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #111;
+        padding: 10px;
+    }
+    .text-container h3 {
+        font-size: 50px;
+        color: white;
+    }
+    .text-container h1 {
+        font-size: 100px;
+        text-transform: uppercase;
+        font-family: 'Times New Roman', Times, serif;
+        letter-spacing: -2px;
+        transition: 700ms ease;
+        font-variation-settings: "wght" 300;
+        margin-bottom: 0.8rem;
+        color: palegoldenrod;
+        outline: none;
+        text-align: center;
+    }
+    .text-container h1:hover {
+        font-variation-settings: "wght" 600; 
+        letter-spacing: 1px;
+    }
+    .text-container p {
+        font-size: 1.2em;
+        line-height: 150%;
+        text-align: center;
+        color: MintCream;
+        letter-spacing: .5px;
+    }  
+    
     .developer-list {
         padding-left: 25px;
         margin-top: 10px;
-    }    
+        color: white;
+    } 
 
 
     
