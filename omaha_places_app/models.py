@@ -1,8 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
-from django.urls import reverse
-
 '''
 To delete items from the database
 in the terminal: 
@@ -11,9 +8,10 @@ and paste one of the following:
 
 ### Option 1: Delte all objects from the database ###
 
-from omaha_places_app.models import Restaurant, Place
+from omaha_places_app.models import Restaurant, Place, Comment
 
 # Delete all restaurants (be careful with this!)
+Comment.objects.all().delete()
 Restaurant.objects.all().delete()
 Place.objects.all().delete()
 
@@ -78,3 +76,23 @@ class Place(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class Comment(models.Model):
+    '''
+    Model for adding comments on a restaurant or place.
+    '''
+
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True, blank=True, related_name='comments')
+    place = models.ForeignKey(Place, on_delete=models.CASCADE, null=True, blank=True, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta():
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+
+    def __str__(self):
+        return f"Comment by {self.user}"
+    

@@ -1,11 +1,12 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.views.generic import TemplateView, ListView
 from .models import *
 
 import os
 from dotenv import load_dotenv
-from omaha_places_app.api_key import replace_api_key
+from .api_key import replace_api_key
+
+from .forms import CommentForm
 
 RESTAURANT_CATEGORY_MAPPING = {
     "restaurant, bar, food, point_of_interest, establishment": "Bar",
@@ -165,6 +166,7 @@ class RestaurantsView(ListView):
 
         return context
 
+
 class RestaurantsViewAll(TemplateView):
     '''
     Class-based view to display all restaurants.
@@ -219,17 +221,39 @@ class RestaurantDetailView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        restaurant = Restaurant.objects.get(id=self.kwargs['pk'])
+
         dotenv_path = r'omaha_places_app\cache\googleapi.env'
         load_dotenv(dotenv_path=dotenv_path)
         GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
-
-        restaurant = Restaurant.objects.get(id=self.kwargs['pk'])
 
         if GOOGLE_API_KEY and restaurant.image and str(restaurant.image) != 'N/A':
             restaurant.image = replace_api_key(str(restaurant.image), GOOGLE_API_KEY)
 
         context['restaurant'] = restaurant
+        context['comments'] = restaurant.comments.all().order_by('-created_at')
+        
+        if self.request.user.is_authenticated:
+            context['comment_form'] = CommentForm()
+        else:
+            context['comment_form'] = None
+
         return context
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+
+        restaurant = Restaurant.objects.get(id=self.kwargs['pk'])
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.restaurant = restaurant
+            comment.save()
+
+        return redirect(request.path)
 
 
 class PlacesView(ListView):

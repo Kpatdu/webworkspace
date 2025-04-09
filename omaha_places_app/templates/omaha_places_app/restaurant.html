@@ -10,9 +10,11 @@
     <title>{{ restaurant.name }}</title>
 </head>
 
+<!--Restaurant Information-->
 <body>
-
     <img src="{{ restaurant.image }}" alt="{{ restaurant.name }} image" class="full-width-image" />
+
+    <!-- Divider -->
     <hr class="divider">
 
     <center>
@@ -25,16 +27,45 @@
     <p><strong>Price Level:</strong> {{ restaurant.price_level }}</p>
     <p><strong>Rating:</strong> ⭐{{ restaurant.rating }}</p>
     <p><strong>Description:</strong> {{ restaurant.description }}</p>
-    <p><strong>Website:</strong>{% if restaurant.website != 'N/A' %} <a href="{{ restaurant.website }}" target="_blank">{{ restaurant.website }}</a>{% else %}No website available.{% endif %}</p>
+    <p><strong>Website:</strong>{% if restaurant.website != 'N/A' %} <a href="{{ restaurant.website }}" target="_blank" style="color: #2317AE;">{{ restaurant.website }}</a>{% else %}No website available.{% endif %}</p>
     <p><strong>Phone:</strong> {{ restaurant.phone }}</p>
     
     </div>
     </center>
     <br/>
-    <hr class="divider">
 
-    <br>
-    <a href="{% url 'all_restaurants' %}?category={{ category }}">Back to All Restaurants</a>
+<!-- Display all comments related to the restaurant -->
+<div class = "comments-title"><h2>Comments</h2></title>
+<div class="comments-container">
+  <ul>
+    {% for comment in comments %}
+      <li><strong>{{ comment.user.username }}:</strong> {{ comment.text }} ({{ comment.created_at|date:"M d, Y H:i" }})</li>
+    {% empty %}
+      <li>No comments yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+
+<!-- Comment Form -->
+{% if comment_form %}
+  <div class="comment-form-container">
+    <form method="post">
+      {% csrf_token %}
+      <div class="comment-form">
+        {{ comment_form.as_p }}
+      </div>
+      <div class="button-container">
+        <button type="submit">Post Comment</button>
+      </div>
+    </form>
+  </div>
+{% else %}
+  <p class="login-to-comment"><a href="{% url 'login' %}?next={{ request.path }}" style="color: #2317AE;">Log in</a> to comment.</p>
+{% endif %}
+
+
+<!-- Back to all restaurants link -->
+<p class="back-to-restaurants"><a href="{% url 'all_restaurants' %}?category={{ category }}" style="color: #2317AE;">Back to All Locations</a></p>
 
 </body>
 </html>
@@ -43,11 +74,12 @@
 <!-- CSS -->
 {% block script %}
 <style>
+/* Restaurant Styles */
     /* Full-width image */
     .full-width-image {
         width: 100%;
         height: 600px;
-        margin-bottom: 0;  /* Remove margin from the image */
+        margin-bottom: 0; 
     }
     
     /* Divider style */
@@ -67,11 +99,118 @@
         text-align: left;
         box-sizing: border-box;
     }
-    a {
+    .restaurant-card a {
         display: flex;
         align-items: center;
         justify-content: center;
     }
-</style>
 
+/* Comments container */
+    .comments-title h2 {
+        margin-left: 20px;
+    }
+    .comments-container {
+        max-height: 300px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 15px;
+        background-color: #f9f9f9;
+        border-radius: 6px;
+    }
+
+    .comments-container a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+    /* Style individual comment list items */
+    .comments-container ul {
+        padding-left: 20px;
+    }
+
+    .comments-container li {
+        margin-bottom: 10px;
+        line-height: 1.4em;
+    }
+
+    .comment-form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%; 
+        margin-bottom: 20px;
+    }
+
+    .comment-form textarea {
+        width: 100%;  
+        max-width: 800px; 
+        height: 100px; 
+        padding: 10px;  
+        border: 1px solid #ccc;  
+        border-radius: 4px;  
+        font-size: 16px;  
+    }
+    
+    .comment-form {
+        margin-bottom: 10px;
+        width: 100%;
+        max-width: 800px; 
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center; 
+        width: 100%; 
+    }
+
+    .button-container button {
+        display: inline-block;
+        width: 150px; 
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #2317AE; 
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .button-container button:hover {
+        background-color:rgb(0, 0, 0); 
+    }
+
+    .login-to-comment a, .login-to-comment span {
+      display: inline;
+      margin: 0;
+      margin-left: 25px; 
+      padding: 0;
+      color: #2317AE;
+      text-decoration: underline;
+  }
+  
+  .login-to-comment {
+      text-align: left;
+      font-size: 16px;
+      margin-top: 10px;
+  }  
+
+  .back-to-restaurants a, .back-to-restaurants span {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    color: #2317AE;
+    text-decoration: underline;
+}
+
+  .back-to-restaurants {
+      text-align: center;
+      font-size: 16px;
+      margin-top: 10px;
+      margin-bottom: -20px;
+  }  
+    
+</style>
 {% endblock %}

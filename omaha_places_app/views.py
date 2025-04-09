@@ -106,19 +106,24 @@ def login_view(request):
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return redirect("home")
+            next_url = request.GET.get('next') or request.POST.get('next') or 'home'
+
+            return redirect(next_url)
     else:
         form = AuthenticationForm()
     
     return render(request, "omaha_places_app/login.html", {
-        "form" : form
-    })
+        "form": form,
+        "next": request.GET.get('next', '')
+        })
 
 
 def logout_view(request):
     '''
     View to handle user logout.
     '''
-    
+
+    next_url = request.GET.get('next', 'login')
     logout(request)
-    return redirect("login")
+
+    return redirect(next_url)

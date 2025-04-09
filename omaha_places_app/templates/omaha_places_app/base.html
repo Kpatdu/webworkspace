@@ -3,6 +3,7 @@
 <!doctype html>
 <html lang="en">
 
+<!--Bootstrap CSS-->
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -10,7 +11,6 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css">
-
 </head>
 
 
@@ -33,14 +33,14 @@
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-
+</body>
+</html>
 
 
 <!--CSS-->
-  {% block script %}
-
-  <style>
-  /* General reset to avoid overflow */
+{% block script %}
+<style>
+/* General reset to avoid overflow */
     * {
         box-sizing: border-box;
     }
@@ -52,7 +52,7 @@
         padding: 0;
     }
 
-  /* Navbar style */
+/* Navbar style */
     .logo-float {
       display: flex;
       align-items: center;
@@ -62,17 +62,12 @@
       height: 60px; /* make it larger */
   }
 
-  /* Divider style */
+/* Divider style */
     hr.divider {
         border: 0;
         border-top: 3px solid black !important;
         opacity: 1;
         margin: 0;
     }
-  </style>
-  
-  {% endblock %}
-
-</body>
-
-</html>
+</style>
+{% endblock %}
