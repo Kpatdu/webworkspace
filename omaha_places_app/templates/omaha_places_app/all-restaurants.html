@@ -3,7 +3,7 @@
 <!--Template to display all restaurants-->
 {% block content %}
 
-<!--Tab title-->
+<!--Tab Title-->
 <title>Restaurants</title> 
 
 <!--Page Header-->
@@ -32,7 +32,7 @@
         </ul>
     </div>
 
-    <!--Right Content: restaurants-->
+    <!--Right Content: Restaurants-->
     <div class="restaurants-content">
         {% if selected_category %}
             <h3>Restaurants in "{{ selected_category }}":</h3>
@@ -60,6 +60,7 @@
     </div>
 </div>
 
+
 <!--CSS-->
 <style>
 /* Restaurant Header */
@@ -84,7 +85,7 @@
         gap: 20px;
     }
 
-/* left sidebar */
+/* Left Sidebar */
     .categories-sidebar {
         width: 25%;
         background-color: #f4f4f4;
@@ -115,7 +116,8 @@
     .categories-sidebar a.active-category {
         color: red;
     }
-    /* right content */
+    
+/* Right Content */
     .restaurants-content {
         width: 75%;
     }

@@ -3,7 +3,7 @@
 <!--Template to display all places-->
 {% block content %}
 
-<!--Tab title-->
+<!--Tab Title-->
 <title>Places</title> 
 
 <!--Page Header-->
@@ -35,7 +35,7 @@
     <!-- Right Content: Places -->
     <div class="places-content">
         {% if selected_category %}
-            <h3>Places in "{{ selected_category }}"</h3>
+            <h3>Places in "{{ selected_category }}":</h3>
         {% else %}
             <h3>All Places</h3>
         {% endif %}
@@ -65,6 +65,7 @@
 
 <!--CSS-->
 <style>
+/* Header */
     .all_places_title {
         width: 100%;
         height: 300px;
@@ -86,7 +87,7 @@
         gap: 20px;
     }
 
-    /* Left Sidebar: Categories */
+/* Left Sidebar: Categories */
     .categories-sidebar {
         width: 25%;
         background-color: #f4f4f4;
@@ -118,7 +119,7 @@
         color: red;
     }
 
-    /* Right Content: Places */
+/* Right Content: Places */
     .places-content {
         width: 75%;
     }
@@ -169,5 +170,4 @@
     }
     
 </style>
-
 {% endblock %}

@@ -4,9 +4,8 @@ from .models import *
 
 import os
 from dotenv import load_dotenv
-from omaha_places_app.api_key import replace_api_key
+from .api_key import replace_api_key
 
-#comment imports
 from .forms import CommentForm
 
 RESTAURANT_CATEGORY_MAPPING = {

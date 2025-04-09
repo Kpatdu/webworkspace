@@ -36,7 +36,7 @@
                     <span class="nav-link text-white me-2" style="padding-top: 5px; padding-bottom: 5px;">
                         Logged in as: {{ user.username }}
                     </span>
-                    <a class="nav-link" href="{% url 'logout' %}" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">
+                    <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">
                         Logout&nbsp;
                     </a>
                 </li>
