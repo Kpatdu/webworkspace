@@ -59,7 +59,7 @@
                     <div class="d-flex justify-content-center mt-3">
                         <input type="submit" value="Login" class="btn text-white me-3"
                             style="background-color:rgb(0, 0, 0); border-color:rgb(0, 0, 0);">
-                        <a href="{% url 'register' %}" class="btn btn-link" style="color:rgb(255, 0, 0);">Register</a>
+                        <a href="{% url 'register' %}?next={{ next }}" class="btn btn-link" style="color:rgb(255, 0, 0);">Register</a>
                     </div>
                 </form>
             </div>

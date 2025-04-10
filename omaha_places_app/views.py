@@ -79,20 +79,27 @@ def register_view(request):
     '''
     View to handle user registration.
     '''
-
+    
     if request.user.is_authenticated:
         return redirect("home")  # Redirect if already logged in
     
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            login(request, form.save())
-            return redirect("home")
+            user = form.save()
+            login(request, user)  # Log the user in immediately
+            next_url = request.GET.get('next') or request.POST.get('next') or 'home'
+            
+            return redirect(next_url)
     else:
         form = UserCreationForm()
+    
     return render(request, "omaha_places_app/register.html", {
-        "form" : form
+        "form": form,
+        "next": request.GET.get('next', '')  # Ensure the next parameter is passed here
     })
+
+
 
 def login_view(request):
     '''
