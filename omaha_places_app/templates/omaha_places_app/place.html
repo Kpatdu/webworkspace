@@ -32,6 +32,35 @@
     </center>
     <br/>
     <hr class="divider">
+<!-- Display all comments related to the place -->
+<div class = "comments-title"><h2>Comments</h2></title>
+    <div class="comments-container">
+      <ul>
+        {% for comment in comments %}
+          <li><strong>{{ comment.user.username }}:</strong> {{ comment.text }} ({{ comment.created_at|date:"M d, Y H:i" }})</li>
+        {% empty %}
+          <li>No comments yet.</li>
+        {% endfor %}
+      </ul>
+    </div>
+    
+    <!-- Comment Form -->
+    {% if comment_form %}
+      <div class="comment-form-container">
+        <form method="post">
+          {% csrf_token %}
+          <div class="comment-form">
+            {{ comment_form.as_p }}
+          </div>
+          <div class="button-container">
+            <button type="submit">Post Comment</button>
+          </div>
+        </form>
+      </div>
+    {% else %}
+      <p class="login-to-comment"><a href="{% url 'login' %}?next={{ request.path }}" style="color: #2317AE;">Log in</a> to comment.</p>
+    {% endif %}
+
 
     <br>
     <a href="{% url 'all_places' %}?category={{ category }}">Back to All Places</a>

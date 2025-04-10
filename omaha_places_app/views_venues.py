@@ -350,5 +350,27 @@ class PlaceDetailView(TemplateView):
             place.image = replace_api_key(str(place.image), GOOGLE_API_KEY)
 
         context['place'] = place
+        context['comments'] = place.comments.all().order_by('-created_at')
+        
+        if self.request.user.is_authenticated:
+            context['comment_form'] = CommentForm()
+        else:
+            context['comment_form'] = None
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+
+        place = Place.objects.get(id=self.kwargs['pk'])
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.place = place
+            comment.save()
+
+        return redirect(request.path)
+    
