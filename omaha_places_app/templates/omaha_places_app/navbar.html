@@ -48,7 +48,8 @@
                 </li>
             {% endif %}
             <li class="nav-item">
-                <form class="d-flex" method="GET" action="">
+                <form class="d-flex" method="POST" action="/locations/">
+                    {% csrf_token %}
                     <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="..." aria-label="Search">
                     <button class="btn btn-outline-info btn-sm" type="submit" style="border-color: #17a2b8; color: #17a2b8;">Search</button>
                 </form>
