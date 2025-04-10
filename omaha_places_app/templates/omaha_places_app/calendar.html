@@ -1,0 +1,27 @@
+{% extends 'omaha_places_app/base.html' %}
+{% load static %}
+{% block content %}
+
+<!--Tab Title-->
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'omaha_places_app/css/calendar.css' %}">
+</head>
+
+<div class="calendar-section">
+    <!--Next/Previous Month Buttons-->
+    <div class="button-container">
+        <a class="btn btn-info rounded-0 btn-custom" href="{% url 'calendar' %}?{{ previous_month }}">Previous Month</a>
+        <a class="btn btn-info-right rounded-0 btn-custom" href="{% url 'calendar' %}?{{ next_month }}">Next Month</a>
+    </div>
+
+    <!--Calendar-->
+    <div class="calendar-wrapper">
+        {{ calendar }}
+    </div>
+</div>
+{% endblock %}
+
+<!--Removes Footer-->
+{% block footer%}{% endblock %}

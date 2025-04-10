@@ -1,0 +1,55 @@
+{% extends 'omaha_places_app/base.html' %}
+{% load static %}
+{% block content %}
+
+<!--Tab Title-->
+<head>
+  <meta charset="UTF-8">
+  <title>All Events</title>
+</head>
+
+<!--Search Results-->
+<div class="container">
+  
+  {% if query %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5>Search results for "{{ query }}":</h5>
+      {% if not events %}
+        <p>No events found.</p>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+<!--List Events-->
+  <div class="row justify-content-center" style="padding-top: 25px">
+    {% for event in events %}
+    <div class="col-md-15">  <!-- Increase md to increase card width. -->
+      <div class="card mb-4 shadow-lg rounded">
+        
+        <!-- Gradient header with blue-to-white ombre -->
+        <div class="text-white text-center rounded-top" 
+          style="background: linear-gradient(to right,rgb(0, 0, 0),#2317AE); height: 150px; display: flex; align-items: center; justify-content: center;">
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href="{% url 'event_edit' event.id %}" style="text-decoration: none; color:rgb(255, 0, 0);">
+                {{ event.name }}
+            </a>
+          </h5>
+          <p class="card-text">
+            <strong>Start Time:</strong> {{ event.start_time }}<br>
+            <strong>End Time:</strong> {{ event.end_time }}<br>
+            <strong>Location:</strong> {{ event.location }}<br>
+            <strong>Description:</strong> {{ event.description }}<br>
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

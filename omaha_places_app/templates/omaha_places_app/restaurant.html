@@ -10,7 +10,7 @@
     <title>{{ restaurant.name }}</title>
 </head>
 
-<!--Restaurant Information-->
+<!-- Restaurant Information -->
 <body>
     <img src="{{ restaurant.image }}" alt="{{ restaurant.name }} image" class="full-width-image" />
 
@@ -29,43 +29,47 @@
     <p><strong>Description:</strong> {{ restaurant.description }}</p>
     <p><strong>Website:</strong>{% if restaurant.website != 'N/A' %} <a href="{{ restaurant.website }}" target="_blank" style="color: #2317AE;">{{ restaurant.website }}</a>{% else %}No website available.{% endif %}</p>
     <p><strong>Phone:</strong> {{ restaurant.phone }}</p>
-    
     </div>
     </center>
     <br/>
 
-<!-- Display all comments related to the restaurant -->
-<div class = "comments-title"><h2>Comments</h2></title>
-<div class="comments-container">
-  <ul>
-    {% for comment in comments %}
-      <li><strong>{{ comment.user.username }}:</strong> {{ comment.text }} ({{ comment.created_at|date:"M d, Y H:i" }})</li>
-    {% empty %}
-      <li>No comments yet.</li>
-    {% endfor %}
-  </ul>
-</div>
+    <!-- Centered "Add Event" Button -->
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'event_new' %}?location_id={{ restaurant.id }}" class="btn btn-primary" style="background-color: #17a2b8; color: white; padding: 10px 20px; font-size: 16px;">Add Event</a>
+    </div>
+    <br/>
 
-<!-- Comment Form -->
-{% if comment_form %}
-  <div class="comment-form-container">
-    <form method="post">
-      {% csrf_token %}
-      <div class="comment-form">
-        {{ comment_form.as_p }}
+    <!-- Display all comments related to the restaurant -->
+    <div class="comments-title"><h2>Comments</h2></div>
+    <div class="comments-container">
+      <ul>
+        {% for comment in comments %}
+          <li><strong>{{ comment.user.username }}:</strong> {{ comment.text }} ({{ comment.created_at|date:"M d, Y H:i" }})</li>
+        {% empty %}
+          <li>No comments yet.</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Comment Form -->
+    {% if comment_form %}
+      <div class="comment-form-container">
+        <form method="post">
+          {% csrf_token %}
+          <div class="comment-form">
+            {{ comment_form.as_p }}
+          </div>
+          <div class="button-container">
+            <button type="submit">Post Comment</button>
+          </div>
+        </form>
       </div>
-      <div class="button-container">
-        <button type="submit">Post Comment</button>
-      </div>
-    </form>
-  </div>
-{% else %}
-  <p class="login-to-comment"><a href="{% url 'login' %}?next={{ request.path }}" style="color: #2317AE;">Log in</a> to comment.</p>
-{% endif %}
+    {% else %}
+      <p class="login-to-comment"><a href="{% url 'login' %}?next={{ request.path }}" style="color: #2317AE;">Log in</a> to comment.</p>
+    {% endif %}
 
-
-<!-- Back to all restaurants link -->
-<p class="back-to-restaurants"><a href="{% url 'all_restaurants' %}?category={{ category }}" style="color: #2317AE;">Back to All Locations</a></p>
+    <!-- Back to all restaurants link -->
+    <p class="back-to-restaurants"><a href="{% url 'all_restaurants' %}?category={{ category }}" style="color: #2317AE;">Back to All Locations</a></p>
 
 </body>
 </html>
@@ -105,7 +109,7 @@
         justify-content: center;
     }
 
-/* Comments container */
+    /* Comments container */
     .comments-title h2 {
         margin-left: 20px;
     }
@@ -123,7 +127,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-  }
+    }
 
     /* Style individual comment list items */
     .comments-container ul {
@@ -189,28 +193,28 @@
       padding: 0;
       color: #2317AE;
       text-decoration: underline;
-  }
+    }
   
-  .login-to-comment {
+    .login-to-comment {
       text-align: left;
       font-size: 16px;
       margin-top: 10px;
-  }  
+    }  
 
-  .back-to-restaurants a, .back-to-restaurants span {
-    display: inline;
-    margin: 0;
-    padding: 0;
-    color: #2317AE;
-    text-decoration: underline;
-}
+    .back-to-restaurants a, .back-to-restaurants span {
+      display: inline;
+      margin: 0;
+      padding: 0;
+      color: #2317AE;
+      text-decoration: underline;
+    }
 
-  .back-to-restaurants {
+    .back-to-restaurants {
       text-align: center;
       font-size: 16px;
       margin-top: 10px;
       margin-bottom: -20px;
-  }  
+    }  
     
 </style>
 {% endblock %}

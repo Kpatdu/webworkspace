@@ -1,6 +1,6 @@
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, ListView
-from .models import *
+from .models import Restaurant, Place, Event, Comment
 
 import os
 from dotenv import load_dotenv

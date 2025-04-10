@@ -2,11 +2,11 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout, login
-from .models import *
+from .models import Restaurant, Place, Event, Comment
 
 import os
 from dotenv import load_dotenv
-from omaha_places_app.api_key import replace_api_key
+from .api_key import replace_api_key
 
 
 class HomeView(TemplateView):

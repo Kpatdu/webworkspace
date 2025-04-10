@@ -1,5 +1,10 @@
 from django.db import models
+from django.urls import reverse
+
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
+
 '''
 To delete items from the database
 in the terminal: 
@@ -8,12 +13,13 @@ and paste one of the following:
 
 ### Option 1: Delte all objects from the database ###
 
-from omaha_places_app.models import Restaurant, Place, Comment
+from omaha_places_app.models import Restaurant, Place, Comment, Event
 
 # Delete all restaurants (be careful with this!)
 Comment.objects.all().delete()
 Restaurant.objects.all().delete()
 Place.objects.all().delete()
+Event.objects.all().delete()
 
 
 ### Alternatively: ###
@@ -43,6 +49,7 @@ class Restaurant(models.Model):
     rating = models.DecimalField('Rating', help_text = 'Rating of the restaurant', max_digits = 2, decimal_places = 1, blank = True, null = True)
     description = models.TextField('Description', help_text = 'Restaurant description')
     image = models.ImageField('Image', help_text = 'Image of the restaurant', upload_to = 'images/')
+    events = GenericRelation('Event')
 
     class Meta():
         verbose_name = 'Restaurant'
@@ -69,6 +76,7 @@ class Place(models.Model):
     rating = models.DecimalField('Rating', help_text = 'Rating of the restaurant', max_digits = 2, decimal_places = 1, blank = True, null = True)
     description = models.TextField('Description', help_text = 'Place description')
     image = models.ImageField('Image', help_text = 'Image of the place', upload_to = 'images/')
+    events = GenericRelation('Event')
 
     class Meta():
         verbose_name = 'Place'
@@ -95,4 +103,34 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.user}"
+
+
+class Event(models.Model):
+    '''
+    Model for adding events for a place or restaurant.
+    '''
     
+    user = models.ForeignKey(User, on_delete = models.CASCADE, null = True, blank = True, related_name = 'events')
+    name = models.CharField('Event Name', max_length = 100)
+    start_time = models.DateTimeField('Start Time')
+    end_time = models.DateTimeField('End Time')
+    description = models.TextField('Description', blank = True)
+
+    # Generic relation for location
+    content_type = models.ForeignKey(ContentType, on_delete = models.CASCADE, limit_choices_to = {
+        'model__in': ('place', 'restaurant')
+    })
+    object_id = models.PositiveIntegerField()
+    location = GenericForeignKey('content_type', 'object_id')
+
+    class Meta:
+        verbose_name = 'Event Scheduling'
+        verbose_name_plural = 'Event Scheduling'
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def get_html_url(self):
+        edit_url = reverse('event_edit', args = (self.id,))
+        return f'<a href="{edit_url}">{self.name}</a>'

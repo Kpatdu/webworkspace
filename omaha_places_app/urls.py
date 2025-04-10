@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from . import views, views_query, views_venues
+from . import views, views_query, views_venues, views_event
 
 urlpatterns = [
     path('', views.HomeView.as_view(), name = 'home'), # Home
@@ -21,4 +21,11 @@ urlpatterns = [
     path('register/', views.register_view, name= "register"), # Register
     path('login/', views.login_view, name="login"), # Login
     path('logout/', views.logout_view, name="logout"), #Logout
+
+    path('account/calendar/', views_event.CalendarView.as_view(), name = 'calendar'), # Calendar
+    path('account/calendar/new/', views_event.EventCreateView.as_view(), name = 'event_new'), # Add Event
+    path('account/calendar/all/', views_event.EventListView.as_view(), name = 'event_list'), # Event List
+    path('account/calendar/edit/<int:pk>/', views_event.EventUpdateView.as_view(), name = 'event_edit'), # Edit Event
+    path('account/calendar/delete/<int:pk>/', views_event.EventDeleteView.as_view(), name = 'event_delete'), # Delete Event
+    path('account/calendar/get_locations/', views_event.get_locations, name='get_locations'), # Get Locations
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
