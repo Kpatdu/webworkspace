@@ -2,6 +2,10 @@
 {% load widget_tweaks %}
 {% block content %}
 
+<!-- Template to display the form for adding a new event -->
+<!DOCTYPE html>
+<html lang="en">
+
 <!--Tab Title-->
 <head>
   <meta charset="UTF-8">
@@ -71,7 +75,8 @@
         </div>
 
         <div class="mb-3">
-          <center><button type="submit" class="btn" style="background-color:rgb(0, 0, 0); color: white;">Submit</button></center>
+          <center><button type="submit" class="btn" style="background-color:rgb(0, 0, 0); color: white;">Submit</button>
+          <a href="{% url 'calendar' %}" class="btn btn-secondary">Cancel</a></center>
         </div>
       </form>
     </div>

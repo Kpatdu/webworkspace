@@ -1,14 +1,17 @@
 {% extends 'omaha_places_app/base.html' %}
-
-<!--Template to display all places-->
+{% load static %}
 {% block content %}
 
+<!--Template to display all places-->
+<!DOCTYPE html>
+<html lang="en">
+    
 <!--Tab Title-->
 <title>Places</title> 
 
 <!--Page Header-->
 <div class="all_places_title" style="background-image: url('{{ place_images.10 }}');">
-    <h1 class="page-title">OMAHA ATTRACTIONS IN DETAIL</h1>
+    <img src="{% static 'omaha_places_app/place-all_header_text.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
 </div>
 
 <!-- Divider -->
@@ -21,6 +24,7 @@
     <div class="categories-sidebar">
         <h3>Categories</h3>
         <ul>
+            <li><a href="{% url 'all_places' %}" class="{% if not request.GET.category %}active-category{% endif %}">All</a></li>
             {% for category in predefined_category %}
             <li>
                 <a href="{% url 'all_places' %}?category={{ category }}" 
@@ -35,23 +39,21 @@
     <!-- Right Content: Places -->
     <div class="places-content">
         {% if selected_category %}
-            <h3>Places in "{{ selected_category }}":</h3>
+            <h3>Places in "{{ selected_category }}"</h3>
         {% else %}
             <h3>All Places</h3>
         {% endif %}
         <div class="place-list">
             {% for place in all_places %}
                 <div class="place-card">
-                    <h2>{{ place.name }}</h2>
-                    <p><strong>Address:</strong> {{ place.address }}</p>        
-                    <p><strong>Category:</strong> {{ place.predefined_category }}</p>
-                    <p><strong>Rating:</strong> ⭐ {{ place.rating }}</p>
-                    
                     {% if place.image %}
                         <img src="{{ place.image }}" alt="{{ place.name }}" class="place-image">
                     {% endif %}
+                    <!-- Place Name and Address -->
+                    <h2>{{ place.name }}</h2>
+                    <p><strong>Address:</strong> {{ place.address }}</p> 
                     <!-- Add a link to each place's detail page -->
-                    <p><a href="{% url 'place_detail' place.id %}">View Details</a></p>
+                    <p class="view-details"><a href="{% url 'place_detail' place.id %}" color="#2317AE">View Details</a></p>
                 </div>
             {% empty %}
                 <p>No places available.</p>
@@ -59,16 +61,16 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
 
-
-
-<!--CSS-->
+<!-- CSS -->
+{% block script %}
 <style>
 /* Header */
     .all_places_title {
         width: 100%;
-        height: 300px;
+        height: 400px;
         background-size: cover;
         background-position: center;
         display: flex;
@@ -76,11 +78,14 @@
         justify-content: center;
     }
 
-    .all_places_title h1 {
-        color: white;
-        font-size: 50px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
+    /* Text image styles */
+    .header-text-image {
+        width: 60%; 
+        max-width: 1000px;
+        height: auto;
+        filter: drop-shadow(2px 2px 5px black);
+        object-fit: contain; 
+    }
 
     .all-places-container {
         display: flex;
@@ -90,7 +95,7 @@
 /* Left Sidebar: Categories */
     .categories-sidebar {
         width: 25%;
-        background-color: #f4f4f4;
+        background-color:rgb(241, 241, 241);
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -124,31 +129,68 @@
         width: 75%;
     }
 
-    .place-list { 
-        display: flex; 
-        flex-wrap: wrap; 
-        gap: 20px; 
-        justify-content: flex-start;
+    /* Grid Layout for Places */
+    .place-list {
+        display: grid; /* Use CSS Grid */
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        justify-items: center;
     }
 
-    .place-card { 
-        border: 1px solid #ccc; 
-        padding: 10px; 
-        border-radius: 8px; 
-        width: 300px; 
+    .place-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 8px;
         text-align: left;
         box-sizing: border-box;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        height: 100%; /* Ensure it stretches the height to make space for all content */
+        width: 100%;
     }
 
     .place-image {
-        width: 100%;  
-        height: 200px;  
+        width: 100%;
+        height: 200px;
         object-fit: cover;
         border-radius: 4px;
     }
 
-    /* Pagination */
+    .place-card h2 {
+        margin-bottom: 10px;
+    }
+
+    .place-card p {
+        margin-bottom: 10px;
+    }
+
+/* Ensure 'View Details' link is at the bottom */
+    .place-card .view-details {
+        margin-top: auto; /* Push this link to the bottom */
+        align-self: center;
+    }
+
+    .place-card .view-details a {
+        text-decoration: none;
+        color: #2317AE;
+        font-weight: bold;
+    }
+
+    /* Divider style */
+    hr.divider {
+        border: 0;
+        border-top: 1px solid black !important;
+        margin-top: 0px;
+    }
+
+    .page-title {
+        text-align: center;
+        margin: 0;
+    }
+
+/* Pagination */
     .pagination {
         margin-top: 20px;
         text-align: center;
@@ -163,11 +205,5 @@
     .pagination span {
         margin: 0 5px;
     }
-
-    .page-title {
-        text-align: center;
-        margin: 0;
-    }
-    
 </style>
 {% endblock %}

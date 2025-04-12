@@ -11,11 +11,11 @@ in the terminal:
 python manage.py shell
 and paste one of the following:
 
-### Option 1: Delte all objects from the database ###
+### Option 1: Delete all objects from the database ###
 
 from omaha_places_app.models import Restaurant, Place, Comment, Event
 
-# Delete all restaurants (be careful with this!)
+# Delete all objects (or pick one or more)
 Comment.objects.all().delete()
 Restaurant.objects.all().delete()
 Place.objects.all().delete()

@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from . import views, views_query, views_venues, views_event
+from . import views, views_query, views_venues, views_event, views_account
 
 urlpatterns = [
     path('', views.HomeView.as_view(), name = 'home'), # Home
@@ -18,14 +18,15 @@ urlpatterns = [
     path('locations/', views_query.LocationsView.as_view(), name = 'locations'), # Locations
 
     
-    path('register/', views.register_view, name= "register"), # Register
-    path('login/', views.login_view, name="login"), # Login
-    path('logout/', views.logout_view, name="logout"), #Logout
+    path('register/', views_account.register_view, name = 'register'), # Register
+    path('login/', views_account.login_view, name = 'login'), # Login
+    path('logout/', views_account.logout_view, name = 'logout'), # Logout
+    path('account/', views_account.AccountView.as_view(), name = 'account'), # Account
 
     path('account/calendar/', views_event.CalendarView.as_view(), name = 'calendar'), # Calendar
     path('account/calendar/new/', views_event.EventCreateView.as_view(), name = 'event_new'), # Add Event
     path('account/calendar/all/', views_event.EventListView.as_view(), name = 'event_list'), # Event List
     path('account/calendar/edit/<int:pk>/', views_event.EventUpdateView.as_view(), name = 'event_edit'), # Edit Event
     path('account/calendar/delete/<int:pk>/', views_event.EventDeleteView.as_view(), name = 'event_delete'), # Delete Event
-    path('account/calendar/get_locations/', views_event.get_locations, name='get_locations'), # Get Locations
+    path('account/calendar/get_locations/', views_event.get_locations, name = 'get_locations'), # Get Locations
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

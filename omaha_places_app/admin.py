@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Restaurant, Place, Comment
+from .models import Restaurant, Place, Comment, Event
 
 @admin.register(Restaurant)
 class RestaurantAdmin(admin.ModelAdmin):
@@ -15,6 +15,16 @@ class PlaceAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'place', 'text', 'created_at')
+    list_display = ('user', 'place', 'restaurant', 'text', 'created_at')
     list_filter = ('created_at',)
-    search_fields = ('user', 'place', 'text',)
+    search_fields = ('user', 'place', 'restaurant', 'text',)
+
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    list_display = ('name', 'start_time', 'end_time', 'get_location_name')
+    list_filter = ('name', 'start_time', 'end_time',)
+    search_fields = ('name', 'start_time', 'end_time',)
+
+    def get_location_name(self, obj):
+        return str(obj.location) if obj.location else 'N/A'
+    get_location_name.short_description = 'Location'

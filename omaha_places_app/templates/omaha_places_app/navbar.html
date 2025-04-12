@@ -1,8 +1,10 @@
 {% load static %}
+
+<!--Template for the Navigation Bar-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-black">
     <div class="container-fluid">
     
-        <!-- Event Logo: When clicked, go to home page. -->
+        <!-- Logo: When clicked, go to home page. -->
         <a class="navbar-brand logo-float" href="{% url 'home' %}" style="padding-top: 5px; padding-bottom: 5px;">
             <img src="{% static 'omaha_places_app/logo.png' %}" alt="Logo" style="height: 60px; margin-top: -15px; margin-bottom: -15px; object-fit: contain;">
         </a>        
@@ -15,18 +17,32 @@
         <!-- Left-aligned navigation links -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-0">
+                <!--Home-->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">Home</a>
+                    <a class="nav-link" href="{% url 'home' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">HOME</a>
                 </li>
+
+                <!--Restaurants-->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home_restaurants' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">Restaurants</a>
+                    <a class="nav-link" href="{% url 'home_restaurants' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">RESTAURANTS</a>
                 </li>
+
+                <!--Places-->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home_places' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">Places</a>
+                    <a class="nav-link" href="{% url 'home_places' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">PLACES</a>
                 </li>
+
+                <!--About Us-->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">About Us</a>
+                    <a class="nav-link" href="{% url 'about' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">ABOUT US</a>
                 </li>
+
+                <!--Admin Panel-->
+                {% if request.user.is_authenticated and request.user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">ADMIN PANEL</a>
+                    </li>
+                {% endif %}
             </ul>
 
     <!-- Right-aligned: Login/Logout and Search -->
@@ -34,23 +50,25 @@
             {% if request.user.is_authenticated %}
                 <li class="nav-item d-flex align-items-center">
                     <span class="nav-link text-white me-2" style="padding-top: 5px; padding-bottom: 5px;">
-                        Logged in as: {{ user.username }}
+                        LOGGED IN AS: <a href="{% url 'account' %}" style="color: PaleGoldenRod; text-transform: uppercase;">{{ user.username }}</a>
                     </span>
                     <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">
-                        Logout&nbsp;
+                        LOGOUT&nbsp;
                     </a>
                 </li>
             {% else %}
                 <li class="nav-item">
                     <a class="nav-link text-white me-2" href="{% url 'login' %}" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">
-                        Login
+                        LOGIN
                     </a>
                 </li>
             {% endif %}
+
+            <!--Search-->
             <li class="nav-item">
                 <form class="d-flex" method="GET" action="">
                     <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="..." aria-label="Search">
-                    <button class="btn btn-outline-info btn-sm" type="submit" style="border-color: #17a2b8; color: #17a2b8;">Search</button>
+                    <button class="btn btn-outline-info btn-sm" type="submit" style="border-color: #17a2b8; color: #17a2b8;">SEARCH</button>
                 </form>
             </li>
         </ul>
@@ -68,6 +86,5 @@
         position: relative;
         filter: drop-shadow(0 0 0 black) drop-shadow(2px 2px 0 black) drop-shadow(-1px -1px 0 black);
     }
-
 </style>
 {% endblock %}

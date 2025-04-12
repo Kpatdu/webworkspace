@@ -1,10 +1,12 @@
 {% extends 'omaha_places_app/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-
-<!-- Display Home -->
 {% block content %}
+
+<!--Template to Displat the Home Page-->
+<!DOCTYPE html>
 <html lang="en">
+
+    <!--Tab Title-->
     <head>
         <meta charset="UTF-8">
         <title>Omaha Locations</title>
@@ -67,7 +69,7 @@
             <div class="text-container">
                 <h3>Are you new here?</h3>
                 <h1><a href="{% url 'register' %}" style="color: PaleGoldenRod; text-decoration: none;">REGISTER TODAY</a></h1>
-                <p>...to comment and review locations.</p>
+                <p>With an account, you can comment, favorite locations, and create events!</p>
                 <p>Otherwise, <a href="{% url 'login' %}" style="color: PaleGoldenRod; text-decoration: none;">login</a>.</p>
             </div>
         {% endif %}
@@ -317,7 +319,7 @@
 /* Divider style */
     hr.divider {
         border: 0;
-        border-top: 3px solid black !important;
+        border-top: 1px solid black !important;
         opacity: 1;
         margin: 0;
     }

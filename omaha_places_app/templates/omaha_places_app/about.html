@@ -1,17 +1,20 @@
 {% extends 'omaha_places_app/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-
 {% block content %}
+
+<!-- Template to display the about us page -->
+<!DOCTYPE html>
 <html lang="en">
 
+<!-- Tab Title-->
 <head>
     <meta charset="UTF-8">
     <title>About Us</title>
 </head>
 
-<!-- Static Image for Header -->
+<!-- Header -->
 <div class="image-header-container">
+    <!--Slideshow Header BG-->
     <div class="fade-slideshow">
         <img src="{% static 'omaha_places_app/about-header-1.jpg' %}" alt="Slide 1" class="fade-image img1">
         <img src="{% static 'omaha_places_app/about-header-2.jpg' %}" alt="Slide 2" class="fade-image img2">
@@ -30,6 +33,11 @@
 <body>
 <!-- About the Website -->
     <div class="about-container">
+        <!-- About the Website Image -->
+        <div class="about-image">
+            <img src="{% static 'omaha_places_app/about-website.jpg' %}" alt="About Website" class="about-website-image">
+        </div>
+
         <!-- About the Website Text -->
         <div class="about-text">
             <div class="contact-us-title">
@@ -42,11 +50,6 @@
                 The platform is designed to provide a comprehensive guide to Omaha's unique culture and history, 
                 while also providing a platform for local businesses to advertise their services. 
             </div>
-        </div>
-        
-        <!-- About the Website Image -->
-        <div class="about-image">
-            <img src="{% static 'omaha_places_app/about-website.jpg' %}" alt="About Website" class="about-website-image">
         </div>
     </div>
     
@@ -66,35 +69,37 @@
 </div>
 
 <!-- Contact Us Information -->
-    <div class="contact-us-header1">
-        DO YOU HAVE
-    </div>
-    <div class="contact-us-header2">
-        SOMETHING TO <span class="say-color">SAY?</span>
-    </div>
+    <div class="things2-do-image-wrapper"><center>
+        <img src="{% static 'omaha_places_app/about_saysomething.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
+    </center></div>
+
     <div class="contact-container">
         <div class="contact-text">
+            <!--Title-->
             <div class="contact-us-title">
                 Contact Us
             </div>
+
+            <!--Body-->
             <div class="contact-us-body">
                 If you have a question or if you'd like more information on our website, 
                 please feel free to contact us using the form here: 
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc_Mz3iUUPUSySJVDbbekokOe-cksbjBZ1a-4BJQbSw2r_KeQ/viewform?usp=sharing">[link]</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc_Mz3iUUPUSySJVDbbekokOe-cksbjBZ1a-4BJQbSw2r_KeQ/viewform?usp=sharing" style="color: #001d5e">[link]</a>
                 <br/><br/>
                 If you are a business owner or a local business, you can also advertise your services on our website.
                 You can use this following form if you'd like to have a venue added to our website: 
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeZy6T7DrAwmN2qfYdHOQGxbRF0oA9l3099HtgDxSPz6Hp5jw/viewform?usp=sharing">[link]</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeZy6T7DrAwmN2qfYdHOQGxbRF0oA9l3099HtgDxSPz6Hp5jw/viewform?usp=sharing" style="color: #001d5e">[link]</a>
             </div>
         </div>
+
+        <!-- Contact Us Image -->
         <div class="contact-image">
             <img src="{% static 'omaha_places_app/about-contact-us.jpg' %}" alt="Contact Us" class="contact-us-image">
         </div>
     </div>
     <br/>
-
-
 </body>
+
 </html>
 {% endblock %}
 
@@ -262,7 +267,6 @@
         max-width: 300px;
         height: auto;
         object-fit: cover;
-        border-radius: 10px;
     }
 
     /* About the Developers Text*/
@@ -313,33 +317,8 @@
 
     
 /* Contact Us Information */body
-    /* Do you have */
-    .contact-us-header1 {
-        font-size: 125px;
-        font-weight: bold;
-        font-family: 'Arial Narrow', sans-serif;
-        color: rgba(0, 29, 174, 0.4);
-        transform: translate(5%, 0%);
-        margin-top: 0px;
-        margin-bottom: 0px;
-    }
-
-    /* something to say? */
-    .contact-us-header2 {
-        font-size: 125px;
-        font-weight: bold;
-        font-family: 'Arial Narrow', sans-serif;
-        color: rgba(0, 29, 174, 0.4);
-        transform: translate(20%, 0%);
-        margin-top: -125px;
-        margin-bottom: -50px;
-    }
-
-    /* Omaha color */
-    .say-color {
-        color: rgb(0, 29, 174);
-        opacity: 1;
-        font-size: 150px;
+    .things2-do-image-wrapper img {
+        filter: none;
     }
 
     /* Contact container to position elements in two columns */
@@ -388,15 +367,12 @@
         max-width: 350px;
         height: auto;
         object-fit: cover;
-        border-radius: 10px;
     }
-
-
 
 /* Divider style */
     hr.divider {
         border: 0;
-        border-top: 3px solid black !important;
+        border-top: 1px solid black !important;
         opacity: 1;
         margin: 0;
     }

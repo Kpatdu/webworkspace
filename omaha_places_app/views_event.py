@@ -1,31 +1,20 @@
+import calendar
+from datetime import datetime, timedelta, date
+
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
-from datetime import datetime, timedelta, date
-import calendar
 
 from .models import Restaurant, Place, Event
 from .forms import EventForm
 from .utils import Calendar
+from .mixins import RedirectIfNotAuthenticatedMixin
 
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.contrib.auth.views import reverse_lazy 
 from django.utils.safestring import mark_safe
-
-
-class RedirectIfNotAuthenticatedMixin(LoginRequiredMixin):
-    '''
-    Mixin that redirects unauthenticated users to the homepage
-    if they attempt to access views requiring login.
-    '''
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect('home')
-        
-        return super().dispatch(request, *args, **kwargs)
     
 
 class CalendarView(RedirectIfNotAuthenticatedMixin, ListView):
@@ -96,7 +85,7 @@ class CalendarView(RedirectIfNotAuthenticatedMixin, ListView):
         context['calendar'] = mark_safe(html_calendar)
         context['previous_month'] = self.previous_month(cal_day)
         context['next_month'] = self.next_month(cal_day)
-        context['events'] = user_events  # Pass filtered events to the template
+        context['events'] = user_events
 
         return context
 
@@ -153,12 +142,11 @@ class EventCreateView(RedirectIfNotAuthenticatedMixin, CreateView):
 
         if location_id:
             location_value = None
-            # Try to fetch as a restaurant first
-            try:
+            
+            try: # Try to fetch as a restaurant first
                 location = get_object_or_404(Restaurant, id = location_id)
                 location_value = f'restaurant:{location.id}'
-            except Restaurant.DoesNotExist:
-                # If not found, try fetching as a place
+            except Restaurant.DoesNotExist: # If not found, try fetching as a place
                 try:
                     location = get_object_or_404(Place, id = location_id)
                     location_value = f'place:{location.id}'
@@ -174,6 +162,7 @@ class EventCreateView(RedirectIfNotAuthenticatedMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+
 class EventUpdateView(RedirectIfNotAuthenticatedMixin, UpdateView):
     '''
     Class-based view to update an existing event.
@@ -183,6 +172,20 @@ class EventUpdateView(RedirectIfNotAuthenticatedMixin, UpdateView):
     form_class = EventForm
     template_name = 'omaha_places_app/event_edit.html'
     success_url = reverse_lazy('calendar')
+
+    def get_queryset(self):
+        return Event.objects.all()
+    
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.user != request.user:
+            messages.warning(request, 'You do not have permission to delete this event.')
+            return redirect('calendar')
+        
+        return super().dispatch(request, *args, **kwargs)
+
+    def handle_no_permission(self):
+        return redirect('calendar')
 
 
 class EventDeleteView(RedirectIfNotAuthenticatedMixin, DeleteView):
@@ -196,18 +199,35 @@ class EventDeleteView(RedirectIfNotAuthenticatedMixin, DeleteView):
     success_url = reverse_lazy('calendar')
 
     def get_queryset(self):
-        return Event.objects.filter(user = self.request.user)
+        return Event.objects.all()
+    
+    def handle_no_permission(self):
+        return redirect('calendar')
+    
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.user != request.user:
+            messages.warning(request, "You do not have permission to delete this event.")
+            return redirect('calendar')
+        
+        return super().dispatch(request, *args, **kwargs)
 
-    # Handle the confirmation page
     def get(self, request, *args, **kwargs):
+        '''
+        Handle the confirmation page
+        '''
+
         context = {
             'event': self.get_object()
         }
 
         return self.render_to_response(context)
 
-    # Handle the deletion when the user confirms
     def post(self, request, *args, **kwargs):
+        '''
+        Handle the deletion when the user confirms
+        '''
+
         event = self.get_object()
         event.delete()
 
@@ -229,4 +249,5 @@ def get_locations(request):
         return JsonResponse({'error': 'Invalid location type'}, status = 400)
 
     data = [{'id': loc.pk, 'name': loc.name} for loc in locations]
+    
     return JsonResponse({'locations': data})

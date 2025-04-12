@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from .models import Restaurant, Place, Event, Comment
+from .models import Restaurant, Place
 
 
 class LocationsView(TemplateView):
