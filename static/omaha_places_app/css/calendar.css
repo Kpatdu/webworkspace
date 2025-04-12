@@ -1,0 +1,135 @@
+/* Body styling */
+body {
+    font-family: "ptsans", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #ffffff;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Calendar appearance */
+.title {
+    text-align: center;
+    margin: 10px;
+}
+
+/* Calendar container with shadow */
+.calendar {
+    width: 100%;
+    margin: 0 auto;
+    font-size: 13px;
+    border-collapse: collapse;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Month-Year Title */
+.month {
+    font-size: 25px;
+    color: white;
+    background: #000000;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
+}
+
+/* Day headers (Sun, Mon, etc.) */
+.calendar th {
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    background:  #000000;
+}
+
+/* Individual calendar cells */
+.calendar td {
+    width: 200px;
+    height: 85px;
+    padding: 5px 0px 0px 5px;
+    background-color: #ffffff;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+    border: 2px solid #8C8C8C;
+}
+
+/* Date numbers inside the calendar */
+.calendar .date {
+    font-size: 16px;
+    color: black;
+    font-weight: bold;
+}
+
+/* Events inside the calendar */
+.calendar .event {
+    color: red;
+}
+
+/* Links inside the event section */
+.calendar .event a {
+    color: #2317AE; 
+    text-decoration: none; 
+}
+
+/* Hover effect to event links */
+.calendar .event a:hover {
+    color: #1d137a; 
+}
+
+/* Custom button style */
+.btn-custom {
+    background-color: #000000;
+    color: white;
+    border: none;
+    outline: none;          
+    box-shadow: none;           
+    transition: background-color 0.3s ease; 
+}
+
+/* Hover state */
+.btn-custom:hover {
+    background-color: #2317AE;
+    color: white;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.btn-custom:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
+/* Calendar Wrapper */
+.calendar-wrapper {
+    width: calc(100% - 50px); 
+    margin: 0 auto; 
+    margin-bottom: 20px;
+}
+
+/* Previous/Next Month Buttons */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0px;
+    width: 90%;
+    margin-left: 5%; 
+}
+
+.button-container .btn-custom {
+    margin: 0 10px;
+}
+
+.main-content {
+    padding-top: 0;
+  }
+  
+.calendar-section {
+    padding-top: 25px;
+  }

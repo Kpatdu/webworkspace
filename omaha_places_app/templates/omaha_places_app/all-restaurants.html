@@ -1,14 +1,17 @@
 {% extends 'omaha_places_app/base.html' %}
+{% load static %}
+{% block content %}
 
 <!--Template to display all restaurants-->
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
 
 <!--Tab Title-->
 <title>Restaurants</title> 
 
 <!--Page Header-->
 <div class="all_restaurants_title" style="background-image: url('{{ restaurant_images.10 }}');">
-    <h1 class="page-title">RESTAURANTS IN DETAIL</h1>
+    <img src="{% static 'omaha_places_app/restaurant-all_header_text.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
 </div>
 
 <!-- Divider -->
@@ -21,6 +24,7 @@
     <div class="categories-sidebar">
         <h3>Categories</h3>
         <ul>
+            <li><a href="{% url 'all_restaurants' %}" class="{% if not request.GET.category %}active-category{% endif %}">All</a></li>
             {% for category in predefined_category %}
             <li>
                 <a href="{% url 'all_restaurants' %}?category={{ category }}" 
@@ -35,23 +39,21 @@
     <!--Right Content: Restaurants-->
     <div class="restaurants-content">
         {% if selected_category %}
-            <h3>Restaurants in "{{ selected_category }}":</h3>
+            <h3>Restaurants in "{{ selected_category }}"</h3>
         {% else %}
             <h3>All Restaurants</h3>
         {% endif %}
         <div class="restaurant-list">
             {% for restaurant in all_restaurants %}
                 <div class="restaurant-card">
-                    <h2>{{ restaurant.name }}</h2>``
-                    <p><strong>Address:</strong> {{ restaurant.address }}</p>
-                    <p><strong>Category:</strong> {{ restaurant.category }}</p>
-                    <p><strong>Rating:</strong> ⭐ {{ restaurant.rating }}</p>
-                    
                     {% if restaurant.image %}
                         <img src="{{ restaurant.image }}" alt="{{ restaurant.name }}" class="restaurant-image">
                     {% endif %}
+                    <!--Restaurant Name and Address-->
+                    <h2>{{ restaurant.name }}</h2>
+                    <p><strong>Address:</strong> {{ restaurant.address }}</p>
                     <!-- Add a link to each restaurant's detail page -->
-                    <p><a href="{% url 'restaurant_detail' restaurant.id %}">View Details</a></p>
+                    <p class="view-details"><a href="{% url 'restaurant_detail' restaurant.id %}" color="#2317AE">View Details</a></p>
                 </div>
             {% empty %}
                 <p>No restaurants available.</p>
@@ -59,14 +61,15 @@
         </div>
     </div>
 </div>
-
+{% endblock %}
 
 <!--CSS-->
+{% block script %}
 <style>
 /* Restaurant Header */
     .all_restaurants_title {
         width: 100%;
-        height: 300px;
+        height: 400px;
         background-size: cover;
         background-position: center;
         display: flex;
@@ -74,21 +77,24 @@
         justify-content: center;
     }
 
-    .all_restaurants_title h1 {
-        color: white;
-        font-size: 50px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
     .all-restaurants-container {
         display: flex;
         gap: 20px;
     }
 
+    /* Text image styles */
+    .header-text-image {
+        width: 60%; 
+        max-width: 1000px;
+        height: auto;
+        filter: drop-shadow(2px 2px 5px black);
+        object-fit: contain; 
+    }
+
 /* Left Sidebar */
     .categories-sidebar {
         width: 25%;
-        background-color: #f4f4f4;
+        background-color:rgb(241, 241, 241);
         padding: 30px;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -122,31 +128,55 @@
         width: 75%;
     }
     .restaurant-list {
-        display: flex;
-        flex-wrap: wrap; 
-        gap: 20px; 
-        justify-content: flex-start;
+        display: grid; /* Use CSS Grid */
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        justify-items: center; 
     }
+    
     .restaurant-card {
-        border: 1px solid #ccc; 
-        padding: 10px; 
-        border-radius: 8px; 
-        width: 300px; 
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 8px;
         text-align: left;
         box-sizing: border-box;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        height: 100%; 
+        width: 100%;
     }
+    
     .restaurant-image {
         width: 100%;  
         height: 200px;  
         object-fit: cover;
         border-radius: 4px;
     }
+    
+    .restaurant-card h2 {
+        margin-bottom: 10px;
+    }
+    
+    .restaurant-card p {
+        margin-bottom: 10px;
+    }
+    
+    .restaurant-card .view-details {
+        margin-top: auto;
+        align-self: center; 
+    }
+    
+    .restaurant-card .view-details a {
+        text-decoration: none;
+        color: #2317AE;
+        font-weight: bold;
+    }    
 
-/* Divider style */
+/* Divider Style */
     hr.divider {
         border: 0;
-        border-top: 3px solid black !important;
+        border-top: 1px solid black !important;
         opacity: 1;
         margin: 0;
     }

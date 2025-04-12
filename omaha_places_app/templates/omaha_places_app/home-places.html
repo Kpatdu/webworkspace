@@ -1,9 +1,10 @@
 {% extends 'omaha_places_app/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-
-<!--Template to display all places-->
+{% load mathfilters custom_filters %}
 {% block content %}
+
+<!--Template for Places Home Page-->
+<!DOCTYPE html>
 <html lang="en">
 
 <!--Tab Title-->
@@ -12,7 +13,7 @@
 
 <!-- Header Text Image inside the image-header-container -->
 <div class="image-header-container">
-    <div class="place-image-title" style="background-image: url('{{ place_images.13 }}');"></div>
+    <div class="place-image-title" style="background-image: url('{% static 'omaha_places_app/place-home_header.jpg' %}');"></div>
 
     <!-- Text Image -->
     <div class="header-image-wrapper">
@@ -24,24 +25,46 @@
 <hr class="divider">
 
 <!--List Places and Categories-->
-<div class="things2-do-image-wrapper"><center>
-    <img src="{% static 'omaha_places_app/place-where_go.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
-</center></div>
+<br/>
+    <!--List Places and Categories-->
+    <br/>
+    <div class="categories-wrapper">
+        <!-- Left Background -->
+        <div class="beige-bg"></div>
+      
+        <!-- Text box (on top of bg) -->
+        <div class="category-text">
+          <h2>Explore by Category</h2>
+          <p>Discover the best places in Omaha by category — from scenic parks to historic landmarks and hidden gems.</p>
+        </div>
+      
+        <!-- Horizontal scroll slider on the right -->
+        <div class="categories-slider-container">
+          <div class="categories-slider">
+            {% for category in predefined_category %}
+              {% with offset_index=forloop.counter0|add:"20" %}
+                {% with image=place_images|index:offset_index %}
+                  <a href="{% url 'all_places' %}?category={{ category }}"
+                     class="categories-card"
+                     style="background-image: url('{{ image }}'); background-size: cover; background-position: center;">
+                    <h3>{{ category }}</h3>
+                  </a>
+                {% endwith %}
+              {% endwith %}
+            {% endfor %}
+          </div>
+        </div>
+        
 
-<div class="categories-places">
-    <div class="categories-slider">
-        {% for category in predefined_category %}
-        <a href="{% url 'all_places' %}?category={{ category }}" class="categories-card">
-            <h3>{{ category }}</h3>
-        </a>
-        {% endfor %}
+        <!-- Arrows -->
+        <button class="slider-arrow left" id="left-arrow">&#10094;</button>
+        <button class="slider-arrow right" id="right-arrow">&#10095;</button>
     </div>
-</div>
 
 <!--About Places-->
 <div class="text-container">
-    <h3>Visit</h3>
-    <h1>Omaha, Nebraska</h1>
+    <h3>Why should you visit</h3>
+    <h1>Omaha, Nebraska?</h1>
     <p>Omaha offers a blend of attractions, from the world-renowned Henry Doorly Zoo to the vibrant Old Market and the College World Series, making it a great destination for families, sports fans, and those seeking cultural experiences, especially known for its steaks and family-friendly activities.</p>
 </div>
 
@@ -98,7 +121,7 @@
 <!--CSS-->
 {% block script %}
 <style>
-/* Header text */
+    /* Header Text */
     .header-text {
         position: absolute;
         top: 50%;
@@ -118,7 +141,7 @@
         font-size: 125px;
         display: inline-block;
     }
-    
+
 /* Header Image Styles */
     .image-header-container {
         display: flex;
@@ -127,12 +150,12 @@
         background-color: rgb(0, 0, 0);
         overflow: hidden;
         width: 100%;
-        height: 600px; 
+        height: 400px; 
         position: relative;
         margin: 0;
     }
 
-    /* Wrapper for header text image */
+    /* Wrapper for Header Text Image */
     .header-image-wrapper {
         position: absolute;
         top: 50%;
@@ -145,9 +168,6 @@
         align-items: center;
     }
 
-    h1 {
-        padding: 20px;
-    }
     .place-image-title {
         width: 100%;
         height: 600px;
@@ -159,49 +179,202 @@
         position: relative;
     }
 
-/* Categories Cards */
-    .categories-places {
-        width: 100%;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding: 20px 0;
-        background-color:rgb(255, 255, 255);
-        margin-top: -50px;
+    /* Text Image Styles */
+    .header-text-image {
+        width: 60%; 
+        max-width: 1000px;
+        height: auto;
+        filter: drop-shadow(2px 2px 5px black);
+        object-fit: contain; 
     }
 
-    .categories-slider {
+    @media (max-width: 768px) {
+        .header-text-image {
+            width: 80vw;
+        }
+    } 
+
+    
+/* Categories Block */
+    .categories-wrapper {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
         width: 100%;
-        height: fit-content;
-        padding: 20px;
-    }
-    .categories-card {
-        width: fit-content;
-        height: 300px;
-        display: inline-block;
-        background: linear-gradient(to bottom, #2317AE, PaleGoldenRod); /* blue to black gradient */
-        color: white;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
-        text-decoration: none;
-        min-width: 200px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6); /* black shadow */
-        cursor: pointer;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        padding: 80px 0;
+        overflow-x: hidden;
     }
     
+    /* Background on left */
+    .beige-bg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 60vw;
+        height: 100%;
+        background-color: #f5f0dc;
+        z-index: 0;
+    }
+    
+    /* Text box */
+    .category-text {
+        position: relative;
+        width: 30vw;
+        max-width: 400px;
+        z-index: 2;
+        padding: 0 40px;
+    }
+    
+    .category-text h2 {
+        font-size: 36px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+    
+    .category-text p {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #333;
+    }
+    
+    /* Slider Container */
+    .categories-slider-container {
+        position: relative;
+        width: 60vw;
+        z-index: 2;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        padding-right: 20px;
+        scroll-behavior: smooth;
+        white-space: nowrap;
+    }
+    
+    .categories-slider-container::-webkit-scrollbar {
+        height: 10px;
+    }
+    .categories-slider-container::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 0;
+    }
+    .categories-slider-container::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    /* Category Card Styles */
+    .categories-slider {
+        display: flex;
+        gap: 30px;
+        padding: 0 0 0 40px;
+        align-items: center;
+        height: 100%;
+        transition: transform 0.3s ease;
+    }
+    
+    .categories-card {
+        position: relative;
+        flex: 0 0 auto;
+        width: 220px;
+        height: 275px;
+        color: white;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        text-align: center;
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.3s ease;
+        border-radius: 0;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    
+    .categories-card::before {
+        content: '';  /* Required to make the pseudo-element appear */
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 1;
+    }
+
     .categories-card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.8); 
+        transform: translateY(-5px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
     }
-
+    
     .categories-card h3 {
+        font-size: 26px;
+        font-weight: bold;
         margin: 0;
-        font-size: 50px;
-
+        text-transform: uppercase;
+        text-shadow: 3px 3px 10px rgba(0, 0, 0, 1);
+        white-space: normal;
+        word-break: break-word;
+        padding: 10px;
+        box-sizing: border-box;
+        z-index: 2;
+    }
+    
+    /* Stack on smaller screens */
+    @media (max-width: 768px) {
+        .categories-wrapper {
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+        }
+    
+        .beige-bg {
+        width: 100vw;
+        height: 200px;
+        }
+    
+        .category-text {
+        width: 90%;
+        max-width: none;
+        padding: 20px;
+        z-index: 2;
+        }
+    
+        .categories-slider-container {
+        width: 100%;
+        overflow-x: auto;
+        padding: 20px 0;
+        }
+    
+        .categories-slider {
+        padding: 0 20px;
+        }
     }
 
-/* Text Omaha, NE*/
+    /* Arrows */
+    .slider-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 3;
+        font-size: 30px;
+    }
+
+    .left {
+        left: 600px;
+    }
+
+    .right {
+        right: 10px;
+    }
+
+/* Text Omaha, NE */
     .text-container {
         width: 100%;
         height: fit-content;
@@ -220,20 +393,18 @@
         font-size: 100px;
         text-transform: uppercase;
         font-family: 'Times New Roman', Times, serif;
-        letter-spacing: -3px;
+        letter-spacing: -2px;
         transition: 700ms ease;
         font-variation-settings: "wght" 300;
         margin-bottom: 0.8rem;
-        color: PaleGoldenRod;
+        color: palegoldenrod;
         outline: none;
         text-align: center;
     }
-
     .text-container h1:hover {
         font-variation-settings: "wght" 600; 
         letter-spacing: 1px;
     }
-
     .text-container p {
         font-size: 1.2em;
         line-height: 150%;
@@ -249,7 +420,7 @@
         min-height: 50vh;
         padding: 20px;
         margin-bottom: -25px;
-        background-color:rgb(237, 231, 231);
+        background-color:rgb(241, 241, 241);
     }
     .images {
         display: flex;
@@ -326,31 +497,37 @@
 /* Divider style */
     hr.divider {
         border: 0;
-        border-top: 3px solid black !important;
+        border-top: 1px solid black !important;
         opacity: 1;
         margin: 0;
     }
-
-/* Text image styles */
-    .header-text-image {
-        width: 60%; 
-        max-width: 1000px;
-        height: auto;
-        filter: drop-shadow(2px 2px 5px black);
-        object-fit: contain; 
-    }
-
-    @media (max-width: 768px) {
-        .header-text-image {
-            width: 80vw;
-        }
-    } 
-
-/* Quickly find a place to go */
-    .things2-do-image-wrapper img {
-        filter: none;
-        margin-bottom: 25px;
-    }
-
 </style>
+
+<!-- JavaScript -->
+<script>
+    let currentIndex = 0;
+    const totalCards = document.querySelectorAll('.categories-card').length;
+    const slider = document.querySelector('.categories-slider');
+    const leftArrow = document.getElementById('left-arrow');
+    const rightArrow = document.getElementById('right-arrow');
+
+    function updateSliderPosition() {
+        const offset = -currentIndex * 250; // 250px is the width of each card including gap
+        slider.style.transform = `translateX(${offset}px)`;
+    }
+
+    leftArrow.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateSliderPosition();
+        }
+    });
+
+    rightArrow.addEventListener('click', () => {
+        if (currentIndex < totalCards - 3) { // Show only 3 cards at a time
+            currentIndex++;
+            updateSliderPosition();
+        }
+    });
+</script>
 {% endblock %}

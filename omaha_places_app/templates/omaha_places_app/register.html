@@ -2,7 +2,11 @@
 {% load static %}
 {% block content %}
 
-<!--Page Title-->
+<!-- Template to display the registration page -->
+<!DOCTYPE html>
+<html lang="en">
+
+<!--Tab Title-->
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
@@ -64,10 +68,13 @@
               <input type="password" class="form-control" id="id_password2" name="password2" required>
           </div>
 
-          <!-- Buttons container -->
+          <!-- Hidden field to carry the next URL -->
+          <input type="hidden" name="next" value="{{ next }}">
+
+          <!-- Buttons Container -->
           <div class="d-flex justify-content-center mt-3">
               <input type="submit" value="Register" class="btn btn-primary me-3" style="background-color:rgb(0, 0, 0); border-color: #17a2b8;">
-              <a href="{% url 'login' %}" class="btn btn-link" style="color:rgb(255, 0, 0);">Back to Login</a>
+              <a href="{% url 'login' %}?next={{ next }}" class="btn btn-link" style="color:rgb(255, 0, 0);">Back to Login</a>
           </div>
       </form>
     </div>

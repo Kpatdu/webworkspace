@@ -1,5 +1,6 @@
 {% load static %}
 
+<!--Base HTML-->
 <!doctype html>
 <html lang="en">
 
@@ -18,16 +19,30 @@
   <!--Navbar-->
   {% include 'omaha_places_app/navbar.html' %}
 
+  <!-- Flash Messages if Any -->
+  {% if messages %}
+    <div class="container mt-3">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
   <!--Content-->
   {% block content %}
   {% endblock %}
 
   <!--Footer-->
-  <br/>
-  <hr class="divider">
-  <center><footer>
-    <p>© 2025 Omaha Locations. All rights reserved.</p>
-  </footer></center>
+  {% block footer %}
+    <br/>
+    <hr class="divider">
+    <center><footer>
+      <p>© 2025 Omaha Locations. All rights reserved.</p>
+    </footer></center>
+  {% endblock %}
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -52,7 +67,7 @@
         padding: 0;
     }
 
-/* Navbar style */
+/* Navbar Style */
     .logo-float {
       display: flex;
       align-items: center;
@@ -62,12 +77,10 @@
       height: 60px; /* make it larger */
   }
 
-/* Divider style */
+/* Divider Style */
     hr.divider {
         border: 0;
-        border-top: 3px solid black !important;
-        opacity: 1;
-        margin: 0;
+        border-top: 1px solid black !important;
     }
 </style>
 {% endblock %}

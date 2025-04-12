@@ -1,77 +1,288 @@
 {% extends 'omaha_places_app/base.html' %}
-<!DOCTYPE html>
-
-<!-- Template to display a selected place -->
 {% block content %}
+
+<!--Template for individual place page-->
+<!DOCTYPE html>
 <html lang="en">
 
+<!--Tab Title-->
 <head>
     <meta charset="UTF-8">
     <title>{{ place.name }}</title>
 </head>
 
+<!-- Place Information -->
 <body>
-
-    <img src="{{ place.image }}" alt="{{ place.name }} image" class="full-width-image" />
-    <hr class="divider">
-
-    <center>
-    <br/>
-    <div class="place-card">
-    <center><h1>{{ place.name }}</h1></center>
-
-    <p><strong>Address:</strong> {{ place.address }}</p>
-    <p><strong>Category:</strong> {{ place.category }}</p>
-    <p><strong>Price Level:</strong> {{ place.price_level }}</p>
-    <p><strong>Rating:</strong> ⭐{{ place.rating }}</p>
-    <p><strong>Description:</strong> {{ place.description }}</p>
-    <p><strong>Website:</strong>{% if place.website != 'N/A' %} <a href="{{ place.website }}" target="_blank">{{ place.website }}</a>{% else %}No website available.{% endif %}</p>
-    <p><strong>Phone:</strong> {{ place.phone }}</p>
-    
+  <div class="main-card">
+    <div class="full-width-image-wrapper">
+      <img src="{{ place.image }}" alt="{{ place.name }} image" class="full-width-image" />
     </div>
-    </center>
-    <br/>
-    <hr class="divider">
+      <br/>
+      <div class="place-card">
+          <h1 style="text-align:center; text-transform: uppercase; font-weight: bold;">{{ place.name }}</h1>
+          <p><strong>Address:</strong> {{ place.address }}</p>
+          <p><strong>Category:</strong> {{ place.category }}</p>
+          <p><strong>Price Level:</strong> {{ place.price_level }}</p>
+          <p><strong>Rating:</strong> ⭐{{ place.rating }}</p>
+          <p><strong>Description:</strong> {{ place.description }}</p>
+          <p><strong>Phone:</strong> {{ place.phone }}</p>
+          <p><strong>Website:</strong>
+              {% if place.website != 'N/A' %}
+                  <a href="{{ place.website }}" target="_blank" style="color: #2317AE;">{{ place.website }}</a>
+              {% else %}No website available.{% endif %}
+          </p>
+      </div>
+      
+      <br/>
 
-    <br>
-    <a href="{% url 'all_places' %}?category={{ category }}">Back to All Places</a>
+      <!--Add Event Button-->
+      <div class="d-flex justify-content-center">
+          <a href="{% url 'event_new' %}?location_id={{ place.id }}" class="btn btn-primary add-event-btn">
+              Add Event
+          </a>
+      </div>
 
+      <!--Comment Section-->
+      <div class="comments-title"><h2>Comments</h2></div>
+      <div class="comments-container">
+          <ul>
+              {% for comment in comments %}
+                  <li><strong>{{ comment.user.username }}:</strong> {{ comment.text }} ({{ comment.created_at|date:"M d, Y H:i" }})</li>
+              {% empty %}
+                  <li>No comments yet.</li>
+              {% endfor %}
+          </ul>
+      </div>
+
+      {% if comment_form %}
+          <div class="comment-form-container">
+              <form method="post">
+                  {% csrf_token %}
+                  <div class="comment-form">
+                      {{ comment_form.as_p }}
+                  </div>
+                  <div class="button-container">
+                      <button type="submit">Post Comment</button>
+                  </div>
+              </form>
+          </div>
+      {% else %}
+          <p class="login-to-comment">
+              <a href="{% url 'login' %}?next={{ request.path }}">Log in</a> to comment.
+          </p>
+      {% endif %}
+  </div>
+
+  <!--Back to All Places Link-->
+  <p class="back-to-places">
+    <a href="{% url 'all_restaurants' %}?category={{ category }}">Back to All Places</a>
+  </p>
 </body>
 </html>
 {% endblock %}
 
+
+
 <!-- CSS -->
 {% block script %}
 <style>
+/* Place Styles */
     /* Full-width image */
     .full-width-image {
-        width: 100%;
-        height: 600px;
-        margin-bottom: 0;  /* Remove margin from the image */
+      position: relative;
+      width: 75%;
+      height: 500px;
+      margin: 0 auto;
+      display: block;
+      margin-bottom: 0;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      transition: box-shadow 0.3s ease;
+  }
+  
+    /* Wrapper to hold the image and overlay */
+    .full-width-image-wrapper {
+        position: relative;
+        display: flex;
+        justify-content: center;
     }
     
-    /* Divider style */
-    hr.divider {
-        border: 0;
-        border-top: 3px solid black !important;
-        opacity: 1;
-        margin: 0;
+    /* The overlay effect */
+    .full-width-image-wrapper::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0);
+        transition: background 0.3s ease;
+        z-index: 1;
+        border-radius: 8px;
+    }
+    
+    .full-width-image-wrapper:hover::after {
+        background: rgba(255, 255, 255, 0.25);
     }
 
-    /* Style for individual place card */
+
+/* Style for individual place card */
     .place-card { 
         border: 1px solid #ccc; 
         padding: 10px; 
         border-radius: 8px; 
-        width: 750px; 
+        width: 100%; 
         text-align: left;
         box-sizing: border-box;
     }
-    a {
+    .place-card a {
         display: flex;
         align-items: center;
         justify-content: center;
     }
-</style>
 
+
+/* Comments Container */
+    .comments-title h2 {
+        margin-left: 20px;
+    }
+    .comments-container {
+        max-height: 300px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 15px;
+        background-color: #f9f9f9;
+        border-radius: 6px;
+    }
+
+    .comments-container a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Style individual comment list items */
+    .comments-container ul {
+        padding-left: 20px;
+    }
+
+    .comments-container li {
+        margin-bottom: 10px;
+        line-height: 1.4em;
+    }
+
+    .comment-form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%; 
+        margin-bottom: 20px;
+    }
+
+    .comment-form textarea {
+        width: 100%;  
+        max-width: 800px; 
+        height: 100px; 
+        padding: 10px;  
+        border: 1px solid #ccc;  
+        border-radius: 4px;  
+        font-size: 16px;  
+    }
+    
+    .comment-form {
+        margin-bottom: 10px;
+        width: 100%;
+        max-width: 800px; 
+    }
+
+    .login-to-comment a, .login-to-comment span {
+      display: inline;
+      margin: 0;
+      margin-left: 25px; 
+      padding: 0;
+      color: #2317AE;
+      text-decoration: underline;
+    }
+  
+    .login-to-comment {
+      text-align: left;
+      font-size: 16px;
+      margin-top: 10px;
+    }  
+
+/* Button Container */
+    .button-container {
+        display: flex;
+        justify-content: center; 
+        width: 100%; 
+    }
+
+    .button-container button {
+        display: inline-block;
+        width: 150px; 
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #2317AE; 
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .button-container button:hover {
+        background-color:rgb(0, 0, 0); 
+    }
+
+    /* Improve Add Event Button Spacing */
+    .add-event-btn {
+        background-color: rgb(0, 0, 0);
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        margin-bottom: 20px;
+    }
+
+
+/* Back to Places Link */
+    .back-to-places a, .back-to-places span {
+      display: inline;
+      margin: 0;
+      padding: 0;
+      color: #2317AE;
+      text-decoration: underline;
+    }
+
+    .back-to-places {
+      text-align: center;
+      font-size: 16px;
+      margin-top: 10px;
+      margin-bottom: -20px;
+    }  
+
+
+/* Main Card Style */
+    .main-card {
+      max-width: calc(90% - 100px); /* 50px on each side */
+      margin: 0 auto;
+      padding-left: 100px;
+      padding-right: 100px;
+      padding-top: 25px;
+      padding-bottom: 25px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+
+/* Divider style */
+  hr.divider {
+      border: 0;
+      border-top: 1px solid black !important;
+      opacity: 1;
+      margin: 0;
+  }
+</style>
 {% endblock %}

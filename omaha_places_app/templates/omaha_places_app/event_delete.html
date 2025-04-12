@@ -1,0 +1,50 @@
+{% extends 'omaha_places_app/base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Template to display the form to confirm deletion of an event -->
+<!DOCTYPE html>
+<html lang="en">
+
+<!--Tab Title-->
+<head>
+  <meta charset="UTF-8">
+  <title>Delete Event</title>
+</head>
+
+<!--Card Format-->
+<div class="row justify-content-center" style="padding-top: 25px">
+  <div class="col-md-10">  <!-- Increase md to increase card width. -->
+    <div class="card mb-4 shadow-lg rounded">
+      
+    <!-- Gradient header with blue-to-white ombre -->
+      <div class="text-white text-center rounded-top" 
+        style="background: linear-gradient(to right,rgb(0, 0, 0), #2317AE); height: 150px; display: flex; align-items: center; justify-content: center;">
+      </div>
+
+    <div class="card-body">
+      <h5 class="card-title">{{ event.name }}</h5>
+      <p class="card-text">
+        <strong>Start Time:</strong> {{ event.start_time }}<br>
+        <strong>End Time:</strong> {{ event.end_time }}<br>
+        <strong>Location:</strong> {{ event.location }}<br>
+        <strong>Description:</strong> {{ event.description }}<br>
+      </p>
+    </div>
+  </div>
+
+  <center><strong>Are you sure you want to delete this event?</strong></center>
+
+  <div class="d-flex justify-content-center gap-3 mb-3">
+      <!-- Confirmation form -->
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Delete Event</button>
+      </form>
+      
+      <!-- Cancel button to go back to calendar -->
+      <a href="{% url 'calendar' %}" class="btn btn-secondary">Cancel</a>
+  </div>
+</div></div>
+
+{% endblock %}
