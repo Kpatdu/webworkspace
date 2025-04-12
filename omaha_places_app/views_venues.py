@@ -267,12 +267,6 @@ class PlaceDetailView(PlaceImageAPIKeyMixin, TemplateView):
         place = self.get_place_images_with_api_key_by_id()
 
         context['place'] = place
-        context['comments'] = place.comments.all().order_by('-created_at')
-        
-        if self.request.user.is_authenticated:
-            context['comment_form'] = CommentForm()
-        else:
-            context['comment_form'] = None
 
         return context
 
