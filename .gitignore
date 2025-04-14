@@ -9,6 +9,5 @@ omaha_places_app/cache/googleapi.env
 /omaha_places_app/.DS_Store
 /env_webproject
 .DS_Store
-django_setup.sh
+setup.sh
 db.sqlite3:Zone.Identifier
-db.sqlite3Zone.Identifier
