@@ -1,12 +1,12 @@
-#!/usr/bin/env bash
-
 # Automates the setup of a Django project on Ubuntu:
 #   - Updates/installs packages
 #   - Creates a virtual environment
 #   - Installs Django, Gunicorn, other modules
 
 set -euo pipefail  # Exit on error, undefined variable, or error in a pipeline. 
-# The command and options help catch errors early and prevent a script from continuing when something unexpected happens.
+# The command and options help catch errors early and prevent a script from continuing when 
+# something unexpected happens.
+
 
 ########################################
 # 1) Update & Install System Packages  #
@@ -14,12 +14,13 @@ set -euo pipefail  # Exit on error, undefined variable, or error in a pipeline.
 echo "==> Updating apt package list and upgrading existing packages..."
 sudo apt update -y
 sudo apt upgrade -y
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-sudo apt remove linux-image-6.8.0-1021-aws
+sudo grub-mkconfig -o /boot/grub/grub.cfg # Remove if not using an AWS cloud server
+sudo apt remove linux-image-6.8.0-1021-aws # Remove if not using an AWS cloud server
 sudo apt autoremove
 
 echo "==> Installing Python3, pip, venv, and nginx..."
 sudo apt install -y python3 python3-pip python3-venv nginx
+
 
 #############################
 # 2) Define Your Variables  #
@@ -54,6 +55,7 @@ echo "==> Configuring environment variables..."
   echo "export VENV_NAME=\"$VENV_NAME\""
 } >> "${HOME}/.bashrc"
 
+
 #############################################
 # 3) Create Workspace & Python Virtual Env  #
 #############################################
@@ -68,17 +70,19 @@ echo "==> Activating virtual environment..."
 # Activate in this script. (Note: once this script ends, the venv is deactivated for your shell.)
 source "$DIR_WORKSPACE/$VENV_NAME/bin/activate"
 
+
 ######################################
 # 4) Install Django, Gunicorn, etc.
 ######################################
 echo "==> Upgrading pip and installing Django, Gunicorn, widget tweaks, mathfilters, load-dotenv, Pillow ..."
 python -m pip install --upgrade pip
-pip install django gunicorn gdown
+pip install django gunicorn
 pip install django-widget-tweaks
 pip install django-mathfilters
 pip install django-jazzmin
 pip install load-dotenv
 pip install Pillow
+
 
 ####################################
 # 5) Configure Django App  #
@@ -88,12 +92,12 @@ python manage.py migrate
 python manage.py collectstatic --noinput
 
 
-
 ########################
 # 6) Open Port in UFW  #
 ########################
 echo "==> Opening port 8000 in the firewall..."
 sudo ufw allow 8000
+
 
 #####################
 # 7) All Done!
@@ -106,7 +110,7 @@ echo " Virtual Env: $DIR_WORKSPACE/$VENV_NAME"
 echo ""
 echo " To start using your Django project's virtual environment:"
 echo "   cd $DIR_WORKSPACE"
-echo "   source $DIR_WORKSPACE/$VENV_NAME/bin/activate"
+echo "   source '$DIR_WORKSPACE/$VENV_NAME/bin/activate'"
 echo ""
 echo " To run the development server (port 8000 by default):"
 echo "   python manage.py runserver 0.0.0.0:8000"
