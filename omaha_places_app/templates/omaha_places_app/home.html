@@ -33,7 +33,8 @@
         <!-- Welcome message with "What to do in Omaha?" -->
         <br/>
         <div class="things2-do-image-wrapper"><center>
-            <img src="{% static 'omaha_places_app/home-what_do_in_omaha.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
+            <div class="beige-bg"></div>
+            <img src="{% static 'omaha_places_app/home-what_do_in_omaha.png' %}" alt="Welcome to Omaha Locations" class="things2-do-header-text-image">
         </center></div>
 
         <!-- Three things to do cards -->
@@ -111,7 +112,7 @@
 {% block script %}
 <style> 
 /* Header Image Styles */
-    /* Ensure the header image container is set to relative */
+    /* Header Image */
     .image-header-container {
         display: flex;
         justify-content: flex-start;
@@ -141,7 +142,6 @@
         }
     }
 
-    
     /* Wrapper for header text image */
     .header-image-wrapper {
         position: absolute;
@@ -173,6 +173,38 @@
 /* Body Image Styles */
     .things2-do-image-wrapper img {
         filter: none;
+    }
+
+    .things2-do-header-text-image {
+        position: relative;
+        z-index: 1;
+        width: 100%; 
+        max-width: 1000px;
+        padding: 20px;
+        height: auto;
+        object-fit: contain;    
+    }
+
+    .things2-do-image-wrapper {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        padding: 20px;
+    }    
+    
+    /* Background on left */
+    .beige-bg {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 80vw;
+        height: 500px;
+        background: linear-gradient(to right, rgb(255, 255, 255), rgb(222, 222, 222));
+        z-index: 0;
     }
 
     /* Adjust "Things to do" cards layout with Flexbox */

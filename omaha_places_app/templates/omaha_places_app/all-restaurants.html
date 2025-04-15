@@ -10,7 +10,7 @@
 <title>Restaurants</title> 
 
 <!--Page Header-->
-<div class="all_restaurants_title" style="background-image: url('{{ restaurant_images.10 }}');">
+<div class="all_restaurants_title" style="background-image: url('{% static 'omaha_places_app/all-restaurants_header_img.jpg' %}');">
     <img src="{% static 'omaha_places_app/restaurant-all_header_text.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
 </div>
 
@@ -80,6 +80,7 @@
     .all-restaurants-container {
         display: flex;
         gap: 20px;
+        padding: 20px;
     }
 
     /* Text image styles */
@@ -128,7 +129,7 @@
         width: 75%;
     }
     .restaurant-list {
-        display: grid; /* Use CSS Grid */
+        display: grid;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         justify-items: center; 
     }
