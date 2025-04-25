@@ -78,3 +78,6 @@ class AccountView(RedirectIfNotAuthenticatedMixin, TemplateView):
         context['user'] = self.request.user
 
         return context
+    
+    def post(self, request, *args, **kwargs):
+        pass

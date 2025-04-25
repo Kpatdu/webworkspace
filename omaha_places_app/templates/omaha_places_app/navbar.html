@@ -16,75 +16,94 @@
 
         <!-- Left-aligned navigation links -->
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-0">
+            <ul class="navbar-nav navbar-nav_main">
                 <!--Home-->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">HOME</a>
+                    <a class="nav-link" href="{% url 'home' %}">HOME</a>
                 </li>
 
                 <!--Restaurants-->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home_restaurants' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">RESTAURANTS</a>
+                    <a class="nav-link" href="{% url 'home_restaurants' %}">RESTAURANTS</a>
                 </li>
 
                 <!--Places-->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home_places' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">PLACES</a>
+                    <a class="nav-link" href="{% url 'home_places' %}">PLACES</a>
                 </li>
 
                 <!--About Us-->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">ABOUT US</a>
+                    <a class="nav-link" href="{% url 'about' %}">ABOUT US</a>
                 </li>
 
                 <!--Admin Panel-->
                 {% if request.user.is_authenticated and request.user.is_staff %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'admin:index' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">ADMIN PANEL</a>
+                        <a class="nav-link" href="{% url 'admin:index' %}">ADMIN PANEL</a>
                     </li>
                 {% endif %}
             </ul>
 
-    <!-- Right-aligned: Login/Logout and Search -->
-        <ul class="navbar-nav ms-auto mb-0">
-            {% if request.user.is_authenticated %}
-                <li class="nav-item d-flex align-items-center">
-                    <span class="nav-link text-white me-2" style="padding-top: 5px; padding-bottom: 5px;">
-                        LOGGED IN AS: <a href="{% url 'account' %}" style="color: PaleGoldenRod; text-transform: uppercase;">{{ user.username }}</a>
-                    </span>
-                    <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">
-                        LOGOUT&nbsp;
-                    </a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link text-white me-2" href="{% url 'login' %}" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">
-                        LOGIN
-                    </a>
-                </li>
-            {% endif %}
+            <!-- Right-aligned: Login/Logout and Search -->
+            <ul class="navbar-nav ms-auto mb-0 navbar-nav_main">
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item d-flex align-items-center">
+                        <span class="nav-link text-white me-2" style="padding-top: 5px; padding-bottom: 5px;">
+                            LOGGED IN AS: <a href="{% url 'account' %}" style="color: PaleGoldenRod; text-transform: uppercase;">{{ user.username }}</a>
+                        </span>
+                        <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">
+                            LOGOUT&nbsp;
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white me-2" href="{% url 'login' %}?next={{ request.path }}" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">
+                            LOGIN
+                        </a>
+                    </li>
+                {% endif %}
 
-            <!--Search-->
-            <li class="nav-item">
-                <form class="d-flex" method="GET" action="">
-                    <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="..." aria-label="Search">
-                    <button class="btn btn-outline-info btn-sm" type="submit" style="border-color: #17a2b8; color: #17a2b8;">SEARCH</button>
-                </form>
-            </li>
-        </ul>
+                <!--Search-->
+                <li class="nav-item">
+                    <form class="d-flex" method="GET" action="">
+                        <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="..." aria-label="Search">
+                        <button class="btn btn-outline-info btn-sm" type="submit" style="border-color: #17a2b8; color: #17a2b8;">SEARCH</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
 
-
-{% block script%}
+{% block script %}
 <style>
-/* Navbar logo */
+    /* Navbar logo */
     .navbar-brand img {
         height: 60px;
         margin-top: -15px;
-        z-index: 10; /* optional, for safety */
+        z-index: 10;
         position: relative;
         filter: drop-shadow(0 0 0 black) drop-shadow(2px 2px 0 black) drop-shadow(-1px -1px 0 black);
+    }
+
+    .navlink {
+        padding-top: 5px; 
+        padding-bottom: 5px; 
+        color: white;
+    }
+
+    /* Main navbar link hover effect */
+    .navbar-nav_main .nav-link {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        color: white;
+        transition: text-shadow 0.2s ease, color 0.2s ease;
+    }
+
+    .navbar-nav_main .nav-link:hover {
+        text-shadow: 0 0 4px white, 0 0 8px white;
+        color: white;
     }
 </style>
 {% endblock %}

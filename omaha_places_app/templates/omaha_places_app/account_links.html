@@ -1,0 +1,71 @@
+{% load static %}
+
+<!-- Template for the Account Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-white account-navbar">
+    <div class="container justify-content-center">  
+
+        <!-- Navbar Toggle for Mobile View -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#accountNavbar" aria-controls="accountNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Centered navigation links -->
+        <div class="collapse navbar-collapse justify-content-center" id="accountNavbar">
+            <ul class="navbar-nav account-navbar-nav">
+                <!-- ACCOUNT -->
+                <li class="nav-item">
+                    <a class="nav-link account-link" href="{% url 'account' %}">ACCOUNT</a>
+                </li>
+
+                <!-- CALENDAR -->
+                <li class="nav-item">
+                    <a class="nav-link account-link" href="{% url 'calendar' %}">CALENDAR</a>
+                </li>
+
+                <!-- ALL EVENTS -->
+                <li class="nav-item">
+                    <a class="nav-link account-link" href="{% url 'event_list' %}">ALL EVENTS</a>
+                </li>
+
+                <!-- NEW EVENT -->
+                <li class="nav-item">
+                    <a class="nav-link account-link" href="{% url 'event_new' %}">NEW EVENT</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Divider under navbar -->
+<div class="navbar-divider"></div>
+
+{% block script %}
+<style>
+    /* Scoped styles only for the account navbar */
+    .account-navbar .account-link {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        color: black !important;
+        transition: text-shadow 0.2s ease, color 0.2s ease;
+    }
+
+    .account-navbar .account-link:hover {
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+        color: black !important;
+    }
+
+    .account-navbar-nav {
+        display: flex;
+        gap: 15px;
+    }
+
+    /* Divider styling */
+    .navbar-divider {
+        height: 2px;
+        width: 260px;
+        background-color: #ccc;
+        margin: 0px auto 0px auto;
+        border-radius: 1px;
+    }
+</style>
+{% endblock %}
