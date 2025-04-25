@@ -9,6 +9,20 @@
 <center><h1>Restaurants & Attractions in Omaha</h1></center>
 </br>
 
+<!--Filter inputs-->
+<form method="GET" action=".">
+    <input class="form-control py-2 border-right-0 border" type="search" name="name_contains" placeholder="Name..." />
+    <input class="form-control py-2 border-right-0 border" type="search" name="cat_contains" placeholder="Category..." />
+    <div>
+        <input type="number" min=0 class="form-control" id="priceMin" placeholder="Price Minimum" name="price_min">
+        <input type="number" min=0 class="form-control" id="priceMax" placeholder="Price Maximum" name="price_max">
+        <input type="number" class="form-control" id="ratingMin" placeholder="Rating Mimimum" name="rating_min">
+        <input type="number" class="form-control" id="ratingMax" placeholder="Rating Maximum" name="rating_max">
+        
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
 <!-- Section: Restaurants -->
 <h2>Restaurants</h2>
 <div class="location-list">
