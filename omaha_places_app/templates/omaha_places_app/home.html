@@ -125,8 +125,8 @@
     /* Scroll animation for the header images */
     .image-scroll {
         display: flex;
-        width: 200%;
-        animation: scrollLoop 40s linear infinite; /* Adjust the speed of the animation */
+        width: calc(1672px * 2);
+        animation: scrollLoop 30s linear infinite;
     }
 
     /* Keyframes to animate the image scrolling */
@@ -135,8 +135,14 @@
             transform: translateX(0); /* Start at the beginning */
         }
         to {
-            transform: translateX(-100%); /* Move to the end of the first image */
+            transform: translateX(-1672px); /* Move to the end of the first image */
         }
+    }
+
+    .image-header {
+        width: 1672px;
+        flex-shrink: 0;
+        object-fit: cover;
     }
 
     /* Wrapper for header text image */
