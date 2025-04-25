@@ -10,3 +10,5 @@ omaha_places_app/cache/googleapi.env
 /env_webproject
 .DS_Store
 localsetup.sh
+omaha_places_app/cache/new_places.csv
+omaha_places_app/cache/new_restaurants.csv

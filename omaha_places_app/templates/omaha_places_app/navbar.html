@@ -65,18 +65,11 @@
                 {% endif %}
 
                 <!--Search-->
-                <li class="nav-item">
-                    <form class="d-flex" method="GET" action="">
-                        <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="..." aria-label="Search">
-                        <button class="btn btn-outline-info btn-sm" type="submit" style="border-color: #17a2b8; color: #17a2b8;">SEARCH</button>
-                    </form>
-                </li>
-            {% endif %}
             <li class="nav-item">
-                <form class="d-flex" method="POST" action="/locations/">
+                <form class="d-flex" method="GET" action="{% url 'locations' %}">
                     {% csrf_token %}
-                    <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="..." aria-label="Search">
-                    <button class="btn btn-outline-info btn-sm" type="submit" style="border-color: #17a2b8; color: #17a2b8;">Search</button>
+                    <input class="form-control form-control-sm me-2" type="search" name="name_contains" placeholder="Search by Name" value="{{ request.GET.name_contains }}" aria-label="Search">
+                    <button class="btn btn-outline-info btn-sm" type="submit" style="border-color: #17a2b8; color: #17a2b8;">SEARCH</button>
                 </form>
             </li>
         </ul>

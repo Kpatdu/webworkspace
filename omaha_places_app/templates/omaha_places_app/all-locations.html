@@ -1,98 +1,318 @@
 {% extends 'omaha_places_app/base.html' %}
-
+{% load static %}
 {% block content %}
 
-<!--Tab title-->
+<!--Template to display all locations-->
+<!DOCTYPE html>
+<html lang="en">
+
+<!--Tab Title-->
 <title>All Locations</title> 
 
 <!--Page Header-->
-<center><h1>Restaurants & Attractions in Omaha</h1></center>
-</br>
+<div class="all_restaurants_title" style="background-image: url('{% static 'omaha_places_app/all-locations_header_img.jpg' %}');">
+    <img src="{% static 'omaha_places_app/restaurant-all_header_text.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
+</div>
 
-<!--Filter inputs-->
-<form method="GET" action=".">
-    <input class="form-control py-2 border-right-0 border" type="search" name="name_contains" placeholder="Name..." />
-    <input class="form-control py-2 border-right-0 border" type="search" name="cat_contains" placeholder="Category..." />
-    <div>
-        <input type="number" min=0 class="form-control" id="priceMin" placeholder="Price Minimum" name="price_min">
-        <input type="number" min=0 class="form-control" id="priceMax" placeholder="Price Maximum" name="price_max">
-        <input type="number" class="form-control" id="ratingMin" placeholder="Rating Mimimum" name="rating_min">
-        <input type="number" class="form-control" id="ratingMax" placeholder="Rating Maximum" name="rating_max">
+<!-- Divider -->
+<hr class="divider">
+<br/>
+
+<!-- Main Layout -->
+<div class="all-locations-container">
+    <!-- Left Sidebar: Categories -->
+    <div class="categories-sidebar">
+        <h3>Filters</h3>
+        <hr class="divider">
+        <br/>
+
+        <!--Filter inputs-->
+        <form method="GET" action="." onsubmit="return validateFilters()">
+            <input class="form-control py-2 border-right-0 border" type="search" name="name_contains" placeholder="Name..." value="{{ request.GET.name_contains }}">
+            <input class="form-control py-2 border-right-0 border" type="search" name="description_contains" placeholder="Description..." value="{{ request.GET.description_contains }}">
         
+            <!-- Category Checkbox Filters -->
+            <h5 class="mt-3">Categories:</h5>
+            <div style="max-height: 200px; overflow-y: auto;">
+                {% for category in all_categories %}
+                    <div>
+                        <input type="checkbox" name="cat_contains" value="{{ category }}" 
+                        {% if category in selected_categories %}checked{% endif %}>
+                        <label>{{ category }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        
+            <!-- Other Filters -->
+            <input type="number" min=0 class="form-control mt-2" name="price_min" id="priceMin" placeholder="Min Price" value="{{ request.GET.price_min }}" min = "0" max = "5" step="0.25">
+            <input type="number" min=0 class="form-control" name="price_max" id="priceMax" placeholder="Max Price" value="{{ request.GET.price_max }}" min = "0" max = "5" step="0.25">
+            <input type="number" class="form-control" id="ratingMin" placeholder="Min Rating" name="rating_min" value="{{ request.GET.rating_min }}" min = "0" max = "5" step="0.25">
+            <input type="number" class="form-control" id="ratingMax" placeholder="Max Rating" value="{{ request.GET.rating_max }}" name="rating_max" min = "0" max = "5" step="0.25">            
+            
+            <!--Search and Clear Filters Buttons-->
+            <br/>
+            <div class="button-container">
+                <button type="submit" class="btn btn-primary" style="background: #2317AE;">Search</button>
+                <a href="{% url 'locations' %}" class="btn btn-secondary">Clear Filters</a>
+            </div>
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
 
-<!-- Section: Restaurants -->
-<h2>Restaurants</h2>
-<div class="location-list">
-    {% for restaurant in all_restaurants %}
-        <div class="location-card">
-            <h2>{{ restaurant.name }}</h2>
-            <p><strong>Address:</strong> {{ restaurant.address }}</p>
-            <p><strong>Category:</strong> {{ restaurant.category }}</p>
-            <p><strong>Rating:</strong> ⭐ {{ restaurant.rating }}</p>
-            
-            {% if restaurant.image %}
-                <img src="{{ restaurant.image }}" alt="{{ restaurant.name }}" class="location-image">
+    <!--Right Content: locations-->
+    <div class="locations-content">
+        <!--Results For...-->
+        <h3>
+            {% if request.GET.name_contains or request.GET.cat_contains or request.GET.description_contains or request.GET.price_min or request.GET.price_max or request.GET.rating_min or request.GET.rating_max %}
+                Results for:
+                <div class="filters-applied">
+                    <!--Name-->
+                    {% if request.GET.name_contains %}
+                        <span class="filter-pill">Name: "{{ request.GET.name_contains }}"</span>
+                    {% endif %}
+
+                    <!--Category-->
+                    {% if selected_categories %}
+                    <span class="filter-pill">Category: 
+                        {% for category in selected_categories %}
+                            "{{ category }}" {% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </span>
+                    {% endif %}
+
+                    <!--Description-->
+                    {% if request.GET.description_contains %}
+                        <span class="filter-pill">Description: "{{ request.GET.description_contains }}"</span>
+                    {% endif %}
+
+                    <!--Price Level-->
+                    {% if request.GET.price_min %}
+                        <span class="filter-pill">Min Price Level: {{ request.GET.price_min }}</span>
+                    {% endif %}
+
+                    {% if request.GET.price_max %}
+                        <span class="filter-pill">Max Price Level: {{ request.GET.price_max }}</span>
+                    {% endif %}
+
+                    <!--Rating Level-->
+                    <br/>
+                    {% if request.GET.rating_min %}
+                        <span class="filter-pill">Min Rating: {{ request.GET.rating_min }}</span>
+                    {% endif %}
+                    
+                    {% if request.GET.rating_max %}
+                        <span class="filter-pill">Max Rating: {{ request.GET.rating_max }}</span>
+                    {% endif %}
+                </div>
+            {% else %}
+                All Locations
             {% endif %}
-
-            <p><a href="{% url 'restaurant_detail' restaurant.id %}">View Details</a></p>
-        </div>
-    {% empty %}
-        <p>No restaurants available.</p>
-    {% endfor %}
-</div>
-
-<!-- Section: Places -->
-<h2>Attractions</h2>
-<div class="location-list">
-    {% for place in all_places %}
-        <div class="location-card">
-            <h2>{{ place.name }}</h2>
-            <p><strong>Address:</strong> {{ place.address }}</p>
-            <p><strong>Category:</strong> {{ place.category }}</p>
-            <p><strong>Rating:</strong> ⭐ {{ place.rating }}</p>
-            
-            {% if place.image %}
-                <img src="{{ place.image }}" alt="{{ place.name }}" class="location-image">
+        </h3>
+        
+        <!--Shows all locations-->
+        <div class="location-list">
+            {% if all_restaurants or all_places %}
+                {% for restaurant in all_restaurants %}
+                    <div class="location-card">
+                        {% if restaurant.image %}
+                            <img src="{{ restaurant.image }}" alt="{{ restaurant.name }}" class="location-image">
+                        {% endif %}
+                        <h2>{{ restaurant.name }}</h2>
+                        <p><strong>Address:</strong> {{ restaurant.address }}</p>
+                        <p class="view-details"><a href="{% url 'restaurant_detail' restaurant.id %}" color="#2317AE">View Details</a></p>
+                    </div>
+                {% endfor %}
+        
+                {% for place in all_places %}
+                    <div class="location-card">
+                        {% if place.image %}
+                            <img src="{{ place.image }}" alt="{{ place.name }}" class="location-image">
+                        {% endif %}
+                        <h2>{{ place.name }}</h2>
+                        <p><strong>Address:</strong> {{ place.address }}</p>
+                        <p class="view-details"><a href="{% url 'place_detail' place.id %}" color="#2317AE">View Details</a></p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No location available.</p>
             {% endif %}
-
-            <p><a href="{% url 'place_detail' place.id %}">View Details</a></p>
-        </div>
-    {% empty %}
-        <p>No attractions available.</p>
-    {% endfor %}
+        </div>        
+    </div>
 </div>
+{% endblock %}
 
-<!-- CSS -->
+<!--CSS-->
+{% block script %}
 <style>
-    /* Center the list and ensure cards are arranged properly */
-    .location-list { 
-        display: flex; 
-        flex-wrap: wrap; 
-        gap: 20px; 
+/* Restaurant Header */
+    .all_restaurants_title {
+        width: 100%;
+        height: 400px;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
         justify-content: center;
-        margin: 0 auto;
     }
 
-    /* Style for individual location card */
-    .location-card { 
-        border: 1px solid #ccc; 
-        padding: 10px; 
-        border-radius: 8px; 
-        width: 300px; 
+    .all-locations-container {
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    /* Text image styles */
+    .header-text-image {
+        width: 60%; 
+        max-width: 1000px;
+        height: auto;
+        filter: drop-shadow(2px 2px 5px black);
+        object-fit: contain; 
+    }
+
+/* Left Sidebar: Filters */
+    .categories-sidebar {
+        width: 25%;
+        background-color:rgb(241, 241, 241);
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .categories-sidebar h3 {
+        margin-bottom: 10px;
+    }
+
+    .categories-sidebar ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .categories-sidebar li {
+        margin-bottom: 10px;
+    }
+
+    .categories-sidebar a {
+        text-decoration: none;
+        color: #2317AE;
+        font-weight: bold;
+    }
+
+    .categories-sidebar a.active-category {
+        color: red;
+    }
+
+    .filters-applied {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    
+    .filter-pill {
+        background-color: #f0f0f0;
+        color: #2317AE;
+        border: 1px solid #ccc;
+        border-radius: 999px;
+        padding: 6px 12px;
+        font-size: 0.9em;
+        display: inline-block;
+    }   
+    
+    /* Styling for the Clear Filters button */
+    a.btn-secondary {
+        display: inline-block;
+        margin-left: 10px;
+        padding: 8px 16px;
+        background-color: #f0f0f0;
+        color: #2317AE;
+        text-decoration: none;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    a.btn-secondary:hover {
+        background-color: #e0e0e0;
+    }
+
+    
+/* Right Content: All Locations */
+    .locations-content {
+        width: 75%;
+    }
+    .location-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        justify-items: center; 
+    }
+    
+    .location-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 8px;
         text-align: left;
         box-sizing: border-box;
-    }
-
-    /* Style for images to fit within the card */
-    .location-image {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        height: 100%; 
         width: 100%;
-        height: 200px;
+    }
+    
+    .location-image {
+        width: 100%;  
+        height: 200px;  
         object-fit: cover;
         border-radius: 4px;
     }
+    
+    .location-card h2 {
+        margin-bottom: 10px;
+    }
+    
+    .location-card p {
+        margin-bottom: 10px;
+    }
+    
+    .location-card .view-details {
+        margin-top: auto;
+        align-self: center; 
+    }
+    
+    .location-card .view-details a {
+        text-decoration: none;
+        color: #2317AE;
+        font-weight: bold;
+    }    
+
+/* Divider Style */
+    hr.divider {
+        border: 0;
+        border-top: 1px solid black !important;
+        opacity: 1;
+        margin: 0;
+    }
+
+    .page-title {
+        text-align: center;
+        margin: 0;
+    }
 </style>
 
+
+<!--JavaScript-->
+<script>
+    function validateFilters() {
+        const priceMin = parseFloat(document.getElementById('priceMin').value);
+        const priceMax = parseFloat(document.getElementById('priceMax').value);
+        const ratingMin = parseFloat(document.getElementById('ratingMin').value);
+        const ratingMax = parseFloat(document.getElementById('ratingMax').value);
+
+        if ((priceMax && priceMin && priceMax < priceMin) || (ratingMax && ratingMin && ratingMax < ratingMin)) {
+            alert("Error: Maximum value cannot be less than the minimum value.");
+            return false;
+        }
+        return true;
+    }
+</script>
 {% endblock %}
