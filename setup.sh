@@ -83,6 +83,8 @@ pip install django-jazzmin
 pip install load-dotenv
 pip install requests
 pip install Pillow
+pip install selenium
+pip install pytest
 
 
 ####################################

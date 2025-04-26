@@ -6,6 +6,7 @@
 /omaha_places_app/cache
 /omaha_places_app/cache/.DS_Store
 /omaha_places_app/.DS_Store
+/omaha_places_app/test_cases
 /djangoproject/__pycache__
 /env_webproject
 .DS_Store
