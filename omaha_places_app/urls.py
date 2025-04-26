@@ -16,7 +16,6 @@ urlpatterns = [
     path('places/<int:pk>/', views_venues.PlaceDetailView.as_view(), name = 'place_detail'), # Individual Places
 
     path('locations/', views_query.LocationsView.as_view(), name = 'locations'), # Locations
-
     
     path('register/', views_account.register_view, name = 'register'), # Register
     path('login/', views_account.login_view, name = 'login'), # Login
