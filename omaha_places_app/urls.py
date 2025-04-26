@@ -21,7 +21,12 @@ urlpatterns = [
     path('register/', views_account.register_view, name = 'register'), # Register
     path('login/', views_account.login_view, name = 'login'), # Login
     path('logout/', views_account.logout_view, name = 'logout'), # Logout
+
     path('account/', views_account.AccountView.as_view(), name = 'account'), # Account
+    path('account/password_reset/', views_account.reset_password_view, name = 'change_password'), # Password Reset
+    path('account/saving_location/', views_account.save_location, name = 'save_location'), # Saved Locations
+    path('account/saved_locations/', views_account.save_location_view, name = 'view_saved_locations'), # Saved Locations
+    path('account/delete_location/<str:location_id>/', views_account.delete_saved_location, name = 'delete_location'), # Delete Saved Location
 
     path('account/calendar/', views_event.CalendarView.as_view(), name = 'calendar'), # Calendar
     path('account/calendar/new/', views_event.EventCreateView.as_view(), name = 'event_new'), # Add Event

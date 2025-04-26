@@ -134,3 +134,14 @@ class Event(models.Model):
     def get_html_url(self):
         edit_url = reverse('event_edit', args = (self.id,))
         return f'<a href="{edit_url}">{self.name}</a>'
+    
+    
+class SavedLocation(models.Model):
+    location_id = models.CharField(max_length=255, unique=True, 
+                                   blank=True, null=True)
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

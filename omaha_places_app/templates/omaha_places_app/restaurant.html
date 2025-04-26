@@ -42,6 +42,20 @@
           </a>
       </div>
 
+      <!-- Save Restaurant Button -->
+      {% if user.is_authenticated %}
+      <div class="d-flex justify-content-center">
+          <form method="post" action="{% url 'save_location' %}">
+              {% csrf_token %}
+              <input type="hidden" name="id" value="{{ restaurant.id }}">
+              <input type="hidden" name="name" value="{{ restaurant.name }}">
+              <input type="hidden" name="description" value="{{ restaurant.description }}">
+              <button type="submit" class="btn btn-primary">Save Restaurant</button>
+          </form>
+      </div>
+      {% endif %}
+
+
       <!--Comment Section-->
       <div class="comments-title"><h2>Comments</h2></div>
       <div class="comments-container">
