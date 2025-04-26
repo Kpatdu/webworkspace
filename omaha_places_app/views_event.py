@@ -2,7 +2,7 @@ import calendar
 from datetime import datetime, timedelta, date
 
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 
 from .models import Restaurant, Place, Event
 from .forms import EventForm
@@ -139,25 +139,31 @@ class EventCreateView(RedirectIfNotAuthenticatedMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         location_id = self.request.GET.get('location_id')
+        location_value = None  # Ensure it's always defined
 
         if location_id:
-            location_value = None
-            
-            try: # Try to fetch as a restaurant first
-                location = get_object_or_404(Restaurant, id = location_id)
-                location_value = f'restaurant:{location.id}'
-            except Restaurant.DoesNotExist: # If not found, try fetching as a place
-                try:
-                    location = get_object_or_404(Place, id = location_id)
-                    location_value = f'place:{location.id}'
-                except Place.DoesNotExist:
-                    pass
+            restaurant = Restaurant.objects.filter(id=location_id).first()
+            if restaurant:
+                location_value = f'restaurant:{restaurant.id}'
+            else:
+                place = Place.objects.filter(id=location_id).first()
+                if place:
+                    location_value = f'place:{place.id}'
+        else:
+            # Default fallback if no location_id is passed — pick first Place or Restaurant
+            default_place = Place.objects.first()
+            if default_place:
+                location_value = f'place:{default_place.id}'
+            else:
+                default_restaurant = Restaurant.objects.first()
+                if default_restaurant:
+                    location_value = f'restaurant:{default_restaurant.id}'
 
-            if location_value:
-                context['form'].initial['location_object'] = location_value
+        if location_value:
+            context['form'].initial['location_object'] = location_value
 
         return context
-
+    
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)

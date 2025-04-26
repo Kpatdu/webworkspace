@@ -5,6 +5,7 @@ from .models import Restaurant, Place
 from .mixins import RestaurantImageAPIKeyMixin, PlaceImageAPIKeyMixin
 from .forms import CommentForm
 
+
 RESTAURANT_CATEGORY_MAPPING = {
     "restaurant, bar, food, point_of_interest, establishment": "Bar",
     "night_club, bar, restaurant, food, point_of_interest, establishment": "Bar",
@@ -129,9 +130,6 @@ PLACE_CATEGORY_MAPPING = {
 }
 
 
-  
-
-
 class RestaurantsView(RestaurantImageAPIKeyMixin, ListView):
     '''
     Class-based view to display the restaurant home page.
@@ -143,7 +141,10 @@ class RestaurantsView(RestaurantImageAPIKeyMixin, ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        predefined_category = Restaurant.objects.values_list('predefined_category', flat = True).distinct()
+        predefined_category = sorted(
+            set(Restaurant.objects.values_list('predefined_category', flat=True).distinct()),
+            key=lambda x: (x is None, str(x).lower())
+        )
 
         context['predefined_category'] = predefined_category
         context['restaurant_images'] = self.get_restaurant_images_with_api_key()[0]
@@ -162,7 +163,10 @@ class RestaurantsViewAll(RestaurantImageAPIKeyMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        predefined_category = Restaurant.objects.values_list('predefined_category', flat = True).distinct()
+        predefined_category = sorted(
+            set(Restaurant.objects.values_list('predefined_category', flat=True).distinct()),
+            key=lambda x: (x is None, str(x).lower())
+        )
         selected_category = self.request.GET.get('category', None)
 
         restaurants_with_api_key, restaurants = self.get_restaurant_images_with_api_key()
@@ -223,7 +227,11 @@ class PlacesView(PlaceImageAPIKeyMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        predefined_category = Place.objects.values_list('predefined_category', flat = True).distinct()
+        predefined_category = sorted(
+            set(Place.objects.values_list('predefined_category', flat=True).distinct()),
+            key=lambda x: (x is None, str(x).lower())
+        )
+
 
         context['place_images'] = self.get_place_images_with_api_key()[0]
         context['predefined_category'] = predefined_category
@@ -242,7 +250,10 @@ class PlacesViewAll(PlaceImageAPIKeyMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        predefined_category = Place.objects.values_list('predefined_category', flat = True).distinct()
+        predefined_category = sorted(
+            set(Place.objects.values_list('predefined_category', flat=True).distinct()),
+            key=lambda x: (x is None, str(x).lower())
+        )
         selected_category = self.request.GET.get('category', None)
         
         places_with_api_key, places = self.get_place_images_with_api_key()

@@ -32,7 +32,7 @@
       
         <!-- Text box (on top of bg) -->
         <div class="category-text">
-          <h2>Explore by Category</h2>
+          <h2>Quickly Explore by Category</h2>
           <p>Discover the best places in Omaha by category — from scenic parks to historic landmarks and hidden gems.</p>
         </div>
       
@@ -40,15 +40,17 @@
         <div class="categories-slider-container">
           <div class="categories-slider">
             {% for category in predefined_category %}
-              {% with offset_index=forloop.counter0|add:"20" %}
-                {% with image=place_images|index:offset_index %}
-                  <a href="{% url 'all_places' %}?category={{ category }}"
-                     class="categories-card"
-                     style="background-image: url('{{ image }}'); background-size: cover; background-position: center;">
-                    <h3>{{ category }}</h3>
-                  </a>
-                {% endwith %}
-              {% endwith %}
+                {% if category %}
+                    {% with offset_index=forloop.counter0|add:"20" %}
+                        {% with image=place_images|index:offset_index %}
+                        <a href="{% url 'all_places' %}?category={{ category }}"
+                            class="categories-card"
+                            style="background-image: url('{{ image }}'); background-size: cover; background-position: center;">
+                            <h3>{{ category }}</h3>
+                        </a>
+                        {% endwith %}
+                    {% endwith %}
+                {% endif %}
             {% endfor %}
           </div>
         </div>

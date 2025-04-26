@@ -1,11 +1,7 @@
-from .models import Restaurant, Place
 from .mixins import RestaurantImageAPIKeyMixin, PlaceImageAPIKeyMixin
 
 from django.shortcuts import render
 from django.views.generic import TemplateView
-
-from django.db.models import Q
-from django.http import QueryDict
 
 
 class LocationsView(TemplateView, RestaurantImageAPIKeyMixin, PlaceImageAPIKeyMixin):
@@ -52,6 +48,10 @@ class LocationsView(TemplateView, RestaurantImageAPIKeyMixin, PlaceImageAPIKeyMi
         rating_max = request.GET.get('rating_max')
         description_contains = request.GET.get('description_contains')
 
+        # Get the restaurant and place images with the API key
+        restaurants = self.get_restaurant_images_with_api_key()[1]
+        places = self.get_place_images_with_api_key()[1]
+
         # Start with all items
         restaurants = context['all_restaurants']
         places = context['all_places']
@@ -66,12 +66,21 @@ class LocationsView(TemplateView, RestaurantImageAPIKeyMixin, PlaceImageAPIKeyMi
                 restaurants = restaurants.filter(category__icontains=cat)
                 places = places.filter(category__icontains=cat)
 
-        if price_min:
-            restaurants = restaurants.filter(price_level__gte=price_min)
-            places = places.filter(price_level__gte=price_min)
-        if price_max:
-            restaurants = restaurants.filter(price_level__lte=price_max)
-            places = places.filter(price_level__lte=price_max)
+        if price_min or price_max:
+            def price_valid(obj):
+                try:
+                    price_str = obj.price_level
+                    price = float(price_str) if price_str not in [None, '', 'N/A'] else 0
+                    if price_min and price < float(price_min):
+                        return False
+                    if price_max and price > float(price_max):
+                        return False
+                    return True
+                except (ValueError, TypeError):
+                    return False
+            
+            restaurants = list(filter(price_valid, restaurants))
+            places = list(filter(price_valid, places))
 
         if rating_min:
             restaurants = restaurants.filter(rating__gte=rating_min)
