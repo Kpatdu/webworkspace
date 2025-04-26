@@ -16,10 +16,10 @@ and paste one of the following:
 from omaha_places_app.models import Restaurant, Place, Comment, Event
 
 # Delete all objects (or pick one or more)
-Comment.objects.all().delete()
 Restaurant.objects.all().delete()
 Place.objects.all().delete()
 Event.objects.all().delete()
+Comment.objects.all().delete()
 
 
 ### Alternatively: ###

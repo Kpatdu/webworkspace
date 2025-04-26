@@ -69,10 +69,6 @@
 </div>
 
 <!-- Contact Us Information -->
-    <div class="things2-do-image-wrapper"><center>
-        <img src="{% static 'omaha_places_app/about_saysomething.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
-    </center></div>
-
     <div class="contact-container">
         <div class="contact-text">
             <!--Title-->
@@ -97,7 +93,6 @@
             <img src="{% static 'omaha_places_app/about-contact-us.jpg' %}" alt="Contact Us" class="contact-us-image">
         </div>
     </div>
-    <br/>
 </body>
 
 </html>
@@ -112,19 +107,6 @@
 <!--CSS-->
 {% block script %}
 <style>
-/* General reset to avoid overflow */
-    * {
-        box-sizing: border-box;
-    }
-
-    html, body {
-        max-width: 100%;
-        overflow-x: hidden;
-        margin: 0;
-        padding: 0;
-    }
-
-    
 /* Header Image Styles */
     .image-header-container {
         display: flex;
@@ -231,7 +213,7 @@
         margin: 0 auto;
         padding: 40px 20px;
         max-width: 1000px;
-        gap: 40px; /* Add spacing between text and image */
+        gap: 40px;
     }
 
     /* Text container for "about the website" */
@@ -291,7 +273,8 @@
         letter-spacing: -2px;
         transition: 700ms ease;
         font-variation-settings: "wght" 300;
-        margin-bottom: 0.8rem;
+        margin-bottom: -25px;
+        margin-top: -25px;
         color: palegoldenrod;
         outline: none;
         text-align: center;
@@ -317,10 +300,6 @@
 
     
 /* Contact Us Information */body
-    .things2-do-image-wrapper img {
-        filter: none;
-    }
-
     /* Contact container to position elements in two columns */
     .contact-container {
         display: flex;

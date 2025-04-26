@@ -1,12 +1,13 @@
 /.git
 /omaha_places_app/scripts
-omaha_places_app/cache/googleapi.env
 /omaha_places_app/__pycache__
 /omaha_places_app/migrations/__pycache__
 /omaha_places_app/templatetags/__pycache__
-/djangoproject/__pycache__
+/omaha_places_app/cache
 /omaha_places_app/cache/.DS_Store
 /omaha_places_app/.DS_Store
+/djangoproject/__pycache__
 /env_webproject
 .DS_Store
 localsetup.sh
+

@@ -12,19 +12,8 @@
   <title>All Events</title>
 </head>
 
-<!--Search Results-->
-<div class="container">
-  
-  {% if query %}
-  <div class="card mb-3">
-    <div class="card-body">
-      <h5>Search results for "{{ query }}":</h5>
-      {% if not events %}
-        <p>No events found.</p>
-      {% endif %}
-    </div>
-  </div>
-  {% endif %}
+<!--Account Links-->
+{% include 'omaha_places_app/account_links.html' %}
 
 <!--List Events-->
   <div class="row justify-content-center" style="padding-top: 25px">

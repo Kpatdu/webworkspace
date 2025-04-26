@@ -23,15 +23,20 @@
     <!-- Left Sidebar: Categories -->
     <div class="categories-sidebar">
         <h3>Categories</h3>
+        <hr class="divider">
+        <br/>
+        
         <ul>
             <li><a href="{% url 'all_restaurants' %}" class="{% if not request.GET.category %}active-category{% endif %}">All</a></li>
             {% for category in predefined_category %}
-            <li>
-                <a href="{% url 'all_restaurants' %}?category={{ category }}" 
-                   class="{% if category == selected_category %}active-category{% endif %}">
-                    {{ category }}
-                </a>
-            </li>
+                {% if category %}
+                    <li>
+                        <a href="{% url 'all_restaurants' %}?category={{ category }}" 
+                        class="{% if category == selected_category %}active-category{% endif %}">
+                            {{ category }}
+                        </a>
+                    </li>
+                {% endif %}
             {% endfor %}
         </ul>
     </div>

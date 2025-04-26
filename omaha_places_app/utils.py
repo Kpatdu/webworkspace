@@ -1,5 +1,6 @@
 from calendar import HTMLCalendar
 
+
 class Calendar(HTMLCalendar):
     '''
     Class to generate a calendar for the specified month and year.

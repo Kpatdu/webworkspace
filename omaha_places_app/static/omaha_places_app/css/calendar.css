@@ -1,5 +1,5 @@
 /* Body styling */
-body {
+/* body {
     font-family: "ptsans", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: #ffffff;
     color: black;
@@ -7,7 +7,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-}
+} */
 
 /* Calendar appearance */
 .title {

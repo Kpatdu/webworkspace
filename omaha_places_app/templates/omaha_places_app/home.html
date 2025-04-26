@@ -25,17 +25,16 @@
         </div>
     </div>
 
-        <!-- Divider -->
-        <hr class="divider">
+    <!-- Divider -->
+    <hr class="divider" style="margin-top: 0px">
 
-
+    <!-- Welcome message with "What to do in Omaha?" -->
     <body>
-        <!-- Welcome message with "What to do in Omaha?" -->
-        <br/>
-        <div class="things2-do-image-wrapper"><center>
-            <div class="beige-bg"></div>
+        <div class="things2-do-image-wrapper">
+            <div class="gray-bg"></div>
+            <div class="gray-bg2"></div>
             <img src="{% static 'omaha_places_app/home-what_do_in_omaha.png' %}" alt="Welcome to Omaha Locations" class="things2-do-header-text-image">
-        </center></div>
+        </div>
 
         <!-- Three things to do cards -->
         <div class="center-cards">
@@ -58,7 +57,6 @@
             </a>
         </div>
 
-
         <!--Register/Welcome-->
         {% if user.is_authenticated %}
         <div class="text-container">
@@ -77,32 +75,31 @@
 
         <!-- Random Images for Locations -->
         <div class="image-block">
-            <center>
-                <div class="random-image-locations-container">
-                    <div style="clear: both;"></div>
-                    <hr class="divider">
-                    {% with all_images|random as random_image_1 %}
-                    <img src="{{ random_image_1 }}" alt="Random Place or Restaurant" class="random-image-location1">
-                    {% endwith %}
-
-                    {% with all_images|random as random_image_2 %}
-                    <img src="{{ random_image_2 }}" alt="Random Place or Restaurant" class="random-image-location2">
-                    {% endwith %}
-
-                    {% with all_images|random as random_image_3 %}
-                    <img src="{{ random_image_3 }}" alt="Random Place or Restaurant" class="random-image-location3">
-                    {% endwith %}
-
-                    {% with all_images|random as random_image_4 %}
-                    <img src="{{ random_image_4 }}" alt="Random Place or Restaurant" class="random-image-location4">
-                    {% endwith %}
-                </div>
-            </center>
+            <div class="random-image-locations-container">
+                {% with all_images|random as random_image_1 %}
+                    <div class="col1">
+                        <img src="{{ random_image_1 }}" alt="Image 1" class="img-col1-top">
+                {% endwith %}
+                
+                {% with all_images|random as random_image_2 %}
+                        <img src="{{ random_image_2 }}" alt="Image 2" class="img-col1-bottom">
+                    </div>
+                {% endwith %}
+                
+                {% with all_images|random as random_image_3 %}
+                    <div class="col2">
+                        <img src="{{ random_image_3 }}" alt="Image 3" class="img-col2-top">
+                {% endwith %}
+                
+                {% with all_images|random as random_image_4 %}
+                        <img src="{{ random_image_4 }}" alt="Image 4" class="img-col2-bottom">
+                    </div>
+                {% endwith %}
+            </div>                              
         </div>
     </body>
 </html>
 {% endblock %}
-
 
 
 
@@ -128,8 +125,8 @@
     /* Scroll animation for the header images */
     .image-scroll {
         display: flex;
-        width: 200%;
-        animation: scrollLoop 40s linear infinite; /* Adjust the speed of the animation */
+        width: calc(1672px * 2);
+        animation: scrollLoop 30s linear infinite;
     }
 
     /* Keyframes to animate the image scrolling */
@@ -138,8 +135,14 @@
             transform: translateX(0); /* Start at the beginning */
         }
         to {
-            transform: translateX(-100%); /* Move to the end of the first image */
+            transform: translateX(-1672px); /* Move to the end of the first image */
         }
+    }
+
+    .image-header {
+        width: 1672px;
+        flex-shrink: 0;
+        object-fit: cover;
     }
 
     /* Wrapper for header text image */
@@ -173,37 +176,50 @@
 /* Body Image Styles */
     .things2-do-image-wrapper img {
         filter: none;
+        margin-bottom: 25px;
+        width: 1000px;
     }
 
     .things2-do-header-text-image {
         position: relative;
-        z-index: 1;
-        width: 100%; 
+        z-index: 2;
         max-width: 1000px;
+        width: 100%;
         padding: 20px;
-        height: auto;
-        object-fit: contain;    
+        object-fit: contain;
     }
 
     .things2-do-image-wrapper {
         position: relative;
+        width: 100%;
+        height: 300px;
         display: flex;
         justify-content: center;
-        align-items: center; 
-        width: 100%;
-        height: 100%;
+        align-items: center;
         overflow: hidden;
-        padding: 20px;
-    }    
+        margin-bottom: -50px;
+    }
     
-    /* Background on left */
-    .beige-bg {
+/* Background on Right */
+    /* First gray bar */
+    .gray-bg {
         position: absolute;
-        right: 0;
         top: 0;
-        width: 80vw;
-        height: 500px;
-        background: linear-gradient(to right, rgb(255, 255, 255), rgb(222, 222, 222));
+        right: 0;
+        width: 75vw;
+        height: 100px;
+        background: rgb(228, 239, 242);
+        z-index: 0;
+    }
+
+    /* Second gray bar */
+    .gray-bg2 {
+        position: absolute;
+        top: 125px;
+        right: 0;
+        width: 85vw;
+        height: 100px;
+        background: rgb(211, 223, 226);
         z-index: 0;
     }
 
@@ -244,8 +260,6 @@
         opacity: 0.7;
         box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
     }
-
-
 
 /* Register/Welcome styles */
         .text-container {
@@ -293,77 +307,54 @@
         background-color: rgb(237, 231, 231);
         padding-top: 25px;
         padding-bottom: 25px;
-        margin-bottom: -25px;
+        margin-bottom: -40px;
     }
 
+/* Grid Container for Images */
     .random-image-locations-container {
-        width: 75%;
-        min-height: 600px;
         display: flex;
-        flex-wrap: wrap;
+        width: 100%;
         justify-content: center;
-        position: relative;
-        margin: 0; /* Ensure no margin around the container */
+        gap: 10px;
     }
 
-/* Location image styles */
-    .random-image-location1 {
-        width: 500px;
-        height: 400px;
-        margin-right: 5px;
-        margin-left: 5px;
-        margin-bottom: 5px;
-        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.8);
+    /* Column 1: First column container */
+    .col1 {
+        display: flex;
+        flex-direction: column;
+        width: 500px; 
     }
 
-    .random-image-location2 {
+    /* Column 2: Second column container */
+    .col2 {
+        display: flex;
+        flex-direction: column;
         width: 500px;
-        height: 200px;
-        margin-right: 5px;
-        margin-left: 0px;
-        margin-bottom: 5px;
-        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.8);
     }
 
-    .random-image-location3 {
-        width: 500px;
-        height: 200px;
-        margin-right: 5px;
-        margin-left: 5px;
-        margin-bottom: 5px
-            (100% 100%,
-            0% 100%);
+    /* Image styles */
+    .img-col1-top, .img-col1-bottom, .img-col2-top, .img-col2-bottom {
         object-fit: cover;
-        margin: 0;
-        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.8);
     }
 
-    .random-image-location4 {
-        width: 500px;
+    /* Specific heights for images */
+    .img-col1-top {
         height: 400px;
-        margin-right: 5px;
-        margin-left: 5px;
-        margin-bottom: 5px;
-        margin-top: -200px;
-        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.8);
+        margin-bottom: 10px;
     }
 
-/* Divider style */
-    hr.divider {
-        border: 0;
-        border-top: 1px solid black !important;
-        opacity: 1;
-        margin: 0;
+    .img-col1-bottom {
+        height: 250px; /* Bottom image is 400px tall */
     }
 
-/* Style for individual description card */
-    .restaurant-card { 
-        border: 1px solid #ccc; 
-        padding: 10px; 
-        border-radius: 8px; 
-        width: 750px; 
-        text-align: left;
-        box-sizing: border-box;
+    .img-col2-top {
+        height: 250px;
+        margin-bottom: 10px;
     }
+
+    .img-col2-bottom {
+        height: 400px;
+    }
+
 </style>
 {% endblock %}

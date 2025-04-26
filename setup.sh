@@ -81,6 +81,7 @@ pip install django-widget-tweaks
 pip install django-mathfilters
 pip install django-jazzmin
 pip install load-dotenv
+pip install requests
 pip install Pillow
 
 
