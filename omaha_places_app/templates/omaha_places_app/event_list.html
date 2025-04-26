@@ -16,33 +16,56 @@
 {% include 'omaha_places_app/account_links.html' %}
 
 <!--List Events-->
-  <div class="row justify-content-center" style="padding-top: 25px">
+<div class="main-card">
+  <div class="row justify-content-center" style="padding-top: 25px; width: 1250px;">
     {% for event in events %}
-    <div class="col-md-15">  <!-- Increase md to increase card width. -->
-      <div class="card mb-4 shadow-lg rounded">
-        
-        <!-- Gradient header with blue-to-white ombre -->
-        <div class="text-white text-center rounded-top" 
-          style="background: linear-gradient(to right,rgb(0, 0, 0),#2317AE); height: 150px; display: flex; align-items: center; justify-content: center;">
-        </div>
+      <div class="col-md-15">  <!-- Increase md to increase card width. -->
+        <div class="card mb-4 shadow-lg rounded">
+          
+          <!-- Gradient header with blue-to-white ombre -->
+          <div class="text-white text-center" 
+            style="background: linear-gradient(to right,rgb(0, 0, 0),#2317AE); height: 150px; display: flex; align-items: center; justify-content: center;">
+          </div>
 
-        <div class="card-body">
-          <h5 class="card-title">
-            <a href="{% url 'event_edit' event.id %}" style="text-decoration: none; color:rgb(255, 0, 0);">
-                {{ event.name }}
-            </a>
-          </h5>
-          <p class="card-text">
-            <strong>Start Time:</strong> {{ event.start_time }}<br>
-            <strong>End Time:</strong> {{ event.end_time }}<br>
-            <strong>Location:</strong> {{ event.location }}<br>
-            <strong>Description:</strong> {{ event.description }}<br>
-          </p>
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{% url 'event_edit' event.id %}" style="text-decoration: none; color:rgb(255, 0, 0); text-transform: uppercase;">
+                  {{ event.name }}
+              </a>
+            </h5>
+            <p class="card-text">
+              <strong>Start Time:</strong> {{ event.start_time }}<br>
+              <strong>End Time:</strong> {{ event.end_time }}<br>
+              <strong>Location:</strong> {{ event.location }}<br>
+              <strong>Description:</strong> {{ event.description }}<br>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
     {% endfor %}
   </div>
 </div>
+{% endblock %}
 
+
+
+<!--CSS-->
+{% block script %}
+<style>
+  /* Main Card Style */
+  .main-card {
+    max-width: calc(90% - 100px); /* 50px on each side */
+    margin: 0 auto;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+</style>
 {% endblock %}

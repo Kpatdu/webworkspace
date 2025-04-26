@@ -1,5 +1,6 @@
 {% extends 'omaha_places_app/base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block content %}
 
 <!-- Template to display the account page -->
@@ -15,7 +16,249 @@
 <!--Account Links-->
 {% include 'omaha_places_app/account_links.html' %}
 
-<!--Header-->
-<h1> Account </h1>
+<div class="main-card">
+  <!--Header-->
+  <h1>Welcome, {{ user.username }}!</h1>
 
-{% endblock%}
+  <!-- Profile Picture Section -->
+  {% if user.profile.profile_picture %}
+      <img src="{% static 'omaha_places_app/' %}{{ user.profile.profile_picture }}" alt="Profile Picture" style="width:250px; height:250px; border-radius:50%;">
+  {% else %}
+      <p>No profile picture selected.</p>
+  {% endif %}
+
+  <form method="POST" action="{% url 'update_profile_picture' %}" id="profile-picture-form">
+    {% csrf_token %}
+    <button type="button" id="choosePictureBtn" class="btn btn-primary change-picture-btn">Change Profile Picture</button>
+      <div id="pictureSelection" style="display:none; margin-top:10px;">
+        {% for i in 1|to:16 %}
+            <img src="{% static 'omaha_places_app/profile_pictures/profile' %}{{ i }}.png" 
+                alt="Profile {{ i }}" 
+                class="selectable-picture" 
+                data-picture-path="profile_pictures/profile{{ i }}.png"
+                style="width:80px; height:80px; margin:5px; border-radius:50%; cursor:pointer;">
+        {% endfor %}
+      </div>
+    <input type="hidden" name="profile_picture" id="selectedProfilePicture">
+  </form>
+
+  <!--Change Password-->
+  <button id="passwordButton" class="btn btn-primary change-password-btn">Change Password</button>
+</div>
+
+<!-- Modal for Password-->
+<div id="passwordModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+      <div id="model-body">
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+<!--CSS and JavaScript-->
+{% block script %}
+<style>
+/* Main Card Style */
+  .main-card {
+    max-width: calc(90% - 100px); 
+    margin: 0 auto;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Change Profile Picture Button Style */
+  .change-picture-btn {
+      background-color: #2317AE;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      width: 200px;
+      height: 40px;
+      margin-bottom: 20px;
+  }
+
+  .change-picture-btn:hover {
+      color: white; 
+      text-decoration: none;
+  }
+
+/* Change Profile Picture Button Style */
+  .change-password-btn {
+      background-color:rgb(0, 0, 0);
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      width: 200px;
+      height: 40px;
+      margin-bottom: 20px;
+  }
+
+  .change-password-btn:hover {
+      color: white; 
+      text-decoration: none;
+  }
+
+/* Modal Content */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
+/* Toast message style */
+  .toast-message {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+</style>
+
+
+<script> // Change Password Modal
+  var modal = document.getElementById("passwordModal");
+  var btn = document.getElementById("passwordButton");
+
+  btn.onclick = function() {
+    fetch("{% url 'change_password' %}")
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById("model-body").innerHTML = html;
+        modal.style.display = "block";
+  
+        var form = document.querySelector("#model-body form");
+        if (form) {
+          form.addEventListener("submit", function(e) {
+            e.preventDefault();
+            var formData = new FormData(form);
+  
+            fetch(form.action, {
+              method: "POST",
+              body: formData,
+              headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    // If response isn't OK, throw error
+                    return response.json().then(errData => {
+                        throw errData; 
+                    });
+                }
+                return response.json(); 
+            })
+            .then(data => {
+                if (data.success) {
+                    modal.style.display = "none";
+                    alert("Password updated successfully ✅");
+                    location.reload(); // Refresh page
+                } else {
+                    let errorMessages = '';
+                    for (const field in JSON.parse(data.errors)) {
+                        const fieldErrors = JSON.parse(data.errors)[field];
+                        fieldErrors.forEach(err => {
+                            errorMessages += err.message + "\n";
+                        });
+                    }
+                    showToastMessage(errorMessages || "An error occurred.");
+                }
+            })
+            .catch(error => {
+                if (error.errors) {
+                    // If the error object contains errors, parse and show the messages
+                    let errorMessages = '';
+                    for (const field in JSON.parse(error.errors)) {
+                        const fieldErrors = JSON.parse(error.errors)[field];
+                        fieldErrors.forEach(err => {
+                            errorMessages += err.message + "\n";
+                        });
+                    }
+                    showToastMessage(errorMessages || "An error occurred.");
+                } else {
+                    showToastMessage("Something went wrong. Please try again.");
+                }
+            });
+          });
+        }
+      });
+  };  
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+  // Function to display toast messages
+  function showToastMessage(message) {
+    // Remove any old toast messages first
+    document.querySelectorAll('.toast-message').forEach(el => el.remove());
+    
+    var toast = document.createElement("div");
+    toast.className = "toast-message";
+    toast.innerText = message;
+    document.getElementById("model-body").prepend(toast);
+  
+    setTimeout(() => {
+      toast.remove();
+    }, 3000);
+  }
+</script>
+
+<script> // Profile Picture
+  document.getElementById("choosePictureBtn").addEventListener("click", function() {
+    var selectionBox = document.getElementById("pictureSelection");
+    selectionBox.style.display = (selectionBox.style.display === "none") ? "block" : "none";
+  });
+
+  document.querySelectorAll(".selectable-picture").forEach(function(img) {
+    img.addEventListener("click", function() {
+      var selectedPath = this.getAttribute("data-picture-path");
+      document.getElementById("selectedProfilePicture").value = selectedPath;
+      document.getElementById("profile-picture-form").submit();
+    });
+  });
+</script>
+{% endblock %}

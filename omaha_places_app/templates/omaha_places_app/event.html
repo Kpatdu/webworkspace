@@ -16,80 +16,86 @@
 {% include 'omaha_places_app/account_links.html' %}
 
 <!-- Card Format -->
-<div class="row justify-content-center" style="padding-top: 25px">
-  <div class="col-md-10">
-    <div class="card mb-4 shadow-lg rounded">
-      <div class="text-white text-center rounded-top" style="background: linear-gradient(to right,rgb(0, 0, 0),#2317AE); height: 75px; display: flex; align-items: center; justify-content: center;">
-        <h1 class="mb-0" style="font-size: 25px;">Add an Event</h1>
-      </div>
-      <br/>
+  <div class="row justify-content-center" style="padding-top: 25px; width: calc(90% - 100px); margin: 0 auto;">
+    <div class="col-md-10">
+      <div class="card mb-4 shadow-lg rounded">
+        <div class="text-white text-center rounded-top" style="background: linear-gradient(to right,rgb(0, 0, 0),#2317AE); height: 75px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+          <h1 class="mb-0" style="font-size: 25px;">Add an Event</h1>
+        </div>
+        <br/>
 
-      <!-- Error Checking -->
-      {% if form.errors %}
-        {% for field in form %}
-          {% for error in field.errors %}
+        <!-- Error Checking -->
+        {% if form.errors %}
+          {% for field in form %}
+            {% for error in field.errors %}
+              <div class="alert alert-danger">
+                {{ field.label }} <strong>{{ error|escape }}</strong>
+              </div>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
             <div class="alert alert-danger">
-              {{ field.label }} <strong>{{ error|escape }}</strong>
+              <strong>{{ error|escape }}</strong>
             </div>
           {% endfor %}
-        {% endfor %}
-        {% for error in form.non_field_errors %}
-          <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
+        {% endif %}
+
+        <!-- Add Event Form -->
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <strong><label for="id_name" class="form-label">&emsp;{{ form.name.label }}<span style="color: red;">*</span></label></strong>
+            {{ form.name|add_class:"form-control" }}
           </div>
-        {% endfor %}
-      {% endif %}
 
-      <!-- Add Event Form -->
-      <form method="post">
-        {% csrf_token %}
-
-        <div class="mb-3">
-          <strong><label for="id_name" class="form-label">&emsp;{{ form.name.label }}<span style="color: red;">*</span></label></strong>
-          {{ form.name|add_class:"form-control" }}
-        </div>
-
-        <div class="mb-3">
-          <strong><label for="id_start_time" class="form-label">&emsp;{{ form.start_time.label }}<span style="color: red;">*</span></label></strong>
-          <p class="card-text"><small class="text-muted">&emsp;Format: MM/DD/YYYY HH:MM:SS</small></p>
-          <div class="input-group">
-            {{ form.start_time }}
-            <span class="input-group-text" style="cursor: pointer;" id="start-time-picker-icon">📅</span>
+          <div class="mb-3">
+            <strong><label for="id_start_time" class="form-label">&emsp;{{ form.start_time.label }}<span style="color: red;">*</span></label></strong>
+            <p class="card-text"><small class="text-muted">&emsp;Format: MM/DD/YYYY HH:MM:SS</small></p>
+            <div class="input-group">
+              {{ form.start_time }}
+              <span class="input-group-text" style="cursor: pointer;" id="start-time-picker-icon">📅</span>
+            </div>
           </div>
-        </div>
 
-        <div class="mb-3">
-          <strong><label for="id_end_time" class="form-label">&emsp;{{ form.end_time.label }}<span style="color: red;">*</span></label></strong>
-          <p class="card-text"><small class="text-muted">&emsp;Format: MM/DD/YYYY HH:MM:SS</small></p>
-          <div class="input-group">
-            {{ form.end_time }}
-            <span class="input-group-text" style="cursor: pointer;" id="end-time-picker-icon">📅</span>
+          <div class="mb-3">
+            <strong><label for="id_end_time" class="form-label">&emsp;{{ form.end_time.label }}<span style="color: red;">*</span></label></strong>
+            <p class="card-text"><small class="text-muted">&emsp;Format: MM/DD/YYYY HH:MM:SS</small></p>
+            <div class="input-group">
+              {{ form.end_time }}
+              <span class="input-group-text" style="cursor: pointer;" id="end-time-picker-icon">📅</span>
+            </div>
           </div>
-        </div>
 
-        <div class="mb-3">
-          <strong><label for="id_location_object" class="form-label">&emsp;{{ form.location_object.label }}<span style="color: red;">*</span></label></strong>
-          {{ form.location_object|add_class:"form-control" }}
-        </div>
+          <div class="mb-3">
+            <strong><label for="id_location_object" class="form-label">&emsp;{{ form.location_object.label }}<span style="color: red;">*</span></label></strong>
+            {{ form.location_object|add_class:"form-control" }}
+          </div>
 
-        <div class="mb-3">
-          <strong><label for="id_description" class="form-label">&emsp;{{ form.description.label }}</label></strong>
-          {{ form.description|add_class:"form-control" }}
-        </div>
+          <div class="mb-3">
+            <strong><label for="id_description" class="form-label">&emsp;{{ form.description.label }}</label></strong>
+            {{ form.description|add_class:"form-control" }}
+          </div>
 
-        <div class="mb-3">
-          <center><button type="submit" class="btn" style="background-color:rgb(0, 0, 0); color: white;">Submit</button>
-          <a href="{% url 'calendar' %}" class="btn btn-secondary">Cancel</a></center>
-        </div>
-      </form>
+          <div class="mb-3">
+            <center><button type="submit" class="btn" style="background-color:rgb(0, 0, 0); color: white;">Submit</button>
+            <a href="{% url 'calendar' %}" class="btn btn-secondary">Cancel</a></center>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 {% endblock %}
 
 
-<!--JavaScript-->
+
 {% block script %}
+<!--CSS-->
+<style>
+</style>
+
+
+<!--JavaScript-->
   <!-- Include jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

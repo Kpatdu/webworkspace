@@ -52,13 +52,13 @@
             <!--Search and Clear Filters Buttons-->
             <br/>
             <div class="button-container">
-                <button type="submit" class="btn btn-primary" style="background: #2317AE;">Search</button>
+                <button type="submit" class="btn btn-primary search-btn">Search</button>
                 <a href="{% url 'locations' %}" class="btn btn-secondary">Clear Filters</a>
             </div>
         </form>
     </div>
 
-    <!--Right Content: locations-->
+    <!--Right Content: Locations-->
     <div class="locations-content">
         <!--Results For...-->
         <h3>
@@ -88,17 +88,14 @@
                     {% if request.GET.price_min %}
                         <span class="filter-pill">Min Price Level: {{ request.GET.price_min }}</span>
                     {% endif %}
-
                     {% if request.GET.price_max %}
                         <span class="filter-pill">Max Price Level: {{ request.GET.price_max }}</span>
                     {% endif %}
 
                     <!--Rating Level-->
-                    <br/>
                     {% if request.GET.rating_min %}
                         <span class="filter-pill">Min Rating: {{ request.GET.rating_min }}</span>
                     {% endif %}
-                    
                     {% if request.GET.rating_max %}
                         <span class="filter-pill">Max Rating: {{ request.GET.rating_max }}</span>
                     {% endif %}
@@ -139,6 +136,8 @@
     </div>
 </div>
 {% endblock %}
+
+
 
 <!--CSS-->
 {% block script %}
@@ -217,8 +216,22 @@
         font-size: 0.9em;
         display: inline-block;
     }   
-    
-    /* Styling for the Clear Filters button */
+
+/* Search Button */
+    .search-btn {
+        background-color: #2317AE;
+        color: white;
+        font-size: 16px;
+        border-radius: 8px;
+        text-decoration: none;
+    }
+  
+    .search-btn:hover {
+        color: white; 
+        text-decoration: none;
+    }
+
+/* Styling for the Clear Filters button */
     a.btn-secondary {
         display: inline-block;
         margin-left: 10px;
