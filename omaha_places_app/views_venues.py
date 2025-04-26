@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, ListView
 
-from .models import Restaurant, Place
+from .models import Restaurant, Place, SavedLocation
 from .mixins import RestaurantImageAPIKeyMixin, PlaceImageAPIKeyMixin
 from .forms import CommentForm
 
@@ -190,13 +190,17 @@ class RestaurantDetailView(RestaurantImageAPIKeyMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         restaurant = self.get_restaurant_images_with_api_key_by_id()
 
-        context['restaurant'] = restaurant
-        context['comments'] = restaurant.comments.all().order_by('-created_at')
-        
         if self.request.user.is_authenticated:
+            # Only check saved locations if the user is logged in
+            is_saved = SavedLocation.objects.filter(user = self.request.user, location_id = restaurant.id).exists()
             context['comment_form'] = CommentForm()
         else:
+            is_saved = False
             context['comment_form'] = None
+
+        context['restaurant'] = restaurant
+        context['is_saved'] = is_saved
+        context['comments'] = restaurant.comments.all().order_by('-created_at')
 
         return context
 
@@ -204,7 +208,7 @@ class RestaurantDetailView(RestaurantImageAPIKeyMixin, TemplateView):
         if not request.user.is_authenticated:
             return redirect('login')
 
-        restaurant = Restaurant.objects.get(id=self.kwargs['pk'])
+        restaurant = Restaurant.objects.get(id = self.kwargs['pk'])
         form = CommentForm(request.POST)
 
         if form.is_valid():
@@ -231,7 +235,6 @@ class PlacesView(PlaceImageAPIKeyMixin, ListView):
             set(Place.objects.values_list('predefined_category', flat=True).distinct()),
             key=lambda x: (x is None, str(x).lower())
         )
-
 
         context['place_images'] = self.get_place_images_with_api_key()[0]
         context['predefined_category'] = predefined_category
@@ -277,7 +280,16 @@ class PlaceDetailView(PlaceImageAPIKeyMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         place = self.get_place_images_with_api_key_by_id()
 
+        if self.request.user.is_authenticated:
+            is_saved = SavedLocation.objects.filter(user = self.request.user, location_id = place.id).exists()
+            context['comment_form'] = CommentForm()
+        else:
+            is_saved = False
+            context['comment_form'] = None
+
         context['place'] = place
+        context['is_saved'] = is_saved
+        context['comments'] = place.comments.all().order_by('-created_at')
 
         return context
 
@@ -285,7 +297,7 @@ class PlaceDetailView(PlaceImageAPIKeyMixin, TemplateView):
         if not request.user.is_authenticated:
             return redirect('login')
 
-        place = Place.objects.get(id=self.kwargs['pk'])
+        place = Place.objects.get(id = self.kwargs['pk'])
         form = CommentForm(request.POST)
 
         if form.is_valid():

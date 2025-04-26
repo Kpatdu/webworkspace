@@ -35,25 +35,37 @@
       
       <br/>
 
-      <!--Add Event Button-->
-      <div class="d-flex justify-content-center">
-          <a href="{% url 'event_new' %}?location_id={{ restaurant.id }}" class="btn btn-primary add-event-btn">
-              Add Event
-          </a>
-      </div>
+    <!-- Buttons Container -->
+    <div class="d-flex justify-content-center gap-3">
+        <!-- Add Event Button -->
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'event_new' %}?location_id={{ restaurant.id }}" class="btn btn-primary add-event-btn">
+                Add Event
+            </a>
+        </div>
 
-      <!-- Save Restaurant Button -->
-      {% if user.is_authenticated %}
-      <div class="d-flex justify-content-center">
-          <form method="post" action="{% url 'save_location' %}">
-              {% csrf_token %}
-              <input type="hidden" name="id" value="{{ restaurant.id }}">
-              <input type="hidden" name="name" value="{{ restaurant.name }}">
-              <input type="hidden" name="description" value="{{ restaurant.description }}">
-              <button type="submit" class="btn btn-primary">Save Restaurant</button>
-          </form>
-      </div>
-      {% endif %}
+        {% if is_saved %}
+            <!-- Already Saved Button -->
+            <button class="btn btn-secondary saved-btn" disabled>Saved</button>
+        {% else %}
+            <!-- Save Restaurant Button -->
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'save_location' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ restaurant.id }}">
+                    <input type="hidden" name="name" value="{{ restaurant.name }}">
+                    <input type="hidden" name="description" value="{{ restaurant.description }}">
+                    <input type="hidden" name="location_type" value="restaurant">
+                    <button type="submit" class="btn btn-primary save-location-btn">Save Location</button>
+                </form>
+            {% else %}
+                <!-- Redirect to Login if Not Authenticated -->
+                <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary save-location-btn">
+                    Save Location
+                </a>
+            {% endif %}
+        {% endif %}
+    </div>
 
 
       <!--Comment Section-->
@@ -257,6 +269,41 @@
         border-radius: 8px;
         text-decoration: none;
         margin-bottom: 20px;
+    }
+
+    /* Saved Button Style */
+    .save-location-btn {
+        background-color: #2317AE;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        margin-bottom: 20px;
+    }
+
+    .save-location-btn:hover {
+        color: white; 
+        text-decoration: none;
+    }
+
+    .saved-btn {
+        background-color: gray;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        margin-bottom: 20px;
+        cursor: default;
+        pointer-events: none;
+        border: none;
+    }
+    
+    /* No hover effect for saved */
+    .saved-btn:hover {
+        background-color: gray;
+        color: white;
     }
 
 

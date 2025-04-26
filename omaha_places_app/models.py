@@ -1,9 +1,12 @@
 from django.db import models
 from django.urls import reverse
+from django.conf import settings
 
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 '''
 To delete items from the database
@@ -13,13 +16,14 @@ and paste one of the following:
 
 ### Option 1: Delete all objects from the database ###
 
-from omaha_places_app.models import Restaurant, Place, Comment, Event
+from omaha_places_app.models import Restaurant, Place, Comment, Event, SavedLocation
 
 # Delete all objects (or pick one or more)
 Restaurant.objects.all().delete()
 Place.objects.all().delete()
 Event.objects.all().delete()
 Comment.objects.all().delete()
+SavedLocation.objects.all().delete()
 
 
 ### Alternatively: ###
@@ -137,11 +141,44 @@ class Event(models.Model):
     
     
 class SavedLocation(models.Model):
-    location_id = models.CharField(max_length=255, unique=True, 
-                                   blank=True, null=True)
+    LOCATION_TYPE_CHOICES = (
+        ('place', 'Place'),
+        ('restaurant', 'Restaurant'),
+    )
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    location_id = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255)
     description = models.TextField()
+    location_type = models.CharField(max_length=20, choices=LOCATION_TYPE_CHOICES)  # << ADD THIS
     saved_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'Saved Location'
+        verbose_name_plural = 'Saved Locations'
+        
     def __str__(self):
         return self.name
+    
+
+class Profile(models.Model):
+    '''
+    Extension of the User model to store a profile picture.
+    '''
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_picture = models.CharField(
+        max_length=255,
+        choices=[(f'profile_pictures/profile{i}.png', f'Profile {i}') for i in range(1, 17)],
+        blank=True,
+        null=True,
+        help_text='Choose a preset profile picture'
+    )
+
+    def __str__(self):
+        return f"{self.user.username}'s Profile"
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)

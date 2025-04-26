@@ -1,30 +1,80 @@
 {% extends 'omaha_places_app/base.html' %}
 {% block content %}
 
-<!--Template for individual place page-->
-<!DOCTYPE html>
-<html lang="en">
+<!-- Account Links -->
+{% include 'omaha_places_app/account_links.html' %}
 
-<!--Tab Title-->
-<head>
-    <meta charset="UTF-8">
-    <title>Saved Locations</title>
-</head>
+<!-- Main Content -->
+<div class="main-card">
+    <!-- Header -->
+    <div class="text-white text-center" 
+        style="background: linear-gradient(to right,rgb(0, 0, 0),#2317AE); 
+        height: 75px; display: flex; align-items: center; justify-content: center;">
+    <h2>Saved Locations</h2>
+    </div>
 
-<!-- Place Information -->
-<body>
-    {% for location in saved_locations %}
-        <li>
-            <strong>{{ location.name }}</strong> - {{ location.description }} {{ location.location_id }}
-            <form method="post" action="{% url 'delete_location' location.id %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
-        </li>
-    {% empty %}
-        <li>No saved locations found.</li>
-        <li>Find some locations to save!</li>
-    {% endfor %}
-</body>
-</html>
+    <!-- Saved Locations List -->
+    {% if saved_locations %}
+        <ul class="list-group">
+            {% for location in saved_locations %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="text-start">
+                        {% if location.location_type == 'restaurant' %}
+                            <a href="{% url 'restaurant_detail' location.location_id %}">{{ location.name }}</a>
+                        {% elif location.location_type == 'place' %}
+                            <a href="{% url 'place_detail' location.location_id %}">{{ location.name }}</a>
+                        {% else %}
+                            {{ location.name }}
+                        {% endif %}
+                        <div class="text-muted">
+                            {{ location.description }}
+                        </div>
+                    </div>
+                    <form method="post" action="{% url 'delete_location' location.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </li>            
+            {% endfor %}
+        </ul>
+    {% else %}
+        <br/>
+        <p>No saved locations found. Find some locations to save!</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+<!--CSS-->
+{% block script %}
+<style>
+/* Main Card Style */
+    .main-card {
+        max-width: calc(90% - 100px);
+        margin: 30px auto;
+        padding: 40px;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+/* List Group Styling */
+    .list-group {
+        width: 100%;
+        padding: 0;
+        list-style: none;
+    }
+
+    .list-group-item {
+        border: none;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 20px 10px;
+        background: transparent;
+    }
+
+    .list-group-item:last-child {
+        border-bottom: none;
+    }
+</style>
 {% endblock %}

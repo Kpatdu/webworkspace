@@ -23,10 +23,11 @@ urlpatterns = [
     path('logout/', views_account.logout_view, name = 'logout'), # Logout
 
     path('account/', views_account.AccountView.as_view(), name = 'account'), # Account
-    path('account/password_reset/', views_account.reset_password_view, name = 'change_password'), # Password Reset
-    path('account/saving_location/', views_account.save_location, name = 'save_location'), # Saved Locations
-    path('account/saved_locations/', views_account.save_location_view, name = 'view_saved_locations'), # Saved Locations
-    path('account/delete_location/<str:location_id>/', views_account.delete_saved_location, name = 'delete_location'), # Delete Saved Location
+    path('account/password_reset/', views_account.ResetPasswordView.as_view(), name = 'change_password'), # Password Reset
+    path('account/saving_location/', views_account.SaveLocationView.as_view(), name = 'save_location'), # Saved Locations
+    path('account/saved_locations/', views_account.SavedLocationListView.as_view(), name = 'view_saved_locations'), # Saved Locations
+    path('account/delete_location/<str:location_id>/', views_account.DeleteSavedLocationView.as_view(), name = 'delete_location'), # Delete Saved Location
+    path('account/update_profile_picture/', views_account.UpdateProfilePictureView.as_view(), name = 'update_profile_picture'), # Update Profile Picture
 
     path('account/calendar/', views_event.CalendarView.as_view(), name = 'calendar'), # Calendar
     path('account/calendar/new/', views_event.EventCreateView.as_view(), name = 'event_new'), # Add Event

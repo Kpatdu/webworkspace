@@ -6,102 +6,100 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <!--Tab Title-->
-    <head>
-        <meta charset="UTF-8">
-        <title>Omaha Locations</title>
-    </head>
+<!--Tab Title-->
+<head>
+    <meta charset="UTF-8">
+    <title>Omaha Locations</title>
+</head>
 
-    <!-- Header Text Image inside the image-header-container -->
-    <div class="image-header-container">
-        <div class="image-scroll">
-            <img src="{% static 'omaha_places_app/home-header.png' %}" alt="" class="image-header">
-            <img src="{% static 'omaha_places_app/home-header.png' %}" alt="" class="image-header">
-        </div>
-
-        <!-- Text Image -->
-        <div class="header-image-wrapper">
-            <img src="{% static 'omaha_places_app/home_header_text.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
-        </div>
+<!-- Header Text Image inside the image-header-container -->
+<div class="image-header-container">
+    <div class="image-scroll">
+        <img src="{% static 'omaha_places_app/home-header.png' %}" alt="" class="image-header">
+        <img src="{% static 'omaha_places_app/home-header.png' %}" alt="" class="image-header">
     </div>
 
-    <!-- Divider -->
-    <hr class="divider" style="margin-top: 0px">
+    <!-- Text Image -->
+    <div class="header-image-wrapper">
+        <img src="{% static 'omaha_places_app/home_header_text.png' %}" alt="Welcome to Omaha Locations" class="header-text-image">
+    </div>
+</div>
 
-    <!-- Welcome message with "What to do in Omaha?" -->
-    <body>
-        <div class="things2-do-image-wrapper">
-            <div class="gray-bg"></div>
-            <div class="gray-bg2"></div>
-            <img src="{% static 'omaha_places_app/home-what_do_in_omaha.png' %}" alt="Welcome to Omaha Locations" class="things2-do-header-text-image">
-        </div>
+<!-- Divider -->
+<hr class="divider" style="margin-top: 0px">
 
-        <!-- Three things to do cards -->
-        <div class="center-cards">
-            <a href="{% url 'home_restaurants' %}" class="thing2do-card">
-                <div id="thing2do-image-container">
-                    <img src="{% static 'omaha_places_app/home-restaurants.jpg' %}" alt="" class="things2do-image">
-                </div>
-            </a>
-            
-            <a href="{% url 'home_places' %}" class="thing2do-card">
-                <div id="thing2do-image-container">
-                    <img src="{% static 'omaha_places_app/home-places.jpg' %}" alt="" class="things2do-image">
-                </div>
-            </a>
-            
-            <a href="{% url 'locations' %}" class="thing2do-card">
-                <div id="thing2do-image-container">
-                    <img src="{% static 'omaha_places_app/home-all_locations.jpg' %}" alt="" class="things2do-image">
-                </div>
-            </a>
-        </div>
+<!-- Welcome message with "What to do in Omaha?" -->
+<body>
+    <div class="things2-do-image-wrapper">
+        <div class="gray-bg"></div>
+        <div class="gray-bg2"></div>
+        <img src="{% static 'omaha_places_app/home-what_do_in_omaha.png' %}" alt="Welcome to Omaha Locations" class="things2-do-header-text-image">
+    </div>
 
-        <!--Register/Welcome-->
-        {% if user.is_authenticated %}
-        <div class="text-container">
-            <h3>Welcome back,</h3>
-            <h1>{{ user.username }}</h1>
-            <p>Start looking for locations to explore and enjoy your favorite cuisine in Omaha!</p>
-        </div>
-        {% else %}
-            <div class="text-container">
-                <h3>Are you new here?</h3>
-                <h1><a href="{% url 'register' %}" style="color: PaleGoldenRod; text-decoration: none;">REGISTER TODAY</a></h1>
-                <p>With an account, you can comment, favorite locations, and create events!</p>
-                <p>Otherwise, <a href="{% url 'login' %}" style="color: PaleGoldenRod; text-decoration: none;">login</a>.</p>
+    <!-- Three things to do cards -->
+    <div class="center-cards">
+        <a href="{% url 'home_restaurants' %}" class="thing2do-card">
+            <div id="thing2do-image-container">
+                <img src="{% static 'omaha_places_app/home-restaurants.jpg' %}" alt="" class="things2do-image">
             </div>
-        {% endif %}
+        </a>
+        
+        <a href="{% url 'home_places' %}" class="thing2do-card">
+            <div id="thing2do-image-container">
+                <img src="{% static 'omaha_places_app/home-places.jpg' %}" alt="" class="things2do-image">
+            </div>
+        </a>
+        
+        <a href="{% url 'locations' %}" class="thing2do-card">
+            <div id="thing2do-image-container">
+                <img src="{% static 'omaha_places_app/home-all_locations.jpg' %}" alt="" class="things2do-image">
+            </div>
+        </a>
+    </div>
 
-        <!-- Random Images for Locations -->
-        <div class="image-block">
-            <div class="random-image-locations-container">
-                {% with all_images|random as random_image_1 %}
-                    <div class="col1">
-                        <img src="{{ random_image_1 }}" alt="Image 1" class="img-col1-top">
-                {% endwith %}
-                
-                {% with all_images|random as random_image_2 %}
-                        <img src="{{ random_image_2 }}" alt="Image 2" class="img-col1-bottom">
-                    </div>
-                {% endwith %}
-                
-                {% with all_images|random as random_image_3 %}
-                    <div class="col2">
-                        <img src="{{ random_image_3 }}" alt="Image 3" class="img-col2-top">
-                {% endwith %}
-                
-                {% with all_images|random as random_image_4 %}
-                        <img src="{{ random_image_4 }}" alt="Image 4" class="img-col2-bottom">
-                    </div>
-                {% endwith %}
-            </div>                              
+    <!--Register/Welcome-->
+    {% if user.is_authenticated %}
+    <div class="text-container">
+        <h3>Welcome back,</h3>
+        <h1>{{ user.username }}</h1>
+        <p>Start looking for locations to explore and enjoy your favorite cuisine in Omaha!</p>
+    </div>
+    {% else %}
+        <div class="text-container">
+            <h3>Are you new here?</h3>
+            <h1><a href="{% url 'register' %}" style="color: PaleGoldenRod; text-decoration: none;">REGISTER TODAY</a></h1>
+            <p>With an account, you can comment, favorite locations, and create events!</p>
+            <p>Otherwise, <a href="{% url 'login' %}" style="color: PaleGoldenRod; text-decoration: none;">login</a>.</p>
         </div>
-    </body>
+    {% endif %}
+
+    <!-- Random Images for Locations -->
+    <div class="image-block">
+        <div class="random-image-locations-container">
+            {% with all_images|random as random_image_1 %}
+                <div class="col1">
+                    <img src="{{ random_image_1 }}" alt="Image 1" class="img-col1-top">
+            {% endwith %}
+            
+            {% with all_images|random as random_image_2 %}
+                    <img src="{{ random_image_2 }}" alt="Image 2" class="img-col1-bottom">
+                </div>
+            {% endwith %}
+            
+            {% with all_images|random as random_image_3 %}
+                <div class="col2">
+                    <img src="{{ random_image_3 }}" alt="Image 3" class="img-col2-top">
+            {% endwith %}
+            
+            {% with all_images|random as random_image_4 %}
+                    <img src="{{ random_image_4 }}" alt="Image 4" class="img-col2-bottom">
+                </div>
+            {% endwith %}
+        </div>                              
+    </div>
+</body>
 </html>
 {% endblock %}
-
-
 
 
 
@@ -344,7 +342,7 @@
     }
 
     .img-col1-bottom {
-        height: 250px; /* Bottom image is 400px tall */
+        height: 250px; 
     }
 
     .img-col2-top {

@@ -45,26 +45,36 @@
                 {% endif %}
             </ul>
 
-            <!-- Right-aligned: Login/Logout and Search -->
+            <!-- Right-aligned: Account, Login/Logout, and Search -->
             <ul class="navbar-nav ms-auto mb-0 navbar-nav_main">
                 {% if request.user.is_authenticated %}
-                    <li class="nav-item d-flex align-items-center">
-                        <span class="nav-link text-white me-2" style="padding-top: 5px; padding-bottom: 5px;">
-                            LOGGED IN AS: <a href="{% url 'account' %}" style="color: PaleGoldenRod; text-transform: uppercase;">{{ user.username }}</a>
-                        </span>
-                        <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">
-                            LOGOUT&nbsp;
-                        </a>
-                    </li>
+                    <ul class="navbar-nav ms-auto mb-0 navbar-nav_user">
+                        <li class="nav-item d-flex align-items-center">
+                            <span class="nav-link text-white me-2 d-flex align-items-center" style="padding-top: 0px; padding-bottom: 0px;">
+                                LOGGED IN AS: 
+                                <a href="{% url 'account' %}" style="color: PaleGoldenRod; text-transform: uppercase; margin-left: 5px; margin-right: 8px;">
+                                    {{ user.username }}
+                                </a>
+                                {% if user.profile.profile_picture %}
+                                    <img src="{% static 'omaha_places_app/' %}{{ user.profile.profile_picture }}" alt="" style="width:35px; height:35px; border-radius:50%; object-fit:cover;">
+                                {% endif %}
+                            </span>
+                            <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">
+                                LOGOUT&nbsp;
+                            </a>
+                        </li>
+                    </ul>
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link text-white me-2" href="{% url 'login' %}?next={{ request.path }}" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">
-                            LOGIN
-                        </a>
-                    </li>
+                    <ul class="navbar-nav ms-auto mb-0 navbar-nav_main">
+                        <li class="nav-item">
+                            <a class="nav-link text-white me-2" href="{% url 'login' %}?next={{ request.path }}" style="padding-top: 5px; padding-bottom: 5px; color:rgb(255, 0, 0);">
+                                LOGIN
+                            </a>
+                        </li>
+                    </ul>
                 {% endif %}
 
-                <!--Search-->
+            <!--Search-->
             <li class="nav-item">
                 <form class="d-flex" method="GET" action="{% url 'locations' %}">
                     {% csrf_token %}
@@ -76,6 +86,8 @@
     </div>
 </nav>
 
+
+<!--CSS-->
 {% block script %}
 <style>
     nav {
@@ -84,7 +96,7 @@
         z-index: 999;
     }
 
-    /* Navbar logo */
+/* Navbar logo */
     .navbar-brand img {
         height: 60px;
         margin-top: -15px;
@@ -99,7 +111,7 @@
         color: white;
     }
 
-    /* Main navbar link hover effect */
+/* Main navbar link hover effect */
     .navbar-nav_main .nav-link {
         padding-top: 5px;
         padding-bottom: 5px;
@@ -110,6 +122,12 @@
     .navbar-nav_main .nav-link:hover {
         text-shadow: 0 0 4px white, 0 0 8px white;
         color: white;
+    }
+
+/* Disable Hover Effect for Right Side */
+    .navbar-nav_user .nav-link:hover {
+        text-shadow: none;
+        color: inherit;
     }
 </style>
 {% endblock %}

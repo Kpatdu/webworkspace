@@ -17,6 +17,11 @@
                     <a class="nav-link account-link" href="{% url 'account' %}">ACCOUNT</a>
                 </li>
 
+                <!-- SAVED LOCATIONS -->
+                 <li class="nav-item">
+                    <a class="nav-link account-link" href="{% url 'view_saved_locations' %}">SAVED LOCATIONS</a>
+                </li>
+
                 <!-- CALENDAR -->
                 <li class="nav-item">
                     <a class="nav-link account-link" href="{% url 'calendar' %}">CALENDAR</a>
@@ -39,9 +44,12 @@
 <!-- Divider under navbar -->
 <div class="navbar-divider"></div>
 
+
+
+<!--CSS-->
 {% block script %}
 <style>
-    /* Scoped styles only for the account navbar */
+/* Scoped styles only for the account navbar */
     .account-navbar .account-link {
         padding-top: 5px;
         padding-bottom: 5px;
@@ -59,10 +67,10 @@
         gap: 15px;
     }
 
-    /* Divider styling */
+/* Divider styling */
     .navbar-divider {
         height: 2px;
-        width: 260px;
+        width: 500px;
         background-color: #ccc;
         margin: 0px auto 0px auto;
         border-radius: 1px;
