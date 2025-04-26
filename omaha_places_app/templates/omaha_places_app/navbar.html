@@ -32,11 +32,16 @@
                     <a class="nav-link" href="{% url 'home_places' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">PLACES</a>
                 </li>
 
+                <!--Account-->
+                {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">ACCOUNT</a>
+                </li>
+                {% endif %}
                 <!--About Us-->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'about' %}" style="padding-top: 5px; padding-bottom: 5px; color: white;">ABOUT US</a>
                 </li>
-
                 <!--Admin Panel-->
                 {% if request.user.is_authenticated and request.user.is_staff %}
                     <li class="nav-item">

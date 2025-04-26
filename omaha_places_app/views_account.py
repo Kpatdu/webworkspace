@@ -1,10 +1,13 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.views.generic import TemplateView
-from django.contrib.auth import logout, login
-
+from django.contrib.auth import logout, login, update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 from .mixins import RedirectIfNotAuthenticatedMixin
-    
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from .models import SavedLocation
+from django.contrib import messages
 
 def register_view(request):
     '''
@@ -30,7 +33,6 @@ def register_view(request):
         "next": request.GET.get('next', '')  # Ensure the next parameter is passed here
     })
 
-
 def login_view(request):
     '''
     View to handle user login.
@@ -54,7 +56,6 @@ def login_view(request):
         "next": request.GET.get('next', '')
         })
 
-
 def logout_view(request):
     '''
     View to handle user logout.
@@ -65,6 +66,28 @@ def logout_view(request):
 
     return redirect(next_url)
 
+@login_required
+def reset_password_view(request):
+    '''
+    View to handle password reset.
+    '''
+
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect("account")  # Redirect to account page after password reset
+        else:
+            return render(request, "omaha_places_app/change_password.html", {
+                "form": form
+            })
+    else:
+        form = PasswordChangeForm(request.user)
+    
+    return render(request, "omaha_places_app/change_password.html", {
+        "form": form
+    })
 
 class AccountView(RedirectIfNotAuthenticatedMixin, TemplateView):
     '''
@@ -78,3 +101,29 @@ class AccountView(RedirectIfNotAuthenticatedMixin, TemplateView):
         context['user'] = self.request.user
 
         return context
+
+@login_required
+def save_location(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+
+        # Save the data to the SavedRestaurant model
+        SavedLocation.objects.create(name=name, description=description)
+        messages.success(request, f"Location '{name}' has been saved successfully!")
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))  # Redirect back to the same page
+
+@login_required
+def delete_saved_location(request, location_id):
+    if request.method == "POST":
+        saved_location = get_object_or_404(SavedLocation, id=location_id)
+        saved_location.delete()
+        messages.success(request, f"Location '{saved_location.name}' has been deleted successfully!")   
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required
+def save_location_view(request):
+    saved_locations = SavedLocation.objects.all()
+    return render(request, "omaha_places_app/saved_locations.html",
+                  {'saved_locations': saved_locations})

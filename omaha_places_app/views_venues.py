@@ -1,7 +1,9 @@
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, ListView
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
-from .models import Restaurant, Place
+from .models import Restaurant, Place, SavedLocation
 from .mixins import RestaurantImageAPIKeyMixin, PlaceImageAPIKeyMixin
 from .forms import CommentForm
 

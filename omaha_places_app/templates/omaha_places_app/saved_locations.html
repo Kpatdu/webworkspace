@@ -1,0 +1,30 @@
+{% extends 'omaha_places_app/base.html' %}
+{% block content %}
+
+<!--Template for individual place page-->
+<!DOCTYPE html>
+<html lang="en">
+
+<!--Tab Title-->
+<head>
+    <meta charset="UTF-8">
+    <title>Saved Locations</title>
+</head>
+
+<!-- Place Information -->
+<body>
+    {% for location in saved_locations %}
+        <li>
+            <strong>{{ location.name }}</strong> - {{ location.description }} {{ location.location_id }}
+            <form method="post" action="{% url 'delete_location' location.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </li>
+    {% empty %}
+        <li>No saved locations found.</li>
+        <li>Find some locations to save!</li>
+    {% endfor %}
+</body>
+</html>
+{% endblock %}
