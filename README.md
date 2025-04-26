@@ -1,5 +1,5 @@
 # Omaha Locations
-![alt text](https://i.imgur.com/7Me6I3N.png "Logo Title Text 1")
+![alt text](https://i.imgur.com/7Me6I3N.png "")
 Web application for an online travel guide for Omaha, Nebraska using Django. 
 
 
