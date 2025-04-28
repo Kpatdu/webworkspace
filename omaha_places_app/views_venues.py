@@ -1,9 +1,13 @@
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, ListView
 
-from .models import Restaurant, Place, SavedLocation
+from .models import Restaurant, Place, Comment, SavedLocation
 from .mixins import RestaurantImageAPIKeyMixin, PlaceImageAPIKeyMixin
 from .forms import CommentForm
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
 RESTAURANT_CATEGORY_MAPPING = {
@@ -307,3 +311,24 @@ class PlaceDetailView(PlaceImageAPIKeyMixin, TemplateView):
             comment.save()
 
         return redirect(request.path)
+
+
+@method_decorator(login_required, name='dispatch')
+class CommentDeleteView(TemplateView):
+    '''
+    View to handle deleting a comment. Only comment owner or admin can delete.
+    '''
+
+    def post(self, request, *args, **kwargs):
+        comment_id = kwargs.get('comment_id')
+        comment = Comment.objects.get(id=comment_id)
+
+        # Check if the current user is allowed to delete
+        if request.user == comment.user or request.user.is_staff or request.user.is_superuser:
+            comment.delete()
+            messages.success(request, "Comment deleted successfully.")
+        else:
+            messages.error(request, "You don't have permission to delete this comment.")
+
+        # Redirect back to the page the comment was on
+        return redirect(request.META.get('HTTP_REFERER', '/'))

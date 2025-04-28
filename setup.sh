@@ -31,7 +31,7 @@ sudo apt install -y python3 python3-pip python3-venv nginx
 # (Typically your Ubuntu user, e.g., ubuntu for AWS)
 USER_NAME="$(whoami)"
 
-# Directory to store your Django project and virtual environment
+# Directory to store your Django project and virtual environment, CHANGE AS NEEDED!
 DIR_WORKSPACE="/home/${USER_NAME}/webworkspace"
 
 # Django project name

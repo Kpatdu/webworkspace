@@ -180,4 +180,3 @@ class UpdateProfilePictureView(RedirectIfNotAuthenticatedMixin, View):
             messages.error(request, 'Invalid profile picture selection.')
 
         return redirect('account')
-
