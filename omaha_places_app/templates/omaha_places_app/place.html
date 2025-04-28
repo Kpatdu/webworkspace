@@ -1,4 +1,5 @@
 {% extends 'omaha_places_app/base.html' %}
+{% load static %}
 {% block content %}
 
 <!--Template for individual place page-->
@@ -67,17 +68,30 @@
         {% endif %}
     </div>
       
-      <!--Comment Section-->
-      <div class="comments-title"><h2>Comments</h2></div>
-      <div class="comments-container">
-          <ul>
-              {% for comment in comments %}
-                  <li><strong>{{ comment.user.username }}:</strong> {{ comment.text }} ({{ comment.created_at|date:"M d, Y H:i" }})</li>
-              {% empty %}
-                  <li>No comments yet.</li>
-              {% endfor %}
-          </ul>
-      </div>
+    <!--Comment Section-->
+    <div class="comments-title"><h2>Comments</h2></div>
+        <div class="comments-container">
+            {% for comment in comments %}
+                <div class="comment">
+                    <div class="comment-header">
+                        <img src="{% static 'omaha_places_app/' %}{{ comment.user.profile.profile_picture }}" alt="" class="profile-picture">
+                        <strong>{{ comment.user.username }}</strong> said: {{ comment.text }}
+                    </div>
+                    <div class="comment-meta">
+                        <small>Posted at {{ comment.created_at|date:"M d, Y H:i" }}</small>
+                        {% if user.is_authenticated and comment.user == user or user.is_authenticated and user.is_staff or user.is_authenticated and user.is_superuser %}
+                        <form method="post" action="{% url 'delete_comment' comment.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm" style="padding: 1px 4px; font-size: 0.7rem;">Delete</button>
+                            </form>
+                        {% endif %}
+                    </div>                
+                </div>
+                <hr style="margin:8px 0; border-color: rgb(137, 137, 137);"> <!--Divider under each comment-->
+            {% empty %}
+                <p>No comments yet.</p>
+            {% endfor %}
+        </div>
 
       {% if comment_form %}
           <div class="comment-form-container">
@@ -221,6 +235,27 @@
         max-width: 800px; 
     }
 
+    .comment-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 0px;
+    }
+    
+    .comment-meta {
+        margin-left: 45px;
+        color: gray;
+        font-size: 0.9em;
+    }
+    
+    .profile-picture {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        object-fit: cover;
+    }    
+
+    /* Login to Comment Style */
     .login-to-comment a, .login-to-comment span {
       display: inline;
       margin: 0;

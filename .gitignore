@@ -1,11 +1,13 @@
 /.git
-/omaha_places_app/scripts
+/.pytest_cache
 /omaha_places_app/__pycache__
 /omaha_places_app/migrations/__pycache__
 /omaha_places_app/templatetags/__pycache__
 /omaha_places_app/cache
 /omaha_places_app/cache/.DS_Store
 /omaha_places_app/.DS_Store
+/omaha_places_app/test_cases
+/omaha_places_app/templates/omaha_places_app/restaurant_confirm_delete.html
 /djangoproject/__pycache__
 /env_webproject
 .DS_Store

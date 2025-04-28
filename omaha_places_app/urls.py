@@ -15,6 +15,8 @@ urlpatterns = [
     path('places/all/', views_venues.PlacesViewAll.as_view(), name = 'all_places'), # List all of places in categories
     path('places/<int:pk>/', views_venues.PlaceDetailView.as_view(), name = 'place_detail'), # Individual Places
 
+    path('comment/delete/<int:comment_id>/', views_venues.CommentDeleteView.as_view(), name='delete_comment'), # Delete Comment
+
     path('locations/', views_query.LocationsView.as_view(), name = 'locations'), # Locations
     
     path('register/', views_account.register_view, name = 'register'), # Register
@@ -33,5 +35,6 @@ urlpatterns = [
     path('account/calendar/all/', views_event.EventListView.as_view(), name = 'event_list'), # Event List
     path('account/calendar/edit/<int:pk>/', views_event.EventUpdateView.as_view(), name = 'event_edit'), # Edit Event
     path('account/calendar/delete/<int:pk>/', views_event.EventDeleteView.as_view(), name = 'event_delete'), # Delete Event
-    path('account/calendar/get_locations/', views_event.get_locations, name = 'get_locations'), # Get Locations
+    path('account/calendar/get_locations/', views_event.get_locations, name = 'get_locations'), # Get Locations   
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

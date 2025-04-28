@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.utils.http import url_has_allowed_host_and_scheme
 
-dotenv_path = r'omaha_places_app/cache/googleapi.env'
+dotenv_path = r'omaha_places_app/cache/googleapi.env' # Chaning the path to the env file
 load_dotenv(dotenv_path=dotenv_path)
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
