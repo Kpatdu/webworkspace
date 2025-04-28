@@ -20,7 +20,7 @@
       <br/>
       <div class="restaurant-card">
           <h1 style="text-align:center; text-transform: uppercase; font-weight: bold;">{{ restaurant.name }}</h1>
-          <p><strong>Address:</strong> {{ restaurant.address }}</p>
+          <p><strong>SOMETHINGGG Address:</strong> {{ restaurant.address }}</p>
           <p><strong>Category:</strong> {{ restaurant.category }}</p>
           <p><strong>Price Level:</strong> {{ restaurant.price_level }}</p>
           <p><strong>Rating:</strong> ⭐{{ restaurant.rating }}</p>
@@ -42,35 +42,43 @@
           </a>
       </div>
 
-      <!--Comment Section-->
-      <div class="comments-title"><h2>Comments</h2></div>
-      <div class="comments-container">
-          <ul>
-              {% for comment in comments %}
-                  <li><strong>{{ comment.user.username }}:</strong> {{ comment.text }} ({{ comment.created_at|date:"M d, Y H:i" }})</li>
-              {% empty %}
-                  <li>No comments yet.</li>
-              {% endfor %}
-          </ul>
-      </div>
+<!-- Comment Section -->
+<div class="comments-title"><h2>Comments</h2></div>
+<div class="comments-container">
+        {% for comment in comments %}
+            <div class="comment">
+                <p><strong>{{ comment.user.username }}</strong> said: {{ comment.text }}</p>
+                <p><small>Posted at {{ comment.created_at|date:"M d, Y H:i" }}</small></p>
 
-      {% if comment_form %}
-          <div class="comment-form-container">
-              <form method="post">
-                  {% csrf_token %}
-                  <div class="comment-form">
-                      {{ comment_form.as_p }}
-                  </div>
-                  <div class="button-container">
-                      <button type="submit">Post Comment</button>
-                  </div>
-              </form>
-          </div>
-      {% else %}
-          <p class="login-to-comment">
-              <a href="{% url 'login' %}?next={{ request.path }}">Log in</a> to comment.
-          </p>
-      {% endif %}
+                {% if user.is_authenticated and comment.user == user or user.is_authenticated and user.is_staff or user.is_authenticated and user.is_superuser %}
+                <form method="post" action="{% url 'delete_comment' comment.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No comments yet.</p>
+        {% endfor %}
+    </div>
+
+    {% if comment_form %}
+        <div class="comment-form-container">
+            <form method="post">
+                {% csrf_token %}
+                <div class="comment-form">
+                    {{ comment_form.as_p }}
+                </div>
+                <div class="button-container">
+                    <button type="submit">Post Comment</button>
+                </div>
+            </form>
+        </div>
+    {% else %}
+        <p class="login-to-comment">
+            <a href="{% url 'login' %}?next={{ request.path }}">Log in</a> to comment.
+        </p>
+    {% endif %}
   </div>
 
   <!--Back to All Restaurants Link-->

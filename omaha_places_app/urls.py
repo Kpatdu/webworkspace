@@ -29,4 +29,7 @@ urlpatterns = [
     path('account/calendar/edit/<int:pk>/', views_event.EventUpdateView.as_view(), name = 'event_edit'), # Edit Event
     path('account/calendar/delete/<int:pk>/', views_event.EventDeleteView.as_view(), name = 'event_delete'), # Delete Event
     path('account/calendar/get_locations/', views_event.get_locations, name = 'get_locations'), # Get Locations
+    #add delete comment
+    path('comment/delete/<int:comment_id>/', views_venues.CommentDeleteView.as_view(), name='delete_comment'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
