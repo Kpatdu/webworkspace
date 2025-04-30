@@ -6,9 +6,11 @@
 /omaha_places_app/cache
 /omaha_places_app/cache/.DS_Store
 /omaha_places_app/.DS_Store
-/omaha_places_app/test_cases
-/omaha_places_app/templates/omaha_places_app/restaurant_confirm_delete.html
+/omaha_places_app/test_cases/__pycache__
 /djangoproject/__pycache__
 /env_webproject
 .DS_Store
 localsetup.sh
+wget-log
+index.html?product=firefox-latest
+geckodriver-v0.33.0-linux64.tar.gz
